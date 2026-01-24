@@ -1497,8 +1497,8 @@ button,
 
 .minimal-phone-screen {
     position: absolute;
-    inset: 18% 20% 26% 20%;
-    border-radius: 14px;
+    inset: 20% 22% 30% 22%;
+    border-radius: 12px;
     padding: 12px 11px;
     background:
         linear-gradient(180deg, rgba(6, 7, 10, 0.96), rgba(14, 16, 20, 0.92));
