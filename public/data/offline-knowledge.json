@@ -1,0 +1,294 @@
+{
+  "topics": [
+    {
+      "id": "laptop-power",
+      "title": "Laptop will not power on",
+      "patterns": [
+        "(laptop|notebook|surface|macbook|chromebook).*(won.?t|cannot|doesn'?t).*(turn on|power|start|boot)",
+        "(no power|black screen).*laptop"
+      ],
+      "reply": "Work through these checks to wake the laptop:\n1. Disconnect the charger and accessories, then hold the power button for 15 seconds to drain static. Plug the charger directly into a wall outlet.\n2. Confirm charger and laptop lights. If none appear, try a different outlet or adapter. Reseat removable batteries.\n3. Force a reset:\n   - Windows or Chromebook: hold the power button for about 20 seconds.\n   - Apple silicon MacBook: hold Power until the text \"Loading Options\" appears.\n   - Intel MacBook: press Shift + Control + Option + Power for 10 seconds, then release and tap Power once.\n4. If fans spin but the screen stays dark, connect an external display or shine a flashlight at the panel to spot a backlight issue.\n5. Still stuck? Note any lights or beeps, check warranty status, and plan a repair visit.",
+      "plan": [
+        {
+          "step": "Discharge and reconnect",
+          "rationale": "Clears static build-up and verifies charger health.",
+          "focus": ["power", "battery", "charger"]
+        },
+        {
+          "step": "Force restart",
+          "rationale": "Overrides firmware hangs common across vendors.",
+          "focus": ["force restart"]
+        },
+        {
+          "step": "Document symptoms",
+          "rationale": "Warranty or repair teams need accurate notes.",
+          "focus": ["warranty", "service log"]
+        }
+      ]
+    },
+    {
+      "id": "battery-life",
+      "title": "Laptop battery drains fast",
+      "patterns": ["(battery|power).*(drain|die|low|doesn'?t last)"],
+      "reply": "Improve battery life with this routine:\n1. Check health: on Windows run \"powercfg /batteryreport\" or open Settings > System > Power. On macOS option-click the battery icon. Replace packs below 80 percent health.\n2. Update BIOS or firmware using the vendor utility (Lenovo Vantage, Dell Command, HP Support Assistant, ASUS Armoury Crate).\n3. Turn on battery saver or low power mode, enable adaptive brightness, and close background apps. On macOS, disable Power Nap if you do not need it.\n4. Calibrate monthly: charge to 100 percent, drain to roughly 10 percent, then charge back to full without interruption.",
+      "plan": [
+        {
+          "step": "Check battery health",
+          "rationale": "Shows whether hardware needs replacement.",
+          "focus": ["battery report"]
+        },
+        {
+          "step": "Update firmware",
+          "rationale": "Vendors patch power bugs frequently.",
+          "focus": ["bios", "firmware"]
+        },
+        {
+          "step": "Tune power settings",
+          "rationale": "Reduces drain from background tasks.",
+          "focus": ["battery saver", "calibration"]
+        }
+      ]
+    },
+    {
+      "id": "windows-update",
+      "title": "Windows update stuck or failing",
+      "patterns": ["(windows).*(update|install|upgrade).*(stuck|fail|error|loop)"],
+      "reply": "Repair Windows Update with these steps:\n1. Restart, plug the computer into power, and rerun Windows Update (Settings > Windows Update). Allow 15 minutes.\n2. Run the Windows Update troubleshooter (Settings > System > Troubleshoot > Other troubleshooters).\n3. Clear the SoftwareDistribution cache. Open Command Prompt as administrator and run:\n   net stop wuauserv\n   net stop bits\n   del /s /q %windir%\\\\SoftwareDistribution\\\\*\n   net start wuauserv\n   net start bits\n4. Restart and try again. For stubborn feature updates, download the Windows Update Assistant and perform an in-place upgrade.",
+      "plan": [
+        {
+          "step": "Retry after restart",
+          "rationale": "Reloads pending services cleanly.",
+          "focus": ["restart"]
+        },
+        {
+          "step": "Use troubleshooters",
+          "rationale": "Fixes corrupted update files automatically.",
+          "focus": ["troubleshooter", "softwaredistribution"]
+        },
+        {
+          "step": "Run in-place upgrade",
+          "rationale": "Installs the latest build without data loss.",
+          "focus": ["update assistant"]
+        }
+      ]
+    },
+    {
+      "id": "mac-performance",
+      "title": "Mac running slow or hot",
+      "patterns": ["(mac|macbook|imac).*(slow|lag|beachball|hot|overheat)"],
+      "reply": "Speed up your Mac:\n1. Boot into Safe Mode (hold Shift at startup), log in, then restart normally to clear caches.\n2. Open Activity Monitor (Applications > Utilities) and sort by CPU or Memory to find runaway apps. Force quit offenders.\n3. Update macOS (System Settings > General > Software Update) and free space until at least 15 GB remains.\n4. Reset NVRAM or PRAM (Option + Command + P + R at startup) and, for Intel Macs, reset the SMC (Shift + Control + Option + Power for 10 seconds).",
+      "plan": [
+        {
+          "step": "Safe Mode cleanup",
+          "rationale": "Clears caches and isolates problematic login items.",
+          "focus": ["safe mode"]
+        },
+        {
+          "step": "Inspect Activity Monitor",
+          "rationale": "Highlights resource hogs quickly.",
+          "focus": ["cpu", "memory"]
+        },
+        {
+          "step": "Update and reset controllers",
+          "rationale": "Keeps firmware and macOS stable.",
+          "focus": ["software update", "nvram", "smc"]
+        }
+      ]
+    },
+    {
+      "id": "ios-troubles",
+      "title": "iPhone or iPad misbehaving",
+      "patterns": ["iphone", "ipad", "ios"],
+      "reply": "Quick iOS or iPadOS fixes:\n1. Force restart: press Volume Up, then Volume Down, then hold the Side button until the Apple logo appears. Older devices use Home + Power.\n2. Install pending updates (Settings > General > Software Update) and review battery health (Settings > Battery).\n3. If apps keep crashing, reinstall them or reset all settings (Settings > General > Transfer or Reset > Reset all settings).\n4. For charging issues, gently clean the Lightning or USB-C port, swap the cable, and test a different wall charger.",
+      "plan": [
+        {
+          "step": "Force restart",
+          "rationale": "Clears firmware hiccups without data loss.",
+          "focus": ["force restart"]
+        },
+        {
+          "step": "Update and check battery",
+          "rationale": "Ensures the OS and hardware remain healthy.",
+          "focus": ["software update", "battery"]
+        },
+        {
+          "step": "Reset settings if needed",
+          "rationale": "Removes corrupted preferences while keeping data.",
+          "focus": ["reset settings"]
+        }
+      ]
+    },
+    {
+      "id": "android-troubles",
+      "title": "Android phone or tablet issues",
+      "patterns": [
+        "(android|pixel|galaxy|oneplus|xiaomi|tablet).*(issue|problem|crash|freeze|boot)"
+      ],
+      "reply": "Try this Android rescue path:\n1. Force restart by holding Power + Volume Down for about 20 seconds.\n2. Clear the cache of misbehaving apps (Settings > Apps > App > Storage > Clear cache) and install system updates.\n3. Boot into Safe Mode (hold Power, then press and hold \"Power off\" and confirm). If the problem disappears, uninstall recently added apps.\n4. For charging trouble, clean the USB-C port, swap the cable and brick, and enable optimized charging where available.",
+      "plan": [
+        {
+          "step": "Force restart and clear cache",
+          "rationale": "Eliminates temporary software glitches.",
+          "focus": ["force restart", "cache"]
+        },
+        {
+          "step": "Safe Mode isolation",
+          "rationale": "Identifies problematic third-party apps.",
+          "focus": ["safe mode"]
+        },
+        {
+          "step": "Inspect charging path",
+          "rationale": "Confirms the hardware delivering power is working.",
+          "focus": ["charging", "usb-c"]
+        }
+      ]
+    },
+    {
+      "id": "wifi",
+      "title": "Home Wi-Fi problems",
+      "patterns": [
+        "(wifi|wi-fi|router|mesh|internet|modem|connection|network)"
+      ],
+      "reply": "Bring Wi-Fi back online:\n1. Power cycle the modem, router, and mesh nodes. Unplug for 30 seconds, plug in the modem first, wait for solid lights, then power the router or nodes.\n2. If only one device struggles, forget and reconnect to the network, confirming the correct password and security type.\n3. Update router firmware, then set channels (1, 6, or 11 for 2.4 GHz; DFS or less crowded channels for 5 GHz).\n4. Move the router to a central, elevated spot and add mesh nodes or an extender for dead zones.",
+      "plan": [
+        {
+          "step": "Restart network hardware",
+          "rationale": "Clears ISP, DHCP, and routing hiccups.",
+          "focus": ["modem", "router"]
+        },
+        {
+          "step": "Reconnect devices",
+          "rationale": "Refreshes credentials and IP assignments.",
+          "focus": ["ssid", "password"]
+        },
+        {
+          "step": "Optimize coverage",
+          "rationale": "Reduces interference and improves range.",
+          "focus": ["firmware", "channels", "placement"]
+        }
+      ]
+    },
+    {
+      "id": "printer",
+      "title": "Printer or scanner not working",
+      "patterns": [
+        "(printer|printing|scanner|hp|canon|epson|brother)"
+      ],
+      "reply": "Get the printer back online:\n1. Power cycle the printer and the device you are printing from. Confirm they share the same Wi-Fi or that the USB cable is secure.\n2. Clear the print queue, then reinstall the printer through the vendor utility (HP Smart, Epson Connect, Canon IJ, Brother iPrint&Scan).\n3. Run maintenance tools such as nozzle clean or alignment and print a test page.\n4. On Windows, if the printer is offline, open Settings > Bluetooth & devices > Printers, turn off \"Let Windows manage my default printer,\" and pick the correct device manually.",
+      "plan": [
+        {
+          "step": "Restart and reconnect",
+          "rationale": "Clears stalled print jobs and handshake issues.",
+          "focus": ["print queue", "connectivity"]
+        },
+        {
+          "step": "Refresh drivers",
+          "rationale": "Ensures compatibility with OS updates.",
+          "focus": ["drivers", "vendor apps"]
+        },
+        {
+          "step": "Run maintenance tools",
+          "rationale": "Fixes clogged heads and verifies output.",
+          "focus": ["maintenance", "test page"]
+        }
+      ]
+    },
+    {
+      "id": "email-setup",
+      "title": "Email setup or login trouble",
+      "patterns": [
+        "(email|outlook|gmail|yahoo|imap|smtp|login)"
+      ],
+      "reply": "Follow this email setup checklist:\n1. Confirm the password in webmail first so you know it works.\n2. Use automatic setup in the mail app. If it fails, switch to manual and enter:\n   Gmail: IMAP imap.gmail.com (SSL 993), SMTP smtp.gmail.com (SSL 465 or TLS 587).\n   Outlook / Hotmail: IMAP outlook.office365.com (SSL 993), SMTP smtp.office365.com (TLS 587).\n   Yahoo: IMAP imap.mail.yahoo.com (SSL 993), SMTP smtp.mail.yahoo.com (SSL 465).\n3. If multi-factor authentication is enabled, generate an app password or approve the sign-in from your authenticator app.",
+      "plan": [
+        {
+          "step": "Verify credentials",
+          "rationale": "Avoids chasing setup errors caused by typos.",
+          "focus": ["webmail", "password"]
+        },
+        {
+          "step": "Enter correct servers",
+          "rationale": "Ensures the client talks to the right IMAP and SMTP endpoints.",
+          "focus": ["imap", "smtp"]
+        },
+        {
+          "step": "Handle MFA or app passwords",
+          "rationale": "Providers block logins without trusted codes.",
+          "focus": ["mfa", "app password"]
+        }
+      ]
+    },
+    {
+      "id": "software-crash",
+      "title": "App or game keeps crashing",
+      "patterns": [
+        "(app|software|program|game).*(crash|freeze|not responding|stop working)"
+      ],
+      "reply": "Stabilize the software:\n1. Update the app and operating system. Many crash fixes come through updates.\n2. Clear cache or preferences. Windows: Settings > Apps > App > Advanced options > Reset. macOS: remove the app plist file in ~/Library/Preferences (after backing it up).\n3. Disable add-ins or extensions to isolate conflicts.\n4. Update graphics, audio, and chipset drivers, especially if crashes began after a system update.",
+      "plan": [
+        {
+          "step": "Install updates",
+          "rationale": "Patch releases often resolve crashes.",
+          "focus": ["updates"]
+        },
+        {
+          "step": "Reset cache or preferences",
+          "rationale": "Removes corrupted settings and data files.",
+          "focus": ["cache", "preferences"]
+        },
+        {
+          "step": "Check drivers and add-ins",
+          "rationale": "Conflicting plugins or drivers trigger many failures.",
+          "focus": ["drivers", "extensions"]
+        }
+      ]
+    },
+    {
+      "id": "backup",
+      "title": "Backup and recovery guidance",
+      "patterns": [
+        "(backup|restore|recover|lost files|data recovery)"
+      ],
+      "reply": "Keep data safe even offline:\n1. Enable built-in backups. Windows: File History or a scheduled Macrium Reflect job. macOS: Time Machine on an external drive.\n2. Clone important drives to an external SSD or HDD every month and store a copy offsite or in a fire-resistant safe.\n3. Test restores quarterly by recovering a random document to confirm the backups work.",
+      "plan": [
+        {
+          "step": "Turn on built-in tools",
+          "rationale": "Delivers quick protection with minimal setup.",
+          "focus": ["file history", "time machine"]
+        },
+        {
+          "step": "Keep offline copies",
+          "rationale": "Protects against ransomware or hardware failure.",
+          "focus": ["external drive", "clone"]
+        },
+        {
+          "step": "Test restores",
+          "rationale": "Confirms backups can actually be used.",
+          "focus": ["test restore"]
+        }
+      ]
+    }
+  ],
+  "generic": {
+    "id": "general-playbook",
+    "title": "General troubleshooting checklist",
+    "reply": "Here is a reliable checklist that works offline:\n1. Restart the affected device and any connected hardware (routers, docks, accessories). Many problems clear after a full power cycle.\n2. Install pending system, driver, and app updates whenever possible. Keep at least 15 percent storage free.\n3. Record error codes, event logs, or indicator lights and take photos so you have proof if you need to escalate.\n4. Back up important data before trying more advanced fixes. Share your notes with Garin if you need hands-on help.",
+    "plan": [
+      {
+        "step": "Restart and reseat",
+        "rationale": "Resets state across hardware and software.",
+        "focus": ["restart", "power cycle"]
+      },
+      {
+        "step": "Update and clear space",
+        "rationale": "Out-of-date software and full drives cause many issues.",
+        "focus": ["updates", "storage"]
+      },
+      {
+        "step": "Document findings",
+        "rationale": "Evidence speeds up professional repair.",
+        "focus": ["error logs", "photos"]
+      }
+    ]
+  }
+}

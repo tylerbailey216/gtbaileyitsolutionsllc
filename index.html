@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Support Bro</title>
+    <link rel="stylesheet" href="./public/styles.min.css">
+</head>
+<body>
+    <main class="layout">
+        <section class="hero hero-shell">
+            <div class="hero-content">
+                <img src="./techsupportbrologo.png" alt="Tech Support Bro" class="hero-logo">
+                <div class="hero-actions">
+                    <button id="startTree" class="primary">Start troubleshooting</button>
+                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">
+                        tell me what's happening
+                    </a>
+                    <a class="scroll-link" href="#affirmationExperience">
+                        Take a motivational break (scroll)
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="grid-lines"></div>
+                <div class="tablet-stage" id="tabletStage">
+                    <div class="tablet-shadow"></div>
+                    <div class="tablet" id="tabletModel">
+                        <div class="tablet-face"></div>
+                        <div class="tablet-back">
+                            <img class="tablet-back-logo" draggable="false" src="./public/techsupportbrologo.png" alt="Tech Support Bro logo">
+                        </div>
+                        <div class="tablet-screen">
+                            <video autoplay muted loop playsinline style="pointer-events: none;">
+                                <source src="./public/ITChatBuddyAvatar.mp4" type="video/mp4">
+                                <source src="./public/ITChatBuddyAvatar.mov" type="video/quicktime">
+                                Your browser does not support inline video playback.
+                            </video>
+                            <img src="./techsupportbrologo.png" alt="Tech Support Bro" class="tablet-screen-logo" style="pointer-events: none; position: absolute; width: 45%; opacity: 0.50; top: 65%; left: 50%; transform: translate(-50%, -50%); z-index: 0;">
+                            <h2 class="tablet-title">My Name is 'G'</h2>
+                            <span class="tablet-caption">"What seems to be the problem?"</span>
+                            <div class="tablet-screen-indicator"></div>
+                        </div>
+                    </div>
+                    <div class="floating-badges">
+                        <div class="floating-badge">I can't get on the internet</div>
+                        <div class="floating-badge">My laptop won't turn on</div>
+                        <div class="floating-badge">I forgot my password</div>
+                        <div class="floating-badge">My phone is being weird</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tree-card" id="treePanel">
+            <div class="tree-header">
+                <div>
+                    <p class="node-path" id="nodePath">Start</p>
+                    <h2 id="nodeTitle">Choose a Help Topic</h2>
+                    <p class="node-summary" id="nodeSummary">Click "Start troubleshooting" to load the root of the decision tree.</p>
+                </div>
+                <div class="tree-controls">
+                    <button class="ghost" id="backBtn" disabled>Back</button>
+                    <button class="ghost" id="restartBtn" disabled>Start over</button>
+                    <button class="ghost" id="copyPlanBtn" disabled>Copy plan</button>
+                </div>
+            </div>
+            <div class="node-body">
+                <div class="node-response" id="nodeResponse">
+                    The offline instructions will appear here after you pick a branch.
+                </div>
+                <div class="node-tags" id="nodeTags"></div>
+                <div class="node-links" id="nodeLinks"></div>
+                <div class="node-children" id="nodeChildren"></div>
+            </div>
+        </section>
+
+        <section class="vibe-section" id="affirmationExperience">
+            <div class="vibe-copy">
+                <p class="eyebrow">Mental reset</p>
+                <h2>Virtual phone affirmations</h2>
+                <p>
+                    Sometimes the fix is to pause for sixty seconds and hear a kind voice. Scroll into this lab to
+                    spin, tap, and read positive prompts before diving back into tough tickets.
+                </p>
+                <ul class="vibe-list">
+                    <li>Live loop of encouraging affirmations curated for late-night tech support sessions.</li>
+                    <li>Interactive 3D-inspired phone shell that reacts to your pointer drags.</li>
+                    <li>Quick action button cycles to the next vibe whenever you need another boost.</li>
+                </ul>
+                <div class="vibe-actions">
+                    <button type="button" class="ghost" id="affirmationNext">Inspire me again</button>
+                    <span class="vibe-caption">Gently scroll past the troubleshooting menus to reach this tool anytime.</span>
+                </div>
+            </div>
+            <div class="vibe-phone-column">
+                <div class="vibe-phone-glow"></div>
+                <div class="vibe-phone-stage" data-role="affirmation-stage">
+                    <div class="vibe-phone-rig" data-role="affirmation-rig">
+                        <div class="vibe-phone-shell">
+                            <span class="phone-signal"></span>
+                            <div class="vibe-phone-screen" id="affirmationScreen">
+                                <span class="screen-inner-shadow" aria-hidden="true"></span>
+                                <span class="screen-reflection" aria-hidden="true"></span>
+                                <div class="screen-status">
+                                <span id="affirmationTime">11:11</span>
+                                <span class="signal-indicator" aria-label="Signal strength">
+                                    <span class="signal-bar bar-1"></span>
+                                    <span class="signal-bar bar-2"></span>
+                                    <span class="signal-bar bar-3"></span>
+                                    <span class="signal-bar bar-4"></span>
+                                </span>
+                            </div>
+                                <div class="affirmation-tag speech-bubble bubble-tag bubble-layer-2" id="affirmationTag">Grounding</div>
+                                <blockquote class="speech-bubble bubble-message bubble-layer-3" id="affirmationText">Your calm is contagious.</blockquote>
+                                <p class="affirmation-meta speech-bubble bubble-meta bubble-layer-2" id="affirmationSource">- Message from 'G'</p>
+                                <div class="affirmation-ticker bubble-ticker" id="affirmationTicker"></div>
+                            </div>
+                            <div class="phone-notch">
+                                <span class="notch-speaker"></span>
+                                <span class="notch-camera"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tree-card visit-counter" id="visitCounter">
+            <div class="counter-header">
+                <p class="node-path">Site visits</p>
+                <h2>Thanks for stopping by</h2>
+                <p class="node-summary" id="visitCounterStatus">Loading global visitor count...</p>
+            </div>
+            <div class="counter-display">
+                <div class="counter-ring">
+                    <span class="counter-value" id="visitCounterValue" aria-live="polite">0</span>
+                </div>
+                <div class="counter-meta">
+                    <span class="counter-label" id="visitCounterLabel">Total visits worldwide</span>
+                    <span class="counter-note">Public counter powered by counterapi.dev</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <script src="./public/app.min.js"></script>
+    <script>
+        (() => {
+            const stage = document.querySelector('[data-role="affirmation-stage"]');
+            const rig = stage?.querySelector('[data-role="affirmation-rig"]');
+            const screen = document.getElementById('affirmationScreen');
+            const nextBtn = document.getElementById('affirmationNext');
+            const timeEl = document.getElementById('affirmationTime');
+            const textEl = document.getElementById('affirmationText');
+            const tagEl = document.getElementById('affirmationTag');
+            const sourceEl = document.getElementById('affirmationSource');
+            const tickerEl = document.getElementById('affirmationTicker');
+
+            if (!stage || !rig || !screen) {
+                return;
+            }
+
+            const isTickerTarget = (event) => {
+                if (!tickerEl) {
+                    return false;
+                }
+                if (tickerEl.contains(event.target)) {
+                    return true;
+                }
+                const rect = tickerEl.getBoundingClientRect();
+                const buffer = Math.min(6, rect.height * 0.25);
+                return event.clientY >= rect.top - buffer && event.clientY <= rect.bottom + buffer;
+            };
+
+            const affirmations = [
+                {
+                    text: 'Your calm presence is a diagnostic tool - breathe and let the next step appear.',
+                    tag: 'Grounding',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'You have navigated harder days. Trust the resilience you already built.',
+                    tag: 'Confidence',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Lead with curiosity, not perfection. Ask the question that unlocks momentum.',
+                    tag: 'Leadership',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Unclench your jaw. Breathe into the space you just made.',
+                    tag: 'Release',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Hydrate, stretch, then reset your focus. Your mind needs its own buffer.',
+                    tag: 'Reset',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Joy is contagious. Share one tiny win before you close your notebook.',
+                    tag: 'Connection',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Silence the notifications. Give your attention to one thing that matters.',
+                    tag: 'Focus',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'You are not behind; you are pacing yourself for a longer season.',
+                    tag: 'Perspective',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'One calm breath can reset the whole room. Start there.',
+                    tag: 'Calm',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Progress counts even when it is small and quiet.',
+                    tag: 'Progress',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'You are allowed to ask for clarity. It is a strength.',
+                    tag: 'Clarity',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Keep your shoulders soft. Your mind works better with less tension.',
+                    tag: 'Ease',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'You have solved problems like this before. The path will show up.',
+                    tag: 'Experience',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Set one tiny goal, finish it, then pick the next.',
+                    tag: 'Momentum',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Your patience protects the customer and your own energy.',
+                    tag: 'Patience',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Kind words to yourself are also part of the fix.',
+                    tag: 'Kindness',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Boundaries are professional. You can say no and still care.',
+                    tag: 'Boundaries',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'You do not need to rush. You need to be steady.',
+                    tag: 'Steadiness',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Gratitude for one small win builds momentum.',
+                    tag: 'Gratitude',
+                    source: "- Message from 'G'"
+                },
+                {
+                    text: 'Rest is part of good work. Take a sip of water.',
+                    tag: 'Rest',
+                    source: "- Message from 'G'"
+                }
+            ];
+
+            const tickerPhrases = [
+                'Focus on your breath',
+                'Stand up and stretch',
+                'Celebrate tiny wins',
+                'Unclench your jaw',
+                'Set a two-minute timer to reset',
+                'Good energy is a skill',
+                'Drink some water',
+                'Take a screen break',
+                'You are doing great',
+                'Progress over perfection'
+            ];
+
+            const rotation = { x: -6, y: 18 };
+            const idleBase = { x: rotation.x, y: rotation.y };
+            const root = document.documentElement;
+            const pointer = { active: false, x: 0, y: 0, startX: 0, startY: 0, dragging: false, id: null };
+            let driftTimer = null;
+            let driftDelayId = null;
+            let affirmationIndex = 0;
+            let cycleTimer = null;
+            const setDragging = (state) => root.classList.toggle('phone-dragging', state);
+
+            document.addEventListener('selectstart', (event) => {
+                if (root.classList.contains('phone-dragging')) {
+                    event.preventDefault();
+                }
+            });
+
+            const applyTransform = () => {
+                rig.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+                if (screen) {
+                    const shiftX = Math.sin(rotation.y * (Math.PI / 180)) * 12;
+                    const shiftY = Math.sin(rotation.x * (Math.PI / 180)) * 12;
+                    screen.style.setProperty('--bubble-shift-x', `${shiftX}px`);
+                    screen.style.setProperty('--bubble-shift-y', `${shiftY}px`);
+                    const depthX = shiftX * 1.8;
+                    const depthY = shiftY * 1.8;
+                    screen.style.setProperty('--mirror-shift-x', `${depthX}px`);
+                    screen.style.setProperty('--mirror-shift-y', `${depthY}px`);
+                }
+            };
+
+            const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+            const beginPointer = (event) => {
+                if (isTickerTarget(event)) {
+                    return;
+                }
+                event.preventDefault();
+                pointer.active = true;
+                pointer.dragging = false;
+                pointer.id = event.pointerId;
+                pointer.x = event.clientX;
+                pointer.y = event.clientY;
+                pointer.startX = event.clientX;
+                pointer.startY = event.clientY;
+                stage.setPointerCapture?.(event.pointerId);
+                stopDrift();
+            };
+
+            const movePointer = (event) => {
+                if (!pointer.active || (pointer.id !== null && event.pointerId !== pointer.id)) return;
+                const newX = event.clientX;
+                const newY = event.clientY;
+                const deltaX = newX - pointer.x;
+                const deltaY = newY - pointer.y;
+                pointer.x = newX;
+                pointer.y = newY;
+                if (!pointer.dragging) {
+                    const totalMove = Math.hypot(newX - pointer.startX, newY - pointer.startY);
+                    if (totalMove < 5) {
+                        return;
+                    }
+                    pointer.dragging = true;
+                    setDragging(true);
+                }
+                rotation.y = clamp(rotation.y + deltaX * 0.2, -35, 35);
+                rotation.x = clamp(rotation.x - deltaY * 0.18, -30, 30);
+                applyTransform();
+            };
+
+            const endPointer = (event) => {
+                if (!pointer.active || (pointer.id !== null && event.pointerId !== pointer.id)) return;
+                pointer.active = false;
+                const wasDragging = pointer.dragging;
+                pointer.dragging = false;
+                pointer.id = null;
+                stage.releasePointerCapture?.(event.pointerId);
+                if (wasDragging) {
+                    setDragging(false);
+                }
+                queueDrift();
+            };
+
+            const startDrift = () => {
+                if (driftTimer) {
+                    return;
+                }
+                let startTime = performance.now();
+                const animate = (time) => {
+                    const elapsed = (time - startTime) / 1000;
+                    const idleX = idleBase.x + Math.sin(elapsed * 0.8) * 4;
+                    const idleY = idleBase.y + Math.cos(elapsed * 0.6) * 9;
+                    rotation.x = clamp(idleX, -22, 22);
+                    rotation.y = clamp(idleY, -40, 40);
+                    applyTransform();
+                    driftTimer = requestAnimationFrame(animate);
+                };
+                driftTimer = requestAnimationFrame(animate);
+            };
+
+            const stopDrift = () => {
+                if (driftTimer) {
+                    cancelAnimationFrame(driftTimer);
+                    driftTimer = null;
+                }
+                if (driftDelayId) {
+                    clearTimeout(driftDelayId);
+                    driftDelayId = null;
+                }
+            };
+
+            const queueDrift = () => {
+                stopDrift();
+                idleBase.x = rotation.x;
+                idleBase.y = rotation.y;
+                driftDelayId = setTimeout(() => {
+                    driftDelayId = null;
+                    startDrift();
+                }, 900);
+            };
+
+            const updateTime = () => {
+                const date = new Date();
+                let hours = date.getHours();
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                if (timeEl) {
+                    timeEl.textContent = `${hours}:${minutes} ${ampm}`;
+                }
+            };
+
+            const buildTicker = () => {
+                if (!tickerEl || tickerEl.dataset.initialized) {
+                    return;
+                }
+                const trackContent = tickerPhrases
+                    .map((phrase) => `<span>${phrase}</span><span class="dot">&#8226;</span>`)
+                    .join('');
+                const trackMarkup = `<div class="ticker-track">${trackContent}</div>`;
+                tickerEl.innerHTML = `<div class="ticker-wrapper">${trackMarkup}${trackMarkup}</div>`;
+                tickerEl.dataset.initialized = 'true';
+            };
+
+            const renderAffirmation = () => {
+                const current = affirmations[affirmationIndex];
+                if (textEl) textEl.textContent = current.text;
+                if (tagEl) tagEl.textContent = current.tag;
+                if (sourceEl) sourceEl.textContent = current.source;
+            };
+
+            const nextAffirmation = () => {
+                affirmationIndex = (affirmationIndex + 1) % affirmations.length;
+                renderAffirmation();
+                restartCycle();
+            };
+
+            const startCycle = () => {
+                cycleTimer = setInterval(nextAffirmation, 8000);
+            };
+
+            const restartCycle = () => {
+                clearInterval(cycleTimer);
+                startCycle();
+            };
+
+            stage.addEventListener('pointerdown', beginPointer);
+            stage.addEventListener('pointermove', movePointer);
+            stage.addEventListener('pointerup', endPointer);
+            stage.addEventListener('pointerleave', endPointer);
+            stage.addEventListener('pointercancel', endPointer);
+
+            // Prevent context menu on right-click
+            stage.addEventListener('contextmenu', (event) => {
+                event.preventDefault();
+            });
+
+            screen.addEventListener('pointerdown', (event) => {
+                if (isTickerTarget(event)) {
+                    return;
+                }
+                const rect = screen.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.className = 'screen-ripple';
+                ripple.style.left = `${((event.clientX - rect.left) / rect.width) * 100}%`;
+                ripple.style.top = `${((event.clientY - rect.top) / rect.height) * 100}%`;
+                screen.appendChild(ripple);
+                ripple.addEventListener('animationend', () => ripple.remove());
+            });
+
+            nextBtn?.addEventListener('click', nextAffirmation);
+            const blockTickerPointer = (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            };
+            ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'click'].forEach((type) => {
+                tickerEl?.addEventListener(type, blockTickerPointer, true);
+            });
+
+            applyTransform();
+            queueDrift();
+            buildTicker();
+            renderAffirmation();
+            startCycle();
+            updateTime();
+            setInterval(updateTime, 15000);
+        })();
+    </script>
+</body>
+</html>
+

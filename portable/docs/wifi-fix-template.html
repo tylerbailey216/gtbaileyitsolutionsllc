@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi‑Fi Connection Fix | Tech Support Bro</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="layout" style="padding-top: 40px;">
+    <section class="hero" style="gap: 24px; align-items: flex-start;">
+        <div class="hero-header" style="display: flex; align-items: center; gap: 14px;">
+            <img src="../techsupportbrologo.png" alt="Tech Support Bro logo" style="width: 80px; height: 80px; border-radius: 18px; object-fit: cover; box-shadow: 0 15px 30px rgba(0,0,0,0.35);">
+            <div>
+                <p class="node-path" style="margin: 0;">Quick Fix Guide</p>
+                <h1 style="margin: 4px 0 0;">Fix Wi‑Fi connection issues</h1>
+                <p style="margin: 6px 0 0;">A one‑pager you can hand to users when they can’t get online.</p>
+            </div>
+        </div>
+
+        <div class="tree-card" style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div class="node-path">Context</div>
+                <h2>When to use this</h2>
+                <p>For everyday Wi‑Fi hiccups: home or office users who suddenly can’t connect, but the router has lights and other devices may still work.</p>
+
+                <div class="node-path">Simple fix</div>
+                <h2>Forget & reconnect (Windows)</h2>
+                <ol style="display: flex; flex-direction: column; gap: 10px; padding-left: 20px; margin: 0;">
+                    <li>Click the Wi‑Fi icon &raquo; right‑click your network &raquo; <strong>Forget</strong>.</li>
+                    <li>Toggle <strong>Airplane mode on</strong>, wait 5 seconds, toggle <strong>off</strong>.</li>
+                    <li>Select your network again, enter the password, and connect.</li>
+                    <li>If it still fails: restart the router (power off 20 seconds) and the PC.</li>
+                </ol>
+                <p class="node-summary" style="margin-top: 4px;">Why this works: it clears bad cached credentials and forces a clean handshake with the router.</p>
+
+                <div class="node-path">Check quickly</div>
+                <ul style="list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; margin: 0;">
+                    <li>Network name and password confirmed (no hidden caps/extra spaces).</li>
+                    <li>Router shows internet light and other devices can browse.</li>
+                    <li>You're close to the router (try within one room for the test).</li>
+                </ul>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div class="embed-card" style="height: 100%; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="node-path">Visual checklist</div>
+                    <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px;">
+                        <div class="node-summary" style="border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.02);">
+                            <strong>1) Forget network</strong><br>Settings &raquo; Network &amp; Internet &raquo; Wi‑Fi &raquo; Manage known networks &raquo; Forget.
+                        </div>
+                        <div class="node-summary" style="border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.02);">
+                            <strong>2) Airplane toggle</strong><br>Quick Settings: Airplane mode on, wait 5 seconds, then off.
+                        </div>
+                        <div class="node-summary" style="border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.02);">
+                            <strong>3) Rejoin Wi‑Fi</strong><br>Select the SSID, re‑enter the password carefully, then connect.
+                        </div>
+                        <div class="node-summary" style="border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.02);">
+                            <strong>4) Restart gear</strong><br>Router off for 20 seconds, then on. Restart the PC and retry.
+                        </div>
+                    </div>
+
+                    <div class="node-path">Handy script</div>
+                    <pre style="white-space: pre-wrap; word-break: break-word;">ipconfig /release
+ipconfig /renew
+ipconfig /flushdns</pre>
+                    <p class="node-summary" style="margin: 0;">Run from <strong>Command Prompt (Admin)</strong> if the reconnect still stalls.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

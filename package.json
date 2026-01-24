@@ -1,0 +1,30 @@
+{
+  "name": "tech-chat-buddy",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js",
+    "build-kb": "node scripts/build-kb.mjs",
+    "check-links": "node scripts/check-links.mjs",
+    "build-minified": "node scripts/build-minified.mjs",
+    "portable": "node scripts/build-portable.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}

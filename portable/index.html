@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing &amp; Impersonation Guard</title>
+    <link rel="stylesheet" href="./styles.css?v=tsb5">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body>
+    <main class="layout">
+        <section class="hero hero-shell">
+            <div class="hero-content">
+                <img src="./techsupportbrologo.png" alt="Tech Support Bro" class="hero-logo">
+                <p class="node-summary">Single-purpose: scan links, DMs, and screenshots for phishing and impersonation. Clear verdicts, no clicks required.</p>
+                <div class="hero-actions">
+                    <button class="primary" data-target="#guard">Open the guard</button>
+                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">Escalate to Garin</a>
+                </div>
+                <ul class="hero-highlights">
+                    <li>OCR screenshot scan (links stay non-clickable)</li>
+                    <li>OSINT feeds: phish.sinking.yachts, URLHaus</li>
+                    <li>Brand impersonation + obfuscated path detection</li>
+                </ul>
+            </div>
+            <div class="hero-visual">
+                <div class="grid-lines"></div>
+                <div class="tablet-stage" id="tabletStage">
+                    <div class="tablet-shadow"></div>
+                    <div class="tablet" id="tabletModel">
+                        <div class="tablet-face"></div>
+                        <div class="tablet-back">
+                            <img class="tablet-back-logo" draggable="false" src="./techsupportbrologo.png" alt="Tech Support Bro logo">
+                        </div>
+                        <div class="tablet-screen">
+                            <video autoplay muted loop playsinline>
+                                <source src="./ITChatBuddyAvatar.mp4" type="video/mp4">
+                                <source src="./ITChatBuddyAvatar.mov" type="video/quicktime">
+                            </video>
+                            <div class="tablet-title">Safety demo</div>
+                            <div class="tablet-caption">Video preview (non-clickable)</div>
+                            <div class="tablet-screen-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-badges">
+                    <div class="floating-badge">Never click to check</div>
+                    <div class="floating-badge">Brand impersonation guard</div>
+                    <div class="floating-badge">OCR screenshot scan</div>
+                </div>
+                <div class="tablet-interactive-hint">Autoplaying avatar preview; links stay disabled.</div>
+            </div>
+        </section>
+
+        <section class="tree-card" id="guard">
+            <div class="tree-header">
+                <div>
+                    <p class="node-path">Safety guard</p>
+                    <h2>Phishing &amp; Impersonation Guard</h2>
+                    <p class="node-summary">Paste text or drop a screenshot. We extract links, run heuristics + OSINT, and give a clear verdict.</p>
+                </div>
+            </div>
+            <div class="node-body">
+                <div class="addon-grid">
+                    <div class="addon-card">
+                        <h3>Text / Link check</h3>
+                        <p class="node-summary">Paste a DM, comment, or email text. Links stay non-clickable.</p>
+                        <textarea id="textInput" rows="6" placeholder="Paste the message or link..."></textarea>
+                        <button class="ghost" type="button" id="scanText">Scan text</button>
+                        <div id="textStatus" class="node-summary">Idle</div>
+                    </div>
+                    <div class="addon-card">
+                        <h3>Screenshot scan</h3>
+                        <p class="node-summary">Upload PNG/JPG. OCR runs locally; extracted links are shown as text.</p>
+                        <input type="file" id="shotInput" accept="image/png,image/jpeg">
+                        <button class="ghost" type="button" id="scanShot">Scan screenshot</button>
+                        <div id="shotStatus" class="node-summary">Idle</div>
+                    </div>
+                    <div class="addon-card">
+                        <h3>Verdict</h3>
+                        <div id="verdictPill" class="risk-pill" style="background:#f5c86220;border:1px solid #f5c86255;color:#f5c862;">Pending</div>
+                        <div id="reasonList" class="node-summary" style="margin-top:10px;">No scan yet.</div>
+                    </div>
+                    <div class="addon-card">
+                        <h3>Extracted links</h3>
+                        <div id="linksBlock" class="node-summary">None yet.</div>
+                    </div>
+                    <div class="addon-card">
+                        <h3>OSINT checks</h3>
+                        <div id="osintBlock" class="node-summary">None yet.</div>
+                    </div>
+                    <div class="addon-card">
+                        <h3>OCR text (preview)</h3>
+                        <div id="ocrPreview" class="node-summary">No OCR text yet.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="privacy-note">
+            Privacy: OCR and heuristics run in your browser. Link intel hits public feeds (phish.sinking.yachts, URLHaus) only when online with the local server.
+        </section>
+    </main>
+
+    <script>
+    (() => {
+        const verdictPill = document.getElementById('verdictPill');
+        const reasonList = document.getElementById('reasonList');
+        const linksBlock = document.getElementById('linksBlock');
+        const osintBlock = document.getElementById('osintBlock');
+        const ocrPreview = document.getElementById('ocrPreview');
+        const textInput = document.getElementById('textInput');
+        const scanText = document.getElementById('scanText');
+        const textStatus = document.getElementById('textStatus');
+        const shotInput = document.getElementById('shotInput');
+        const scanShot = document.getElementById('scanShot');
+        const shotStatus = document.getElementById('shotStatus');
+
+        const suspiciousTlds = new Set(['zip','ru','cn','tk','ml','gq','ga','cf','work','top','quest','click','country','rest','cam']);
+        const shortenerSet = new Set(['bit.ly','tinyurl.com','t.co','goo.gl','ow.ly','buff.ly','is.gd','rebrand.ly','cutt.ly','shorte.st','lnkd.in','bl.ink']);
+        const riskyPathWords = ['login','signin','verify','account','secure','update','billing','invoice','prize','gift','bonus','free','btc','crypto','usdt','wallet','token','auth','reset','payment','appleid','icloud','account-lock','lock-account','reactivate','suspend'];
+        const brandWords = ['apple','appleid','icloud','appstore','itunes','meta','facebook','instagram','whatsapp','paypal','bank','usps','ups'];
+        const trustedAppleDomains = ['apple.com','icloud.com','appleid.apple.com'];
+        const suspiciousDomains = new Set(['brainstormlabserver.com','acftop.com','muet.brainstormlabserver.com']);
+
+        const riskLabel = (score) => score >= 4 ? 'Dangerous' : score >= 2 ? 'Caution' : 'Safe';
+        const looksLikeIp = (host) => /^(\d{1,3}\.){3}\d{1,3}$/.test(host);
+        const hasPunycode = (host) => host.includes('xn--') || /[^\x00-\x7F]/.test(host);
+        const countDots = (host) => (host.match(/\./g) || []).length;
+        const isObfuscatedPath = (path) => {
+            const trimmed = (path || '/').replace(/^\/+/, '');
+            if (!trimmed) return false;
+            if (trimmed.length >= 20 && /^[A-Za-z0-9/+_.-]+$/.test(trimmed)) {
+                const hasLetters = /[A-Za-z]/.test(trimmed);
+                const hasDigits = /\d/.test(trimmed);
+                const hasSeparators = /[-_/?.=&]/.test(trimmed);
+                if (hasLetters && hasDigits && !hasSeparators) return true;
+            }
+            return false;
+        };
+
+        const extractUrls = (text) => {
+            const found = new Set();
+            const patterns = [
+                /(https?:\/\/[^\s"'<>]+)/gi,
+                /(www\.[^\s"'<>]+)/gi,
+                /([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s"'<>]*)?/gi, // bare domains
+            ];
+            patterns.forEach((regex) => {
+                for (const match of text.matchAll(regex)) {
+                    let url = match[0];
+                    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+                    url = url.replace(/[,.;:]+$/, ''); // trim trailing punctuation
+                    try {
+                        const u = new URL(url);
+                        u.hash = '';
+                        found.add(u.toString().toLowerCase());
+                    } catch {}
+                }
+            });
+            return Array.from(found).slice(0, 8);
+        };
+
+        const analyzeLinkHeuristics = (raw) => {
+            let parsed;
+            const flags = [];
+            let score = 0;
+            try { parsed = new URL(raw); } catch { return { error: 'Invalid URL' }; }
+            const hostRaw = parsed.hostname.toLowerCase();
+            const host = hostRaw.replace(/^www\./, '');
+            const hostLabel = host.split('.').slice(0, -1).join('.') || host.split('.')[0];
+            const tld = host.split('.').pop() || '';
+            const path = parsed.pathname || '/';
+
+            if (parsed.protocol !== 'https:') { flags.push('Not using HTTPS'); score += 2; }
+            if (looksLikeIp(host)) { flags.push('Bare IP instead of domain'); score += 2; }
+            if (hasPunycode(host)) { flags.push('Unicode/punycode characters'); score += 2; }
+            if (countDots(host) > 3) { flags.push('Deep subdomain'); score += 1; }
+            if (suspiciousTlds.has(tld)) { flags.push(`Risky TLD .${tld}`); score += 2; }
+            if (shortenerSet.has(host)) { flags.push('Link shortener (destination hidden)'); score += 2; }
+            if (/[0-9]{5,}/.test(host)) { flags.push('Heavy numeric hostname'); score += 1; }
+            if (parsed.port && !['80','443'].includes(parsed.port)) { flags.push(`Unusual port :${parsed.port}`); score += 1; }
+            if (parsed.search.includes('base64') || /(data:|%2f|%40|%3d)/i.test(parsed.search)) { flags.push('Obfuscated parameters'); score += 1; }
+            if (riskyPathWords.some((w) => path.toLowerCase().includes(w))) { flags.push('Suspicious keywords in path'); score += 2; }
+            if (isObfuscatedPath(path)) { flags.push('Obfuscated path (random ID)'); score += 2; }
+            if (hostLabel.length <= 6 && (/\d/.test(hostLabel) || !/[aeiou]/i.test(hostLabel))) { flags.push('Random-looking host name'); score += 2; }
+            if (brandWords.some((w) => host.includes(w)) && !trustedAppleDomains.some((good) => host.endsWith(good))) { flags.push('Brand keyword without trusted domain'); score += 3; }
+            if (suspiciousDomains.has(host)) { flags.push('Known suspicious domain'); score += 4; }
+            const risk = riskLabel(score + flags.length);
+            return { host, path, risk, flags };
+        };
+
+        const forceDangerLabels = new Set([
+            'Astrology/reading solicitation',
+            'Random follower selection lure',
+            'Unsolicited outreach solicitation',
+            'Zodiac prompt'
+        ]);
+
+        const analyzeMessageHeuristics = (text) => {
+            const patterns = [
+                { regex: /(verify|suspend|locked|reset|appeal|violation|ticket)/i, label: 'Account/security language', weight: 2 },
+                { regex: /(immediately|urgent|24 hours|right now|act now|final notice)/i, label: 'Urgency/deadline', weight: 2 },
+                { regex: /(payment|deposit|wire|zelle|cash app|gift card|prepaid)/i, label: 'Payment request', weight: 2 },
+                { regex: /(apple id|icloud|appleid|itunes|app store)/i, label: 'Apple brand targeting', weight: 3 },
+                { regex: /(locked account|account will be locked|account lock)/i, label: 'Account lock threat', weight: 3 },
+                { regex: /(update my payment details|update payment|billing update|payment declined)/i, label: 'Payment update demand', weight: 3 },
+                { regex: /(files (?:deleted|erased)|data (?:deleted|erased)|cloud storage.*at risk|irreversible termination|media files.*lost)/i, label: 'Data deletion scare', weight: 3 },
+                { regex: /(activation[- ]?id|activation id|case id)/i, label: 'Fake activation/case id', weight: 2 },
+                { regex: /(giveaway|winner|prize|lottery|claim)/i, label: 'Giveaway language', weight: 1 },
+                { regex: /(crypto|usdt|bitcoin|investment|roi|forex)/i, label: 'Crypto/investment ask', weight: 2 },
+                { regex: /(support agent|admin|representative|official)/i, label: 'Authority/impersonation tone', weight: 1 },
+                { regex: /(reading|tarot|zodiac|signs|astrology)/i, label: 'Astrology/reading solicitation', weight: 4 },
+                { regex: /(random from my followers|pick(?:ing)? random|consider you in a reading)/i, label: 'Random follower selection lure', weight: 4 },
+                { regex: /(blessings|love and light)/i, label: 'Emotion bait language', weight: 3 },
+                { regex: /(business chat|business chats|facebook user|page is unavailable on messenger|your privacy)/i, label: 'Generic shell / unavailable page', weight: 3 },
+                { regex: /(thanks for supporting my page|would you like me to consider you)/i, label: 'Unsolicited outreach solicitation', weight: 3 },
+                { regex: /(what.?s your zodiac|zodiac signs)/i, label: 'Zodiac prompt', weight: 3 }
+            ];
+            let score = 0;
+            const hits = [];
+            const lower = text.toLowerCase();
+            patterns.forEach((p) => { if (p.regex.test(lower)) { score += p.weight; hits.push(p.label); } });
+            const risk = score >= 4 ? 'Dangerous' : score >= 2 ? 'Caution' : 'Safe';
+            return { risk, hits };
+        };
+
+        const setVerdict = (risk, reasons) => {
+            const color = risk === 'Dangerous' ? '#ff6b6b' : risk === 'Caution' ? '#f5c862' : '#5be18a';
+            verdictPill.textContent = risk;
+            verdictPill.style.background = `${color}20`;
+            verdictPill.style.border = `1px solid ${color}55`;
+            verdictPill.style.color = color;
+            reasonList.innerHTML = (reasons && reasons.length) ? `<ul class="flag-list">${reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : 'No clear issues detected. Still be cautious.';
+        };
+
+        const renderLinks = (items) => {
+            if (!items || !items.length) { linksBlock.textContent = 'No links found.'; return; }
+            linksBlock.innerHTML = items.map((i) => `<div class="node-summary" style="margin-bottom:8px;"><strong>${i.risk}</strong><br>${i.url}<br>${i.flags?.length ? i.flags.join('; ') : 'No flags'}</div>`).join('');
+        };
+
+        const renderOsint = (items) => {
+            if (!items || !items.length) { osintBlock.textContent = 'No OSINT lookups yet.'; return; }
+            osintBlock.innerHTML = items.map((i) => {
+                const phish = i.phish === true ? 'Flagged in phish feed' : i.phish === false ? 'Not in phish feed' : i.phish;
+                const urlhaus = i.urlhaus === true ? 'Listed in URLHaus' : i.urlhaus === false ? 'Not in URLHaus' : i.urlhaus;
+                return `<div class="node-summary" style="margin-bottom:8px;">${i.url}<br>${[phish, urlhaus].filter(Boolean).join(' | ')}</div>`;
+            }).join('');
+        };
+
+        const runOcr = async (file, highContrast = false) => {
+            if (!highContrast) {
+                const { data } = await Tesseract.recognize(file, 'eng', { logger: () => {} });
+                return (data?.text || '').trim();
+            }
+            const img = await createImageBitmap(file);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const dataArr = imageData.data;
+            for (let i = 0; i < dataArr.length; i += 4) {
+                const r = dataArr[i], g = dataArr[i + 1], b = dataArr[i + 2];
+                const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                const val = gray > 170 ? 255 : 0;
+                dataArr[i] = dataArr[i + 1] = dataArr[i + 2] = val;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+            const { data } = await Tesseract.recognize(blob, 'eng', { logger: () => {} });
+            return (data?.text || '').trim();
+        };
+
+        const fetchOsintForLinks = async (urls) => {
+            const results = [];
+            for (const url of urls.slice(0, 5)) {
+                try {
+                    const resp = await fetch('/api/osint/link', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url })
+                    });
+                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                    const data = await resp.json();
+                    const phish = data?.sources?.phishFeed;
+                    const urlhaus = data?.sources?.urlhaus;
+                    results.push({
+                        url,
+                        phish: phish?.flagged ?? phish?.error,
+                        urlhaus: urlhaus?.listed ?? urlhaus?.error
+                    });
+                } catch (e) {
+                    results.push({ url, phish: 'lookup failed', urlhaus: 'lookup failed' });
+                }
+            }
+            return results;
+        };
+
+        const combineRisk = (msgRisk, linkFindings, osintFindings, hasTextHits, msgHits) => {
+            const osintHit = osintFindings?.some((o) => o.phish === true || o.urlhaus === true);
+            const linkHigh = linkFindings?.some((l) => l.risk === 'Dangerous');
+            const forceDanger = msgHits?.some((h) => forceDangerLabels.has(h));
+            if (osintHit || linkHigh) return 'Dangerous';
+            if (msgRisk === 'Dangerous' || forceDanger) return 'Dangerous';
+            const linkWarn = linkFindings?.some((l) => l.risk === 'Caution');
+            if (msgRisk === 'Caution' || linkWarn) return 'Caution';
+            if (hasTextHits) return 'Caution';
+            return 'Safe';
+        };
+
+        const analyzeTextFlow = async (text, setStatus, origin = 'text') => {
+            setStatus('Scanning...');
+            const urls = extractUrls(text);
+            const linkFindings = urls.map((url) => {
+                const res = analyzeLinkHeuristics(url);
+                return { url, risk: res.risk, flags: res.flags || [] };
+            });
+            const msgFinding = analyzeMessageHeuristics(text);
+            let osintFindings = [];
+            if (urls.length) {
+                setStatus('Running OSINT lookups...');
+                osintFindings = await fetchOsintForLinks(urls);
+            }
+            const reasons = [];
+            if (msgFinding.hits.length) reasons.push(...msgFinding.hits);
+            linkFindings.forEach((l) => { reasons.push(`${l.url} → ${l.risk}${l.flags?.length ? ' (' + l.flags.join(', ') + ')' : ''}`); });
+            if (osintFindings.length) {
+                osintFindings.forEach((o) => {
+                    if (o.phish === true || o.urlhaus === true) reasons.push(`${o.url} flagged by OSINT`);
+                });
+            }
+            let finalRisk = combineRisk(msgFinding.risk, linkFindings, osintFindings, msgFinding.hits.length > 0, msgFinding.hits);
+            if (origin === 'screenshot') {
+                const hasSignals = urls.length || msgFinding.hits.length || text.trim().length > 0;
+                if (finalRisk === 'Safe' && hasSignals) {
+                    finalRisk = 'Caution';
+                    reasons.push('Screenshot scan: treated as caution to avoid false negatives.');
+                } else if (finalRisk === 'Safe' && !hasSignals) {
+                    finalRisk = 'Caution';
+                    reasons.push('Screenshot scan: no text detected; treat with caution.');
+                }
+            }
+            setVerdict(finalRisk, reasons);
+            renderLinks(linkFindings);
+            renderOsint(osintFindings);
+            if (ocrPreview) {
+                const safeText = text ? text.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'No OCR text.';
+                ocrPreview.innerHTML = `<div class="node-summary" style="white-space:pre-wrap;">${safeText}</div>`;
+            }
+            setStatus('Done');
+        };
+
+        scanText?.addEventListener('click', async () => {
+            const text = (textInput?.value || '').trim();
+            if (!text) { textStatus.textContent = 'Paste something to scan.'; return; }
+            await analyzeTextFlow(text, (msg) => textStatus.textContent = msg);
+        });
+
+        scanShot?.addEventListener('click', async () => {
+            const file = shotInput?.files?.[0];
+            if (!file) { shotStatus.textContent = 'Choose a screenshot first.'; return; }
+            shotStatus.textContent = 'Running OCR locally...';
+            try {
+                let ocrText = await runOcr(file, false);
+                if (!ocrText || ocrText.length < 20) {
+                    shotStatus.textContent = 'OCR retry (high contrast)...';
+                    const altText = await runOcr(file, true);
+                    if (altText.length > ocrText.length) ocrText = altText;
+                }
+                if (!ocrText) { shotStatus.textContent = 'Could not read text from image.'; return; }
+                await analyzeTextFlow(ocrText, (msg) => shotStatus.textContent = msg, 'screenshot');
+                shotStatus.textContent = 'Done';
+            } catch (e) {
+                shotStatus.textContent = 'OCR failed. Try a clearer screenshot.';
+            }
+        });
+
+        // scroll helper
+        const scrollButtons = document.querySelectorAll('[data-target]');
+        scrollButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const target = document.querySelector(btn.getAttribute('data-target'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    })();
+    </script>
+</body>
+</html>
