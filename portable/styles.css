@@ -51,6 +51,19 @@
     --shadow: 0 50px 100px -60px rgba(0, 0, 0, 0.85);
 }
 
+body.theme-light {
+    color-scheme: light;
+    --bg: linear-gradient(135deg, #f7f8f9 0%, #eef1f4 50%, #e9edef 100%);
+    --panel: rgba(255, 255, 255, 0.92);
+    --panel-strong: rgba(255, 255, 255, 0.96);
+    --border: rgba(10, 18, 30, 0.08);
+    --accent: #3a7c62;
+    --accent-soft: rgba(58, 124, 98, 0.12);
+    --text: #0e171f;
+    --text-muted: rgba(14, 23, 31, 0.7);
+    --shadow: 0 40px 80px -50px rgba(0, 0, 0, 0.18);
+}
+
 * {
     box-sizing: border-box;
 }
@@ -80,6 +93,71 @@ body {
     padding: 0 20px;
 }
 
+.theme-light-only { display: none !important; }
+.theme-dark-only { display: inline-block !important; }
+body.theme-light .theme-light-only { display: inline-block !important; }
+body.theme-light .theme-dark-only { display: none !important; }
+
+.floating-nav {
+    position: fixed;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(16, 18, 30, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.floating-nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.floating-nav a:hover {
+    background: rgba(110, 196, 167, 0.18);
+}
+
+.floating-nav #themeToggle {
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+body.theme-light .floating-nav {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(14, 23, 31, 0.12);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+body.theme-light .floating-nav a {
+    background: rgba(58, 124, 98, 0.1);
+    border: 1px solid rgba(14, 23, 31, 0.12);
+    color: #0e171f;
+}
+
+body.theme-light .floating-nav #themeToggle {
+    background: rgba(58, 124, 98, 0.15);
+    color: #0e171f;
+    border: 1px solid rgba(14, 23, 31, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
 .hero {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -100,7 +178,7 @@ body {
 .hero-visual {
     position: relative;
     min-height: 360px;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .eyebrow {
@@ -453,6 +531,14 @@ button,
     justify-content: center;
 }
 
+.node-title-minimal {
+    font-family: 'Space Mono', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+}
+
 .node-summary {
     margin: 6px 0 0;
     color: var(--text-muted);
@@ -662,6 +748,44 @@ button,
     position: relative;
     overflow: hidden;
     scroll-margin-top: 32px;
+}
+
+.card-stage {
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    perspective: 1200px;
+    cursor: grab;
+    user-select: none;
+}
+
+.card-stage:active {
+    cursor: grabbing;
+}
+
+.business-card {
+    width: min(440px, 82vw);
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+}
+
+.card-hint {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
 }
 
 .visit-counter {
@@ -1760,6 +1884,24 @@ a:focus-visible {
     }
     body::before {
         display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-nav {
+        top: auto;
+        bottom: 14px;
+        right: 10px;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: calc(100% - 32px);
+        justify-content: center;
+    }
+    .floating-nav a {
+        font-size: 12px;
+        padding: 6px 8px;
     }
 }
 

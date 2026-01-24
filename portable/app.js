@@ -1216,11 +1216,12 @@
         // Use breadcrumb field if available, otherwise use title
         els.path.textContent = state.history.map((item) => item.breadcrumb || item.title).join(' / ');
         
-        // Replace "Choose a Help Topic" with image (zoom: 40%, centered, with hover effects)
         if (node.title === 'Choose a Help Topic') {
-            els.title.innerHTML = '<img src="./chooseahelptopic.png" alt="Choose a Help Topic" class="help-topic-image">';
+            els.title.textContent = node.title;
+            els.title.classList.add('node-title-minimal');
         } else {
             els.title.textContent = node.title;
+            els.title.classList.remove('node-title-minimal');
         }
         
         els.summary.textContent = node.summary || '';
@@ -1434,84 +1435,40 @@
     })();
 })();
 
-const initTabletInteraction = () => {
-    console.log('Attempting to initialize tablet interaction...');
-    
-    const stage = document.getElementById('tabletStage');
-    const model = document.getElementById('tabletModel');
-    
-    console.log('Stage element:', stage);
-    console.log('Model element:', model);
-    
-    if (!stage || !model) {
-        console.error('Tablet elements not found! Stage:', stage, 'Model:', model);
-        console.log('Available elements with IDs:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+const initBusinessCardInteraction = () => {
+    const stage = document.getElementById('businessCardStage');
+    const card = document.getElementById('businessCard');
+    if (!stage || !card) {
         return false;
     }
-    
-    console.log('Tablet elements found, setting up interaction...');
-    
-    // Check if elements are visible and interactive
-    const stageRect = stage.getBoundingClientRect();
-    const modelRect = model.getBoundingClientRect();
-    console.log('Stage dimensions:', stageRect);
-    console.log('Model dimensions:', modelRect);
-    console.log('Stage computed style:', window.getComputedStyle(stage));
-    console.log('Model computed style:', window.getComputedStyle(model));
 
-    let rotationX = -8;
-    let rotationY = 22;
+    let activePointerId = null;
     let isDragging = false;
     let lastPointerX = 0;
     let lastPointerY = 0;
-    let activePointerId = null;
-    let idleTimer = null;
-    let isAutoRotating = false;
-    let autoRotateFrame = null;
+    let rotationX = -6;
+    let rotationY = 12;
 
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
     const applyTransform = () => {
-        const transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-        model.style.transform = transform;
-        console.log('Applied transform:', transform);
+        card.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
     };
-
-    // Auto-rotate animation
-    const autoRotate = () => {
-        if (!isAutoRotating) return;
-        
-        rotationY += 0.3; // Slow rotation speed
-        
-        // Keep rotation in a reasonable range
-        if (rotationY > 360) rotationY -= 360;
-        
+    const resetTilt = () => {
+        rotationX = -6;
+        rotationY = 12;
         applyTransform();
-        autoRotateFrame = requestAnimationFrame(autoRotate);
     };
 
-    const startAutoRotate = () => {
-        if (isAutoRotating) return;
-        console.log('Starting auto-rotate');
-        isAutoRotating = true;
-        autoRotate();
-    };
-
-    const stopAutoRotate = () => {
-        if (!isAutoRotating) return;
-        console.log('Stopping auto-rotate');
-        isAutoRotating = false;
-        if (autoRotateFrame) {
-            cancelAnimationFrame(autoRotateFrame);
-            autoRotateFrame = null;
+    const beginPointerDrag = (event) => {
+        if (event.button !== undefined && event.button !== 0) {
+            return;
         }
-    };
-
-    const resetIdleTimer = () => {
-        stopAutoRotate();
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(() => {
-            console.log('Idle detected, starting auto-rotate');
-            startAutoRotate();
-        }, 3000); // Start auto-rotate after 3 seconds of inactivity
+        event.preventDefault();
+        isDragging = true;
+        activePointerId = event.pointerId;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        stage.setPointerCapture?.(event.pointerId);
     };
 
     const handlePointerMove = (event) => {
@@ -1520,9 +1477,8 @@ const initTabletInteraction = () => {
         }
         const deltaX = event.clientX - lastPointerX;
         const deltaY = event.clientY - lastPointerY;
-        rotationY += deltaX * 0.45;
-        rotationX -= deltaY * 0.45;
-        rotationX = Math.max(-45, Math.min(45, rotationX));
+        rotationY = clamp(rotationY + deltaX * 0.3, -25, 25);
+        rotationX = clamp(rotationX - deltaY * 0.3, -20, 20);
         applyTransform();
         lastPointerX = event.clientX;
         lastPointerY = event.clientY;
@@ -1533,61 +1489,41 @@ const initTabletInteraction = () => {
             return;
         }
         isDragging = false;
-        document.body.style.cursor = '';
         activePointerId = null;
-        window.removeEventListener('pointermove', handlePointerMove, true);
-        window.removeEventListener('pointerup', endPointerDrag, true);
-        window.removeEventListener('pointercancel', endPointerDrag, true);
-        resetIdleTimer();
-    };
-
-    const beginPointerDrag = (event) => {
-        if (event.button !== undefined && event.button !== 0) {
-            return;
-        }
-        event.preventDefault();
-        resetIdleTimer();
-        isDragging = true;
-        activePointerId = event.pointerId;
-        lastPointerX = event.clientX;
-        lastPointerY = event.clientY;
-        document.body.style.cursor = 'grabbing';
-        window.addEventListener('pointermove', handlePointerMove, true);
-        window.addEventListener('pointerup', endPointerDrag, true);
-        window.addEventListener('pointercancel', endPointerDrag, true);
+        stage.releasePointerCapture?.(event.pointerId);
+        resetTilt();
     };
 
     stage.addEventListener('pointerdown', beginPointerDrag, { passive: false });
-    model.addEventListener('pointerdown', beginPointerDrag, { passive: false });
+    stage.addEventListener('pointermove', handlePointerMove);
+    stage.addEventListener('pointerup', endPointerDrag);
+    stage.addEventListener('pointercancel', endPointerDrag);
+    stage.addEventListener('pointerleave', endPointerDrag);
 
-    // Add hover effect when not dragging
-    stage.addEventListener('mouseenter', () => {
-        if (!isDragging) {
-            stage.style.cursor = 'grab';
-        }
-        resetIdleTimer();
-    });
-
-    stage.addEventListener('mouseleave', () => {
-        stage.style.cursor = '';
-    });
-
-    // Apply initial transform
     applyTransform();
-    
-    // Start the idle timer initially
-    resetIdleTimer();
-    
-    console.log('Tablet interaction fully initialized with simple drag system and auto-rotate!');
     return true;
 };
 
-// Try to initialize immediately, then retry when DOM is loaded
-if (document.readyState === 'loading') {
-    console.log('DOM is still loading, waiting for DOMContentLoaded...');
-    document.addEventListener('DOMContentLoaded', initTabletInteraction);
-} else {
-    console.log('DOM already loaded, initializing immediately...');
-    initTabletInteraction();
-}
+(() => {
+    const body = document.body;
+    const toggle = document.getElementById('themeToggle');
+    if (body) {
+        body.classList.add('theme-light');
+        try {
+            localStorage.setItem('gtb-theme', 'light');
+        } catch {}
+    }
+    const apply = () => {
+        const isLight = body.classList.contains('theme-light');
+        try {
+            localStorage.setItem('gtb-theme', isLight ? 'light' : 'dark');
+        } catch {}
+    };
+    toggle?.addEventListener('click', () => {
+        body.classList.toggle('theme-light');
+        apply();
+    });
+
+    initBusinessCardInteraction();
+})();
 

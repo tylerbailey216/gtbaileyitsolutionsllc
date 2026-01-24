@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="./styles.min.css">
 </head>
 <body>
+    <div class="floating-nav">
+        <a href="#treePanel">Support</a>
+        <a href="#affirmationExperience">Affirmations</a>
+        <a href="#visitCounter">Visits</a>
+        <button id="themeToggle" class="ghost" type="button">Toggle light/dark</button>
+    </div>
     <main class="layout">
         <section class="hero hero-shell">
             <div class="hero-content">
@@ -23,31 +29,12 @@
             </div>
             <div class="hero-visual">
                 <div class="grid-lines"></div>
-                <div class="tablet-stage" id="tabletStage">
-                    <div class="tablet-shadow"></div>
-                    <div class="tablet" id="tabletModel">
-                        <div class="tablet-face"></div>
-                        <div class="tablet-back">
-                            <img class="tablet-back-logo" draggable="false" src="./gtbailey-logo.svg" alt="GT Bailey IT Solutions LLC logo">
-                        </div>
-                        <div class="tablet-screen">
-                            <video autoplay muted loop playsinline style="pointer-events: none;">
-                                <source src="./ITChatBuddyAvatar.mp4" type="video/mp4">
-                                <source src="./ITChatBuddyAvatar.mov" type="video/quicktime">
-                                Your browser does not support inline video playback.
-                            </video>
-                            <img src="./gtbailey-logo.svg" alt="GT Bailey IT Solutions LLC" class="tablet-screen-logo" style="pointer-events: none; position: absolute; width: 45%; opacity: 0.50; top: 65%; left: 50%; transform: translate(-50%, -50%); z-index: 0;">
-                            <h2 class="tablet-title">GT Bailey Support</h2>
-                            <span class="tablet-caption">"What seems to be the problem?"</span>
-                            <div class="tablet-screen-indicator"></div>
-                        </div>
+                <div class="card-stage" id="businessCardStage" aria-label="Interactive business card">
+                    <div class="business-card" id="businessCard">
+                        <img src="./blackcard.png" alt="GT Bailey IT Solutions LLC business card" class="card-image theme-dark-only">
+                        <img src="./whitecard.png" alt="GT Bailey IT Solutions LLC business card" class="card-image theme-light-only">
                     </div>
-                    <div class="floating-badges">
-                        <div class="floating-badge">I can't get on the internet</div>
-                        <div class="floating-badge">My laptop won't turn on</div>
-                        <div class="floating-badge">I forgot my password</div>
-                        <div class="floating-badge">My phone is being weird</div>
-                    </div>
+                    <p class="card-hint">Drag to tilt</p>
                 </div>
             </div>
         </section>
