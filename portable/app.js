@@ -1372,34 +1372,55 @@
     // Affirmations / virtual phone loop
     (() => {
         const affirmations = [
-            { tag: 'Grounding', text: 'Your calm is contagious.', source: '- GT Bailey Support' },
-            { tag: 'Momentum', text: 'Tiny fixes stack up. Keep going.', source: '- GT Bailey Support' },
-            { tag: 'Breather', text: 'Pause, sip water, then solve.', source: '- GT Bailey Support' },
-            { tag: 'Clarity', text: 'One step, then the next. You got this.', source: '- GT Bailey Support' },
-            { tag: 'Focus', text: 'Mute the noise. Fix the signal.', source: '- GT Bailey Support' },
+            { tag: 'Grounding', text: 'Your calm presence is a diagnostic tool - breathe and let the next step appear.', source: '- GT Bailey Support' },
+            { tag: 'Confidence', text: 'You have navigated harder days. Trust the resilience you already built.', source: '- GT Bailey Support' },
+            { tag: 'Leadership', text: 'Lead with curiosity, not perfection. Ask the question that unlocks momentum.', source: '- GT Bailey Support' },
+            { tag: 'Release', text: 'Unclench your jaw. Breathe into the space you just made.', source: '- GT Bailey Support' },
+            { tag: 'Reset', text: 'Hydrate, stretch, then reset your focus. Your mind needs its own buffer.', source: '- GT Bailey Support' },
+            { tag: 'Connection', text: 'Joy is contagious. Share one tiny win before you close your notebook.', source: '- GT Bailey Support' },
+            { tag: 'Focus', text: 'Silence the notifications. Give your attention to one thing that matters.', source: '- GT Bailey Support' },
+            { tag: 'Perspective', text: 'You are not behind; you are pacing yourself for a longer season.', source: '- GT Bailey Support' },
+            { tag: 'Calm', text: 'One calm breath can reset the whole room. Start there.', source: '- GT Bailey Support' },
+            { tag: 'Progress', text: 'Progress counts even when it is small and quiet.', source: '- GT Bailey Support' },
+            { tag: 'Clarity', text: 'You are allowed to ask for clarity. It is a strength.', source: '- GT Bailey Support' },
+            { tag: 'Ease', text: 'Keep your shoulders soft. Your mind works better with less tension.', source: '- GT Bailey Support' },
+            { tag: 'Experience', text: 'You have solved problems like this before. The path will show up.', source: '- GT Bailey Support' },
+            { tag: 'Momentum', text: 'Set one tiny goal, finish it, then pick the next.', source: '- GT Bailey Support' },
+            { tag: 'Patience', text: 'Your patience protects the customer and your own energy.', source: '- GT Bailey Support' },
+            { tag: 'Kindness', text: 'Kind words to yourself are also part of the fix.', source: '- GT Bailey Support' },
+            { tag: 'Boundaries', text: 'Boundaries are professional. You can say no and still care.', source: '- GT Bailey Support' },
+            { tag: 'Steadiness', text: 'You do not need to rush. You need to be steady.', source: '- GT Bailey Support' },
+            { tag: 'Gratitude', text: 'Gratitude for one small win builds momentum.', source: '- GT Bailey Support' },
+            { tag: 'Rest', text: 'Rest is part of good work. Take a sip of water.', source: '- GT Bailey Support' },
         ];
         const tagEl = document.getElementById('affirmationTag');
         const textEl = document.getElementById('affirmationText');
         const srcEl = document.getElementById('affirmationSource');
         const timeEl = document.getElementById('affirmationTime');
-        const tickerEl = document.getElementById('affirmationTicker');
         const nextBtn = document.getElementById('affirmationNext');
         let idx = 0;
+        let cycleTimer = null;
+
+        if (!tagEl || !textEl || !srcEl) {
+            return;
+        }
 
         const updateTime = () => {
             if (!timeEl) return;
-            const now = new Date();
-            const hh = now.getHours().toString().padStart(2, '0');
-            const mm = now.getMinutes().toString().padStart(2, '0');
-            timeEl.textContent = `${hh}:${mm}`;
+            const date = new Date();
+            let hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            timeEl.textContent = `${hours}:${minutes} ${ampm}`;
         };
 
         const renderAffirmation = () => {
             const a = affirmations[idx % affirmations.length];
-            if (tagEl) tagEl.textContent = a.tag;
-            if (textEl) textEl.textContent = a.text;
-            if (srcEl) srcEl.textContent = a.source;
-            if (tickerEl) tickerEl.textContent = a.text;
+            tagEl.textContent = a.tag;
+            textEl.textContent = a.text;
+            srcEl.textContent = a.source;
         };
 
         const nextAffirmation = () => {
@@ -1407,30 +1428,84 @@
             renderAffirmation();
         };
 
+        const startCycle = () => {
+            cycleTimer = setInterval(nextAffirmation, 8000);
+        };
+
+        const resetCycle = () => {
+            clearInterval(cycleTimer);
+            startCycle();
+        };
+
         updateTime();
         renderAffirmation();
-        setInterval(updateTime, 30 * 1000);
-        setInterval(nextAffirmation, 10 * 1000);
-        if (nextBtn) nextBtn.addEventListener('click', nextAffirmation);
+        setInterval(updateTime, 15000);
+        startCycle();
+        nextBtn?.addEventListener('click', () => {
+            nextAffirmation();
+            resetCycle();
+        });
 
-        // Light tilt/drag effect for the virtual phone
         const stage = document.querySelector('[data-role=\"affirmation-stage\"]');
         const rig = document.querySelector('[data-role=\"affirmation-rig\"]');
         if (stage && rig) {
-            const maxTilt = 12;
-            const resetTilt = () => {
-                rig.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            let rotationX = -6;
+            let rotationY = 12;
+            let activePointerId = null;
+            let isDragging = false;
+            let lastPointerX = 0;
+            let lastPointerY = 0;
+            const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+            const applyTransform = () => {
+                rig.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
             };
-            stage.addEventListener('pointermove', (e) => {
-                const rect = stage.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-                const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-                const rotY = x * maxTilt;
-                const rotX = -y * maxTilt;
-                rig.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-            });
-            stage.addEventListener('pointerleave', resetTilt);
-            stage.addEventListener('pointerup', resetTilt);
+            const resetTilt = () => {
+                rotationX = -6;
+                rotationY = 12;
+                applyTransform();
+            };
+
+            const beginPointerDrag = (event) => {
+                if (event.button !== undefined && event.button !== 0) {
+                    return;
+                }
+                event.preventDefault();
+                isDragging = true;
+                activePointerId = event.pointerId;
+                lastPointerX = event.clientX;
+                lastPointerY = event.clientY;
+                stage.setPointerCapture?.(event.pointerId);
+            };
+
+            const handlePointerMove = (event) => {
+                if (!isDragging || event.pointerId !== activePointerId) {
+                    return;
+                }
+                const deltaX = event.clientX - lastPointerX;
+                const deltaY = event.clientY - lastPointerY;
+                rotationY = clamp(rotationY + deltaX * 0.2, -22, 22);
+                rotationX = clamp(rotationX - deltaY * 0.2, -18, 18);
+                applyTransform();
+                lastPointerX = event.clientX;
+                lastPointerY = event.clientY;
+            };
+
+            const endPointerDrag = (event) => {
+                if (!isDragging || event.pointerId !== activePointerId) {
+                    return;
+                }
+                isDragging = false;
+                activePointerId = null;
+                stage.releasePointerCapture?.(event.pointerId);
+                resetTilt();
+            };
+
+            stage.addEventListener('pointerdown', beginPointerDrag, { passive: false });
+            stage.addEventListener('pointermove', handlePointerMove);
+            stage.addEventListener('pointerup', endPointerDrag);
+            stage.addEventListener('pointercancel', endPointerDrag);
+            stage.addEventListener('pointerleave', endPointerDrag);
+            applyTransform();
         }
     })();
 })();
