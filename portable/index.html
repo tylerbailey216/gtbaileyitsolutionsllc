@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing &amp; Impersonation Guard</title>
+    <title>GT Bailey IT Solutions LLC | Phishing &amp; Impersonation Guard</title>
     <link rel="stylesheet" href="./styles.css?v=tsb5">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
@@ -11,11 +11,11 @@
     <main class="layout">
         <section class="hero hero-shell">
             <div class="hero-content">
-                <img src="./techsupportbrologo.png" alt="Tech Support Bro" class="hero-logo">
+                <img src="./gtbailey-logo.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo">
                 <p class="node-summary">Single-purpose: scan links, DMs, and screenshots for phishing and impersonation. Clear verdicts, no clicks required.</p>
                 <div class="hero-actions">
                     <button class="primary" data-target="#guard">Open the guard</button>
-                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">Escalate to Garin</a>
+                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">Contact GT Bailey</a>
                 </div>
                 <ul class="hero-highlights">
                     <li>OCR screenshot scan (links stay non-clickable)</li>
@@ -30,7 +30,7 @@
                     <div class="tablet" id="tabletModel">
                         <div class="tablet-face"></div>
                         <div class="tablet-back">
-                            <img class="tablet-back-logo" draggable="false" src="./techsupportbrologo.png" alt="Tech Support Bro logo">
+                            <img class="tablet-back-logo" draggable="false" src="./gtbailey-logo.svg" alt="GT Bailey IT Solutions LLC logo">
                         </div>
                         <div class="tablet-screen">
                             <video autoplay muted loop playsinline>
@@ -325,7 +325,7 @@
             }
             const reasons = [];
             if (msgFinding.hits.length) reasons.push(...msgFinding.hits);
-            linkFindings.forEach((l) => { reasons.push(`${l.url} → ${l.risk}${l.flags?.length ? ' (' + l.flags.join(', ') + ')' : ''}`); });
+            linkFindings.forEach((l) => { reasons.push(`${l.url} â†’ ${l.risk}${l.flags?.length ? ' (' + l.flags.join(', ') + ')' : ''}`); });
             if (osintFindings.length) {
                 osintFindings.forEach((o) => {
                     if (o.phish === true || o.urlhaus === true) reasons.push(`${o.url} flagged by OSINT`);
@@ -389,3 +389,4 @@
     </script>
 </body>
 </html>
+

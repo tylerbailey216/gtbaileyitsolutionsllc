@@ -1,7 +1,7 @@
 {
-  "name": "tech-chat-buddy",
+  "name": "gt-bailey-it-solutions-llc",
   "version": "1.0.0",
-  "description": "",
+  "description": "GT Bailey IT Solutions LLC decision-tree support toolkit.",
   "type": "module",
   "main": "server/index.js",
   "scripts": {

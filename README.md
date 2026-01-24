@@ -1,4 +1,4 @@
-# Tech Support Bro - Decision Tree
+# GT Bailey IT Solutions LLC - Decision Tree
 
 A fully offline decision-tree assistant for home users. The old LLM/chat stack has been removed; everything now ships as static HTML/CSS/JS so it can live on a USB stick, in a zip file, or inside an iframe embed.
 
@@ -24,7 +24,7 @@ Use the iframe snippet shown at the bottom of `index.html` (also copied into `te
 
 ## Portable bundle
 
-Run `npm run portable` to mirror everything from `public/` into `portable/` plus a one-click `Launch Tech Support Bro.bat`. Copy that folder to removable storage and double-click the batch file to launch the tool offline.
+Run `npm run portable` to mirror everything from `public/` into `portable/` plus a one-click `Launch GT Bailey IT Solutions LLC.bat`. Copy that folder to removable storage and double-click the batch file to launch the tool offline.
 
 ## Maintenance utilities
 

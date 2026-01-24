@@ -51,7 +51,7 @@ if (fs.existsSync(landingSrc)) {
   fs.writeFileSync(path.join(portableDir, "tech_support_landing.html"), landing, "utf8");
 }
 
-const readme = `Portable Tech Support Bro
+const readme = `Portable GT Bailey IT Solutions LLC
 ===========================
 
 Files in this folder are ready for offline use.
@@ -70,7 +70,7 @@ const launcher = `@echo off
 start "" "%~dp0index.html"
 `;
 
-fs.writeFileSync(path.join(portableDir, "Launch Tech Support Bro.bat"), launcher, "utf8");
+fs.writeFileSync(path.join(portableDir, "Launch GT Bailey IT Solutions LLC.bat"), launcher, "utf8");
 fs.writeFileSync(path.join(portableDir, "README.txt"), readme, "utf8");
 
 console.log("Portable bundle created in:", portableDir);

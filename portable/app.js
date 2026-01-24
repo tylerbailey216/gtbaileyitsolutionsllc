@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -1087,7 +1087,7 @@
         if (!valueEl) return;
         const statusEl = document.getElementById('visitCounterStatus');
         try {
-            const endpoint = 'https://api.counterapi.dev/v1/tylerbailey216-techsupportbro1/visits/up';
+            const endpoint = 'https://api.counterapi.dev/v1/gtbaileyitsolutionsllc/visits/up';
             const response = await fetch(endpoint, { cache: 'no-store' });
             if (!response.ok) {
                 throw new Error('Counter request failed');
@@ -1104,7 +1104,7 @@
         } catch (error) {
             let count = 1;
             try {
-                const key = 'tsb_visit_count_local';
+                const key = 'gtb_visit_count_local';
                 const stored = parseInt(localStorage.getItem(key) || '0', 10);
                 count = Number.isNaN(stored) ? 1 : stored + 1;
                 localStorage.setItem(key, String(count));
@@ -1361,7 +1361,7 @@
 
     // Initialize with a placeholder so the UI feels live even before first click.
     state.history = [{
-        breadcrumb: "Tell 'G' What's Happening",
+        breadcrumb: "Tell GT Bailey what's happening",
         title: 'Choose a Help Topic',
         summary: 'Click "Start troubleshooting" to begin.',
         response: 'Pick a lane above to load your first branch.'
@@ -1371,11 +1371,11 @@
     // Affirmations / virtual phone loop
     (() => {
         const affirmations = [
-            { tag: 'Grounding', text: 'Your calm is contagious.', source: '- Message from G' },
-            { tag: 'Momentum', text: 'Tiny fixes stack up. Keep going.', source: '- Message from G' },
-            { tag: 'Breather', text: 'Pause, sip water, then solve.', source: '- Message from G' },
-            { tag: 'Clarity', text: 'One step, then the next. You got this.', source: '- Message from G' },
-            { tag: 'Focus', text: 'Mute the noise. Fix the signal.', source: '- Message from G' },
+            { tag: 'Grounding', text: 'Your calm is contagious.', source: '- GT Bailey Support' },
+            { tag: 'Momentum', text: 'Tiny fixes stack up. Keep going.', source: '- GT Bailey Support' },
+            { tag: 'Breather', text: 'Pause, sip water, then solve.', source: '- GT Bailey Support' },
+            { tag: 'Clarity', text: 'One step, then the next. You got this.', source: '- GT Bailey Support' },
+            { tag: 'Focus', text: 'Mute the noise. Fix the signal.', source: '- GT Bailey Support' },
         ];
         const tagEl = document.getElementById('affirmationTag');
         const textEl = document.getElementById('affirmationText');
@@ -1590,3 +1590,4 @@ if (document.readyState === 'loading') {
     console.log('DOM already loaded, initializing immediately...');
     initTabletInteraction();
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "topics": [
     {
       "id": "laptop-power",
@@ -272,7 +272,7 @@
   "generic": {
     "id": "general-playbook",
     "title": "General troubleshooting checklist",
-    "reply": "Here is a reliable checklist that works offline:\n1. Restart the affected device and any connected hardware (routers, docks, accessories). Many problems clear after a full power cycle.\n2. Install pending system, driver, and app updates whenever possible. Keep at least 15 percent storage free.\n3. Record error codes, event logs, or indicator lights and take photos so you have proof if you need to escalate.\n4. Back up important data before trying more advanced fixes. Share your notes with Garin if you need hands-on help.",
+    "reply": "Here is a reliable checklist that works offline:\n1. Restart the affected device and any connected hardware (routers, docks, accessories). Many problems clear after a full power cycle.\n2. Install pending system, driver, and app updates whenever possible. Keep at least 15 percent storage free.\n3. Record error codes, event logs, or indicator lights and take photos so you have proof if you need to escalate.\n4. Back up important data before trying more advanced fixes. Share your notes with GT Bailey support if you need hands-on help.",
     "plan": [
       {
         "step": "Restart and reseat",
@@ -292,3 +292,4 @@
     ]
   }
 }
+
