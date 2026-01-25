@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" role="img" aria-label="Restart router">
+  <rect x="12" y="12" width="336" height="196" rx="18" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect x="80" y="110" width="200" height="60" rx="12" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle cx="110" cy="140" r="6" fill="currentColor"/>
+  <circle cx="130" cy="140" r="6" fill="currentColor" opacity="0.6"/>
+  <circle cx="150" cy="140" r="6" fill="currentColor" opacity="0.4"/>
+  <path d="M180 72a40 40 0 1 1-28 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  <path d="M152 70h26v-26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="180" y="44" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="currentColor">Restart Router</text>
+</svg>

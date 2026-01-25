@@ -150,18 +150,27 @@
         return summaryHtml + stepsHtml;
     };
 
-    const initGuidedHelper = () => {
-        const select = document.getElementById('symptomSelect');
-        const findBtn = document.getElementById('symptomFind');
-        const matchList = document.getElementById('matchList');
-        const matchResult = document.getElementById('matchResult');
-        if (!select || !matchList || !matchResult) {
+    const initHelpCenter = () => {
+        const searchInput = document.getElementById('issueSearch');
+        const clearBtn = document.getElementById('searchClear');
+        const categoryGrid = document.getElementById('categoryGrid');
+        const resultsGrid = document.getElementById('searchResults');
+        const resultPanel = document.getElementById('matchResult');
+        const tipEl = document.getElementById('helpTip');
+        if (!searchInput || !categoryGrid || !resultsGrid || !resultPanel) {
             return;
         }
 
         const knowledge = window.OFFLINE_KNOWLEDGE;
         const topics = knowledge?.topics ? [...knowledge.topics] : [];
+        const categories = knowledge?.categories ? [...knowledge.categories] : [];
         const fallback = knowledge?.generic;
+        const tips = knowledge?.tips || [
+            'Quick tip: Restarting the device fixes a lot of issues fast.',
+            'Friendly reminder: Write down the exact error message if you see one.',
+            'Tip: If more than one device is affected, check the router first.',
+            'Tip: Keep your device plugged in during updates to avoid failures.',
+        ];
 
         const escapeHtml = (value = '') =>
             value
@@ -172,50 +181,52 @@
                 .replace(/'/g, '&#39;');
 
         if (!topics.length) {
-            matchResult.innerHTML = '<p class="node-summary">Support guide unavailable. Please reload the page or contact GT Bailey Support.</p>';
+            resultPanel.innerHTML = '<p class="node-summary">Support guide unavailable. Please reload the page or contact GT Bailey Support.</p>';
             return;
         }
 
-        topics.sort((a, b) => a.title.localeCompare(b.title));
-        select.innerHTML = '<option value="">Select a symptom</option>' +
-            topics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(topic.title)}</option>`).join('');
+        const topicMap = new Map();
+        topics.forEach((topic) => topicMap.set(topic.id, topic));
 
-        const tokenize = (value = '') =>
-            value
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, ' ')
-                .trim()
-                .split(/\s+/)
-                .filter(Boolean);
-
-        const signature = (topic) => new Set(tokenize(`${topic.title} ${topic.id}`));
-        const signatureMap = new Map();
+        const categoryMap = new Map();
+        categories.forEach((category) => {
+            categoryMap.set(category.id, { ...category, topics: [] });
+        });
         topics.forEach((topic) => {
-            signatureMap.set(topic.id, signature(topic));
+            const bucket = categoryMap.get(topic.categoryId);
+            if (bucket) {
+                bucket.topics.push(topic);
+            }
         });
 
-        const similarity = (a, b) => {
-            let shared = 0;
-            a.forEach((token) => {
-                if (b.has(token)) shared += 1;
-            });
-            const union = a.size + b.size - shared;
-            return union === 0 ? 0 : shared / union;
+        const renderTip = () => {
+            if (!tipEl) return;
+            const nextTip = tips[Math.floor(Math.random() * tips.length)];
+            tipEl.textContent = nextTip;
+            tipEl.classList.add('is-visible');
         };
 
-        const summarize = (text = '') => {
-            const firstLine = text.split('\n').map((line) => line.trim()).find(Boolean) || '';
-            const trimmed = firstLine.length > 140 ? `${firstLine.slice(0, 137)}...` : firstLine;
-            return trimmed || 'Follow the steps below for a quick fix.';
-        };
-
-        const renderResult = (topic) => {
-            if (!topic && fallback) {
-                matchResult.innerHTML = `<h3>${escapeHtml(fallback.title)}</h3>${formatResponse(fallback.reply)}`;
-                return;
+        const renderVisuals = (topic) => {
+            if (!topic?.visuals?.length) {
+                return '';
             }
+            return `<div class="visual-grid">${topic.visuals
+                .map(
+                    (visual) => `<article class="visual-card">
+                        <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.title || 'Visual guide')}">
+                        <span>${escapeHtml(visual.title || '')}</span>
+                    </article>`,
+                )
+                .join('')}</div>`;
+        };
+
+        const renderTopic = (topic, { useFallback = false } = {}) => {
             if (!topic) {
-                matchResult.innerHTML = '<p class="node-summary">Choose a match to see the step-by-step fix.</p>';
+                if (useFallback && fallback) {
+                    resultPanel.innerHTML = `<h3>${escapeHtml(fallback.title)}</h3>${formatResponse(fallback.reply)}`;
+                    return;
+                }
+                resultPanel.innerHTML = '<p class="node-summary">Pick a symptom to see the step-by-step fix.</p>';
                 return;
             }
 
@@ -234,70 +245,129 @@
                       .join('')}</div>`
                 : '';
 
-            matchResult.innerHTML = `
+            resultPanel.innerHTML = `
                 <h3>${escapeHtml(topic.title)}</h3>
+                ${topic.summary ? `<p class="node-summary">${escapeHtml(topic.summary)}</p>` : ''}
+                ${renderVisuals(topic)}
                 ${formatResponse(topic.reply)}
                 ${planHtml}
             `;
-            matchResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            renderTip();
+            resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
-        const renderMatches = () => {
-            const selectedId = select.value;
-            if (!selectedId) {
-                matchList.innerHTML = '';
-                matchResult.innerHTML = '<p class="node-summary">Pick a symptom above to see the closest fixes.</p>';
-                return;
-            }
-
-            const selected = topics.find((topic) => topic.id === selectedId);
-            if (!selected) {
-                matchList.innerHTML = '';
-                renderResult(null);
-                return;
-            }
-            const baseTokens = signatureMap.get(selected.id) || new Set();
-            const ranked = topics
-                .map((topic) => ({
-                    topic,
-                    score: topic.id === selected.id ? 1 : similarity(baseTokens, signatureMap.get(topic.id) || new Set()),
-                }))
-                .sort((a, b) => b.score - a.score);
-
-            const matches = ranked.slice(0, 3);
-            matchList.innerHTML = matches
-                .map((match, index) => {
-                    const label = index === 0 ? 'Closest match' : 'Alternate match';
-                    return `<article class="match-card">
-                        <p class="node-path">${label}</p>
-                        <h3>${escapeHtml(match.topic.title)}</h3>
-                        <p>${escapeHtml(summarize(match.topic.reply || ''))}</p>
-                        <button class="ghost" type="button" data-id="${escapeHtml(match.topic.id)}">Use this fix</button>
+        const renderCategories = () => {
+            const categoryCards = Array.from(categoryMap.values())
+                .filter((category) => category.topics.length)
+                .map((category) => {
+                    const topicButtons = category.topics
+                        .map(
+                            (topic) => `<button class="symptom-btn" type="button" data-topic="${escapeHtml(topic.id)}">
+                                <span class="symptom-title">${escapeHtml(topic.title)}</span>
+                                <span class="symptom-summary">${escapeHtml(topic.summary || '')}</span>
+                            </button>`,
+                        )
+                        .join('');
+                    return `<article class="category-card">
+                        <h3>${escapeHtml(category.title)}</h3>
+                        <p>${escapeHtml(category.description || '')}</p>
+                        <div class="symptom-list">${topicButtons}</div>
                     </article>`;
                 })
                 .join('');
-
-            matchList.querySelectorAll('button[data-id]').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const match = topics.find((topic) => topic.id === btn.dataset.id);
-                    renderResult(match);
-                });
-            });
-
-            matchResult.innerHTML = '<p class="node-summary">Choose the closest match to see your fix list.</p>';
+            categoryGrid.innerHTML = categoryCards;
         };
+
+        const buildIndex = (topic) => {
+            const tokens = [
+                topic.title,
+                topic.summary,
+                topic.reply,
+                Array.isArray(topic.keywords) ? topic.keywords.join(' ') : '',
+            ]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase();
+            return tokens;
+        };
+
+        const searchTopics = (query) => {
+            const trimmed = query.trim().toLowerCase();
+            if (!trimmed) return [];
+            const tokens = trimmed.split(/\s+/).filter(Boolean);
+            return topics.filter((topic) => {
+                const haystack = buildIndex(topic);
+                return tokens.every((token) => haystack.includes(token));
+            });
+        };
+
+        const renderSearchResults = (query) => {
+            const matches = searchTopics(query);
+            if (!query.trim()) {
+                resultsGrid.style.display = 'none';
+                categoryGrid.style.display = 'grid';
+                resultsGrid.innerHTML = '';
+                return;
+            }
+            resultsGrid.style.display = 'grid';
+            categoryGrid.style.display = 'none';
+
+            if (!matches.length) {
+                resultsGrid.innerHTML = '<p class="node-summary">No matches yet. Try a different keyword.</p>';
+                return;
+            }
+
+            resultsGrid.innerHTML = matches
+                .map(
+                    (topic) => `<button class="symptom-btn" type="button" data-topic="${escapeHtml(topic.id)}">
+                        <span class="symptom-title">${escapeHtml(topic.title)}</span>
+                        <span class="symptom-summary">${escapeHtml(topic.summary || '')}</span>
+                    </button>`,
+                )
+                .join('');
+        };
+
+        categoryGrid.addEventListener('click', (event) => {
+            const btn = event.target.closest('[data-topic]');
+            if (!btn) return;
+            const topic = topicMap.get(btn.dataset.topic);
+            renderTopic(topic);
+        });
+
+        resultsGrid.addEventListener('click', (event) => {
+            const btn = event.target.closest('[data-topic]');
+            if (!btn) return;
+            const topic = topicMap.get(btn.dataset.topic);
+            renderTopic(topic);
+        });
+
+        searchInput.addEventListener('input', () => {
+            renderSearchResults(searchInput.value);
+        });
+
+        clearBtn?.addEventListener('click', () => {
+            searchInput.value = '';
+            renderSearchResults('');
+            searchInput.focus();
+        });
 
         const startBtn = document.getElementById('startTree');
         startBtn?.addEventListener('click', () => {
             document.getElementById('treePanel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        renderMatches();
-        select.addEventListener('change', renderMatches);
-        findBtn?.addEventListener('click', renderMatches);
+        const searchBtn = document.getElementById('searchIssues');
+        searchBtn?.addEventListener('click', () => {
+            document.getElementById('treePanel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => searchInput.focus(), 250);
+        });
+
+        renderCategories();
+        renderSearchResults('');
+        renderTopic(null);
     };
 
-    initGuidedHelper();
+    initHelpCenter();
 
     // Affirmations / virtual phone loop
     (() => {

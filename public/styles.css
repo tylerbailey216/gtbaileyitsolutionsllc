@@ -589,7 +589,35 @@ button,
     gap: 18px;
 }
 
-.helper-card {
+.faq-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.faq-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.faq-card h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.faq-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.helper-search {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -607,8 +635,16 @@ button,
     color: var(--text-muted);
 }
 
-#symptomSelect {
-    width: 100%;
+.search-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#issueSearch {
+    flex: 1;
+    min-width: 220px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
@@ -621,36 +657,87 @@ button,
     margin: 0;
 }
 
-.helper-matches {
-    display: grid;
+.helper-tip {
+    background: var(--accent-soft);
+    border: 1px solid rgba(110, 196, 167, 0.3);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    display: none;
+}
+
+.helper-tip.is-visible {
+    display: block;
+}
+
+.search-results {
+    display: none;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 12px;
 }
 
-.match-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.category-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    padding: 14px;
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.match-card h3 {
+.category-card h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.05rem;
 }
 
-.match-card p {
+.category-card p {
     margin: 0;
     color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.4;
 }
 
-.match-card button {
-    align-self: flex-start;
+.symptom-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.symptom-btn {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 10px 12px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.symptom-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 12px 30px -20px rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+.symptom-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.symptom-summary {
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
 .helper-result {
@@ -670,18 +757,55 @@ button,
     padding-left: 18px;
 }
 
-body.theme-light .helper-card,
-body.theme-light .match-card,
-body.theme-light .helper-result {
+.visual-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.visual-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.visual-card img {
+    width: 100%;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.visual-card span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+body.theme-light .faq-card,
+body.theme-light .helper-search,
+body.theme-light .category-card,
+body.theme-light .symptom-btn,
+body.theme-light .helper-result,
+body.theme-light .visual-card {
     background: rgba(255, 255, 255, 0.96);
     border-color: rgba(0, 0, 0, 0.08);
     box-shadow: 0 16px 40px -28px rgba(0, 0, 0, 0.18);
 }
 
-body.theme-light #symptomSelect {
+body.theme-light #issueSearch {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
     color: #0e171f;
+}
+
+body.theme-light .helper-tip {
+    background: rgba(58, 124, 98, 0.12);
+    border-color: rgba(58, 124, 98, 0.3);
 }
 
 .plan-blurb {

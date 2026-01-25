@@ -1,379 +1,712 @@
 window.OFFLINE_KNOWLEDGE = {
+  "categories": [
+    {
+      "id": "network",
+      "title": "Network & Internet Issues",
+      "description": "Wi-Fi, slow connections, and device connectivity."
+    },
+    {
+      "id": "peripherals",
+      "title": "Printer & Peripheral Problems",
+      "description": "Printers, scanners, webcams, and Bluetooth devices."
+    },
+    {
+      "id": "accounts",
+      "title": "Accounts & Login Issues",
+      "description": "Email sign-in, passwords, and verification codes."
+    },
+    {
+      "id": "performance",
+      "title": "Performance & Crashes",
+      "description": "Slow devices, freezing, or apps crashing."
+    },
+    {
+      "id": "software",
+      "title": "Software & Updates",
+      "description": "App installs, downloads, and system updates."
+    }
+  ],
   "topics": [
     {
-      "id": "laptop-power",
-      "title": "Laptop will not power on",
-      "patterns": [
-        "(laptop|notebook|surface|macbook|chromebook).*(won.?t|cannot|doesn'?t).*(turn on|power|start|boot)",
-        "(no power|black screen).*laptop"
+      "id": "wifi-cant-connect",
+      "categoryId": "network",
+      "title": "Wi-Fi won't connect",
+      "summary": "Network appears but the device will not join.",
+      "keywords": [
+        "wifi",
+        "wireless",
+        "connect",
+        "password",
+        "network"
       ],
-      "reply": "Use this quick power check:\n1. Power reset (2 min, easy)\nExpected: A light, fan, or logo appears.\nIf yes: Let it finish booting.\nIf no: Go to step 2.\n\n2. Check charger and outlet (3 min, easy)\nExpected: Charging light turns on or a battery icon appears.\nIf yes: Leave it charging for 15 minutes, then try again.\nIf no: Try a different outlet or charger if available.\n\n3. Screen check and capture details (3 min, easy)\nExpected: You see a logo or faint image, or you recorded the lights/beeps.\nIf yes: Use an external display or send the notes with your help request.\nIf no: Take a photo of any lights/beeps and contact support.",
+      "reply": "1. Make sure Wi-Fi is turned on (1 min, easy)\nExpected: The Wi-Fi list appears.\nIf yes: Go to step 2.\nIf no: Toggle Airplane mode off and retry.\n\n2. Restart the router (5 min, easy)\nExpected: Router lights return to normal.\nIf yes: Try reconnecting.\nIf no: Contact your internet provider.\n\n3. Forget and rejoin the network (3 min, easy)\nExpected: You can re-enter the Wi-Fi password.\nIf yes: Test a website.\nIf no: Go to step 4.\n\n4. Test a mobile hotspot (3 min, easy)\nExpected: The device connects elsewhere.\nIf yes: The router is likely the issue.\nIf no: The device may need support.",
       "plan": [
         {
-          "step": "Power reset",
-          "rationale": "Clears temporary power glitches.",
+          "step": "Check Wi-Fi toggle",
+          "rationale": "Confirms the radio is on.",
           "focus": [
-            "power",
-            "restart"
+            "wifi"
           ]
         },
         {
-          "step": "Check charger and outlet",
-          "rationale": "Confirms power is reaching the laptop.",
+          "step": "Restart router",
+          "rationale": "Clears most network glitches.",
           "focus": [
-            "charger",
-            "outlet"
+            "router"
           ]
         },
         {
-          "step": "Screen check + capture details",
-          "rationale": "Separates display issues from power issues and helps support.",
+          "step": "Forget and rejoin",
+          "rationale": "Refreshes network credentials.",
           "focus": [
-            "display",
-            "notes"
+            "password"
           ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Wi-Fi settings",
+          "src": "./public/visuals/wifi-settings.svg",
+          "alt": "Wi-Fi settings screen"
         }
       ]
     },
     {
-      "id": "battery-life",
-      "title": "Laptop battery drains fast",
-      "patterns": [
-        "(battery|power).*(drain|die|low|doesn'?t last)"
+      "id": "internet-slow-drops",
+      "categoryId": "network",
+      "title": "Internet is slow or keeps dropping",
+      "summary": "Pages load slowly or the connection cuts out.",
+      "keywords": [
+        "slow",
+        "drops",
+        "internet",
+        "wifi",
+        "disconnect"
       ],
-      "reply": "Try this battery tune-up:\n1. Turn on battery saver and lower brightness (2 min, easy)\nExpected: The battery estimate improves.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Close heavy apps and restart (5 min, easy)\nExpected: CPU usage drops and fans calm.\nIf yes: Battery life should improve.\nIf no: Go to step 3.\n\n3. Check battery health and capture details (5 min, easy)\nExpected: You see battery health info.\nIf yes: If health is low, the battery may need service.\nIf no: Note the model and what you tried and contact support.",
+      "reply": "1. Move closer to the router (2 min, easy)\nExpected: Signal strength improves.\nIf yes: Test speed again.\nIf no: Go to step 2.\n\n2. Restart modem and router (5 min, easy)\nExpected: Connection stabilizes after reboot.\nIf yes: You are back online.\nIf no: Go to step 3.\n\n3. Reduce interference (5 min, easy)\nExpected: Fewer disconnects.\nIf yes: Keep the router clear of walls and appliances.\nIf no: Contact your ISP or upgrade the router.",
       "plan": [
         {
-          "step": "Battery saver + brightness",
-          "rationale": "Reduces the biggest power drains fast.",
+          "step": "Improve signal",
+          "rationale": "Distance and walls affect Wi-Fi speed.",
           "focus": [
-            "battery saver",
-            "brightness"
+            "signal"
           ]
         },
         {
-          "step": "Close heavy apps",
-          "rationale": "Background apps can drain power quickly.",
-          "focus": [
-            "apps",
-            "restart"
-          ]
-        },
-        {
-          "step": "Check battery health",
-          "rationale": "Shows if the battery is worn out.",
-          "focus": [
-            "battery health"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "windows-update",
-      "title": "Windows update stuck or failing",
-      "patterns": [
-        "(windows).*(update|install|upgrade).*(stuck|fail|error|loop)"
-      ],
-      "reply": "Use this update rescue path:\n1. Restart and try Windows Update again (5-10 min, easy)\nExpected: Updates start downloading.\nIf yes: Let them finish and restart.\nIf no: Go to step 2.\n\n2. Run the Windows Update troubleshooter (5 min, easy)\nExpected: It reports a fix or completes.\nIf yes: Check for updates again.\nIf no: Go to step 3.\n\n3. Free space and capture details (10 min, easy)\nExpected: You have at least 20 GB free or you wrote down the error code.\nIf yes: Try the update again and send any error code if it fails.\nIf no: Move large files and try again.",
-      "plan": [
-        {
-          "step": "Restart and retry",
-          "rationale": "Clears temporary update locks.",
-          "focus": [
-            "restart",
-            "updates"
-          ]
-        },
-        {
-          "step": "Run the troubleshooter",
-          "rationale": "Fixes common update errors automatically.",
-          "focus": [
-            "troubleshooter"
-          ]
-        },
-        {
-          "step": "Free space + note errors",
-          "rationale": "Updates need space and error codes help support.",
-          "focus": [
-            "storage",
-            "error code"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "mac-performance",
-      "title": "Mac running slow or hot",
-      "patterns": [
-        "(mac|macbook|imac).*(slow|lag|beachball|hot|overheat)"
-      ],
-      "reply": "Try this Mac speed check:\n1. Restart and close heavy apps (5 min, easy)\nExpected: The Mac feels snappier.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check Activity Monitor (5 min, easy)\nExpected: One app stands out using CPU.\nIf yes: Quit or update that app.\nIf no: Go to step 3.\n\n3. Update macOS and capture details (10-20 min, easy)\nExpected: Updates install or you noted the issue details.\nIf yes: Test performance again.\nIf no: Note the model and symptoms and contact support.",
-      "plan": [
-        {
-          "step": "Restart + close heavy apps",
-          "rationale": "Clears temporary slowdowns.",
-          "focus": [
-            "restart",
-            "apps"
-          ]
-        },
-        {
-          "step": "Check Activity Monitor",
-          "rationale": "Finds the app using the most resources.",
-          "focus": [
-            "activity monitor"
-          ]
-        },
-        {
-          "step": "Update macOS + note details",
-          "rationale": "Updates fix bugs and notes help support.",
-          "focus": [
-            "update",
-            "notes"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ios-troubles",
-      "title": "iPhone or iPad misbehaving",
-      "patterns": [
-        "iphone",
-        "ipad",
-        "ios"
-      ],
-      "reply": "Quick iPhone/iPad reset:\n1. Force restart (2 min, easy)\nExpected: Apple logo appears and it boots.\nIf yes: Test the issue again.\nIf no: Go to step 2.\n\n2. Update iOS or iPadOS (10-20 min, easy)\nExpected: Update installs successfully.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Check storage and capture details (5 min, easy)\nExpected: You have a few GB free or you noted the exact issue.\nIf yes: Remove large items or send the notes.\nIf no: Note the model and contact support.",
-      "plan": [
-        {
-          "step": "Force restart",
-          "rationale": "Clears many temporary glitches.",
-          "focus": [
-            "restart"
-          ]
-        },
-        {
-          "step": "Install updates",
-          "rationale": "Fixes known bugs and improves stability.",
-          "focus": [
-            "update"
-          ]
-        },
-        {
-          "step": "Free space + note details",
-          "rationale": "Low storage causes issues and notes help support.",
-          "focus": [
-            "storage",
-            "notes"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "android-troubles",
-      "title": "Android phone or tablet issues",
-      "patterns": [
-        "(android|pixel|galaxy|oneplus|xiaomi|tablet).*(issue|problem|crash|freeze|boot)"
-      ],
-      "reply": "Quick Android reset path:\n1. Force restart (2 min, easy)\nExpected: The device reboots normally.\nIf yes: Test the issue again.\nIf no: Go to step 2.\n\n2. Update apps and system (10-20 min, easy)\nExpected: Updates finish without errors.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Clear the problem app and capture details (5 min, easy)\nExpected: The app opens or you recorded the error.\nIf yes: You are done.\nIf no: Note the model and contact support.",
-      "plan": [
-        {
-          "step": "Force restart",
-          "rationale": "Resets a stuck system.",
-          "focus": [
-            "restart"
-          ]
-        },
-        {
-          "step": "Update apps and system",
-          "rationale": "Updates fix common crashes.",
-          "focus": [
-            "updates"
-          ]
-        },
-        {
-          "step": "Clear app + note details",
-          "rationale": "Resets problem apps and helps support.",
-          "focus": [
-            "apps",
-            "notes"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "wifi",
-      "title": "Home Wi-Fi problems",
-      "patterns": [
-        "(wifi|wi-fi|router|mesh|internet|modem|connection|network)"
-      ],
-      "reply": "Bring Wi-Fi back online:\n1. Power cycle modem and router (5 min, easy)\nExpected: Normal lights return.\nIf yes: Test a website on one device.\nIf no: Contact your ISP.\n\n2. Reconnect one device (5 min, easy)\nExpected: The device reconnects and loads a page.\nIf yes: Reconnect the rest.\nIf no: Go to step 3.\n\n3. Improve signal and capture details (5-10 min, easy)\nExpected: Signal improves or you noted the router model and lights.\nIf yes: Move the router or adjust placement.\nIf no: Send the notes to support.",
-      "plan": [
-        {
-          "step": "Restart modem and router",
-          "rationale": "Fixes most home outages quickly.",
+          "step": "Restart equipment",
+          "rationale": "Resets the network path.",
           "focus": [
             "modem",
             "router"
           ]
         },
         {
-          "step": "Reconnect one device",
-          "rationale": "Confirms the network is back online.",
+          "step": "Reduce interference",
+          "rationale": "Competing devices can cause drops.",
           "focus": [
-            "wifi",
-            "device"
+            "interference"
           ]
-        },
+        }
+      ],
+      "visuals": [
         {
-          "step": "Improve signal + note details",
-          "rationale": "Placement helps performance and notes help support.",
-          "focus": [
-            "signal",
-            "notes"
-          ]
+          "type": "image",
+          "title": "Restart router",
+          "src": "./public/visuals/router-restart.svg",
+          "alt": "Restarting a router"
         }
       ]
     },
     {
-      "id": "printer",
-      "title": "Printer or scanner not working",
-      "patterns": [
-        "(printer|printing|scanner|hp|canon|epson|brother)"
+      "id": "one-device-offline",
+      "categoryId": "network",
+      "title": "Only one device is offline",
+      "summary": "Other devices work but one device cannot connect.",
+      "keywords": [
+        "one device",
+        "offline",
+        "reconnect",
+        "wifi"
       ],
-      "reply": "Get the printer working:\n1. Power cycle printer and device (5 min, easy)\nExpected: Printer shows Ready.\nIf yes: Print a test page.\nIf no: Go to step 2.\n\n2. Confirm connection (5 min, easy)\nExpected: Printer and device are on the same Wi-Fi or USB is snug.\nIf yes: Try printing again.\nIf no: Reconnect Wi-Fi or cable.\n\n3. Reinstall printer and capture details (10 min, easy)\nExpected: The printer installs or you noted the exact error.\nIf yes: Print a test page.\nIf no: Send the notes and model to support.",
+      "reply": "1. Confirm other devices are online (2 min, easy)\nExpected: Another device loads a website.\nIf yes: Go to step 2.\nIf no: Use the network outage steps instead.\n\n2. Forget and rejoin Wi-Fi (3 min, easy)\nExpected: The device reconnects successfully.\nIf yes: Test the issue again.\nIf no: Go to step 3.\n\n3. Restart the device (3 min, easy)\nExpected: The device reconnects after reboot.\nIf yes: You are back online.\nIf no: Contact support with the device model.",
       "plan": [
         {
-          "step": "Power cycle and test",
-          "rationale": "Clears stuck print jobs and resets the printer.",
+          "step": "Verify other devices",
+          "rationale": "Confirms this is not a full outage.",
           "focus": [
-            "restart",
+            "outage"
+          ]
+        },
+        {
+          "step": "Reconnect Wi-Fi",
+          "rationale": "Refreshes the device connection.",
+          "focus": [
+            "wifi"
+          ]
+        },
+        {
+          "step": "Restart device",
+          "rationale": "Clears temporary network issues.",
+          "focus": [
+            "restart"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Wi-Fi reconnect",
+          "src": "./public/visuals/wifi-settings.svg",
+          "alt": "Reconnect to Wi-Fi"
+        }
+      ]
+    },
+    {
+      "id": "printer-not-responding",
+      "categoryId": "peripherals",
+      "title": "Printer not responding",
+      "summary": "Print jobs stall or nothing comes out.",
+      "keywords": [
+        "printer",
+        "offline",
+        "queue",
+        "print"
+      ],
+      "reply": "1. Power cycle the printer (3 min, easy)\nExpected: The printer shows Ready.\nIf yes: Try printing again.\nIf no: Go to step 2.\n\n2. Check the connection (3 min, easy)\nExpected: Printer and device share Wi-Fi or USB is snug.\nIf yes: Go to step 3.\nIf no: Reconnect Wi-Fi or cable.\n\n3. Clear the print queue (5 min, easy)\nExpected: Stuck jobs disappear.\nIf yes: Print a test page.\nIf no: Reinstall the printer software.",
+      "plan": [
+        {
+          "step": "Restart printer",
+          "rationale": "Clears stalled print jobs.",
+          "focus": [
             "printer"
           ]
         },
         {
-          "step": "Confirm Wi-Fi or USB",
-          "rationale": "Connection issues cause most printer failures.",
+          "step": "Verify connection",
+          "rationale": "Wi-Fi or USB issues cause most failures.",
           "focus": [
-            "wifi",
-            "usb"
+            "connection"
           ]
         },
         {
-          "step": "Reinstall + note errors",
-          "rationale": "Fresh installs fix drivers and notes help support.",
+          "step": "Clear queue",
+          "rationale": "Removes stuck print jobs.",
           "focus": [
-            "drivers",
-            "notes"
+            "queue"
           ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Printer status",
+          "src": "./public/visuals/printer-check.svg",
+          "alt": "Printer status check"
         }
       ]
     },
     {
-      "id": "email-setup",
-      "title": "Email setup or login trouble",
-      "patterns": [
-        "(email|outlook|gmail|yahoo|imap|smtp|login)"
+      "id": "scanner-webcam-missing",
+      "categoryId": "peripherals",
+      "title": "Scanner or webcam not detected",
+      "summary": "Camera or scanner is missing in apps.",
+      "keywords": [
+        "webcam",
+        "scanner",
+        "camera",
+        "not detected"
       ],
-      "reply": "Use this email sign-in checklist:\n1. Sign in on webmail first (3 min, easy)\nExpected: Your password works in the browser.\nIf yes: Go to step 2.\nIf no: Reset the password.\n\n2. Add the account again (5 min, easy)\nExpected: The app finishes setup without errors.\nIf yes: Send a test email.\nIf no: Go to step 3.\n\n3. Handle security prompts (5 min, easy)\nExpected: A code, approval, or app password works.\nIf yes: You are done.\nIf no: Note the error message and contact support.",
+      "reply": "1. Close other apps using the camera (2 min, easy)\nExpected: The device appears in the app.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check privacy permissions (3 min, easy)\nExpected: Camera or scanner is allowed.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Reconnect the device (3 min, easy)\nExpected: The device shows up after reconnecting.\nIf yes: You are back.\nIf no: Contact support with the model.",
       "plan": [
         {
-          "step": "Verify webmail login",
-          "rationale": "Confirms the password and account are working.",
+          "step": "Close competing apps",
+          "rationale": "Only one app can use the camera at a time.",
           "focus": [
-            "login"
+            "camera"
+          ]
+        },
+        {
+          "step": "Check permissions",
+          "rationale": "Privacy settings can block devices.",
+          "focus": [
+            "permissions"
+          ]
+        },
+        {
+          "step": "Reconnect hardware",
+          "rationale": "Re-detects the device.",
+          "focus": [
+            "usb"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Device permissions",
+          "src": "./public/visuals/login-lock.svg",
+          "alt": "Privacy and permissions"
+        }
+      ]
+    },
+    {
+      "id": "bluetooth-wont-pair",
+      "categoryId": "peripherals",
+      "title": "Bluetooth device will not pair",
+      "summary": "Headphones or keyboards will not connect.",
+      "keywords": [
+        "bluetooth",
+        "pair",
+        "headphones",
+        "keyboard"
+      ],
+      "reply": "1. Toggle Bluetooth off and on (2 min, easy)\nExpected: The device appears in the list.\nIf yes: Try pairing again.\nIf no: Go to step 2.\n\n2. Forget and re-pair the device (3 min, easy)\nExpected: Pairing completes without errors.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Charge and move closer (3 min, easy)\nExpected: Pairing succeeds within a few feet.\nIf yes: You are back.\nIf no: The device may need service.",
+      "plan": [
+        {
+          "step": "Toggle Bluetooth",
+          "rationale": "Refreshes the wireless radio.",
+          "focus": [
+            "bluetooth"
+          ]
+        },
+        {
+          "step": "Re-pair device",
+          "rationale": "Clears outdated pairing records.",
+          "focus": [
+            "pairing"
+          ]
+        },
+        {
+          "step": "Charge and move closer",
+          "rationale": "Low battery blocks pairing.",
+          "focus": [
+            "battery"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Bluetooth pairing",
+          "src": "./public/visuals/bluetooth-pair.svg",
+          "alt": "Bluetooth pairing screen"
+        }
+      ]
+    },
+    {
+      "id": "email-login",
+      "categoryId": "accounts",
+      "title": "Cannot sign into email",
+      "summary": "Password fails or the mailbox will not load.",
+      "keywords": [
+        "email",
+        "login",
+        "password",
+        "outlook",
+        "gmail"
+      ],
+      "reply": "1. Sign in on webmail (3 min, easy)\nExpected: The account works in a browser.\nIf yes: Go to step 2.\nIf no: Reset the password.\n\n2. Remove and re-add the account (5 min, easy)\nExpected: The mailbox syncs without errors.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Approve security prompts (5 min, easy)\nExpected: A code or approval completes the sign-in.\nIf yes: Test sending an email.\nIf no: Contact support with the error.",
+      "plan": [
+        {
+          "step": "Confirm web login",
+          "rationale": "Verifies the password works.",
+          "focus": [
+            "webmail"
           ]
         },
         {
           "step": "Re-add the account",
-          "rationale": "Fixes settings issues in the mail app.",
+          "rationale": "Fixes settings in the mail app.",
           "focus": [
-            "email setup"
+            "account"
           ]
         },
         {
           "step": "Approve security prompts",
-          "rationale": "Some providers require extra verification.",
+          "rationale": "Extra verification may be required.",
           "focus": [
-            "mfa",
-            "security"
+            "2fa"
           ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Login screen",
+          "src": "./public/visuals/login-lock.svg",
+          "alt": "Login screen"
         }
       ]
     },
     {
-      "id": "software-crash",
-      "title": "App or game keeps crashing",
-      "patterns": [
-        "(app|software|program|game).*(crash|freeze|not responding|stop working)"
+      "id": "password-reset",
+      "categoryId": "accounts",
+      "title": "Password reset not working",
+      "summary": "Reset link fails or account says locked.",
+      "keywords": [
+        "password",
+        "reset",
+        "locked",
+        "account"
       ],
-      "reply": "Stabilize the app:\n1. Update the app (5 min, easy)\nExpected: Update installs and the app opens.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Restart and clear space (5-10 min, easy)\nExpected: The device runs smoother.\nIf yes: Try the app again.\nIf no: Go to step 3.\n\n3. Reinstall and capture details (10 min, easy)\nExpected: The app launches or you noted the error.\nIf yes: You are back.\nIf no: Send the error and device details to support.",
+      "reply": "1. Use the official reset page (3 min, easy)\nExpected: You receive a reset code.\nIf yes: Go to step 2.\nIf no: Go to step 3.\n\n2. Set a new password (3 min, easy)\nExpected: You can sign in with the new password.\nIf yes: You are done.\nIf no: Try again after 15 minutes.\n\n3. Check recovery options (5 min, easy)\nExpected: Recovery email or phone is available.\nIf yes: Use that method.\nIf no: Contact support.",
       "plan": [
         {
-          "step": "Update the app",
-          "rationale": "Updates fix many crashes.",
+          "step": "Start the reset",
+          "rationale": "Uses the correct recovery flow.",
           "focus": [
-            "updates"
+            "reset"
           ]
         },
         {
-          "step": "Restart + free space",
-          "rationale": "Low memory and storage can cause crashes.",
+          "step": "Set new password",
+          "rationale": "Completes the reset process.",
           "focus": [
-            "restart",
-            "storage"
+            "password"
           ]
         },
         {
-          "step": "Reinstall + note errors",
-          "rationale": "Fresh installs remove corrupted files.",
+          "step": "Verify recovery options",
+          "rationale": "Ensures you can regain access.",
           "focus": [
-            "reinstall",
-            "notes"
+            "recovery"
           ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Account recovery",
+          "src": "./public/visuals/login-lock.svg",
+          "alt": "Account recovery"
         }
       ]
     },
     {
-      "id": "backup",
-      "title": "Backup and recovery guidance",
-      "patterns": [
-        "(backup|restore|recover|lost files|data recovery)"
+      "id": "two-factor-code",
+      "categoryId": "accounts",
+      "title": "Two-factor code not arriving",
+      "summary": "Verification code does not show up.",
+      "keywords": [
+        "2fa",
+        "verification",
+        "code",
+        "mfa"
       ],
-      "reply": "Keep your data safe:\n1. Turn on built-in backup (10 min, easy)\nExpected: Backup starts or shows as on.\nIf yes: Go to step 2.\nIf no: Try again or ask for help.\n\n2. Make an extra copy (10 min, easy)\nExpected: Files are on an external drive or cloud.\nIf yes: Go to step 3.\nIf no: Add a drive or cloud storage.\n\n3. Test a restore and capture details (5 min, easy)\nExpected: You can open a restored file.\nIf yes: You are protected.\nIf no: Note the error and contact support.",
+      "reply": "1. Check signal and spam folders (2 min, easy)\nExpected: The code arrives within a minute.\nIf yes: Use the code to sign in.\nIf no: Go to step 2.\n\n2. Use a backup method (3 min, easy)\nExpected: You can choose another method.\nIf yes: Sign in and update your options.\nIf no: Go to step 3.\n\n3. Sync device time (2 min, easy)\nExpected: The device time matches the network time.\nIf yes: Try again.\nIf no: Contact support.",
       "plan": [
         {
-          "step": "Enable built-in backup",
-          "rationale": "Gives steady protection without extra tools.",
+          "step": "Check delivery",
+          "rationale": "Codes can be delayed or filtered.",
+          "focus": [
+            "sms",
+            "email"
+          ]
+        },
+        {
+          "step": "Use backup method",
+          "rationale": "Backup methods prevent lockouts.",
           "focus": [
             "backup"
           ]
         },
         {
-          "step": "Keep an extra copy",
-          "rationale": "Protects against device failure or ransomware.",
+          "step": "Sync device time",
+          "rationale": "Incorrect time can break codes.",
           "focus": [
-            "external drive",
-            "cloud"
+            "time"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Verification code",
+          "src": "./public/visuals/login-lock.svg",
+          "alt": "Verification prompt"
+        }
+      ]
+    },
+    {
+      "id": "computer-slow",
+      "categoryId": "performance",
+      "title": "Computer running slow",
+      "summary": "Everything feels laggy or delayed.",
+      "keywords": [
+        "slow",
+        "lag",
+        "performance",
+        "speed"
+      ],
+      "reply": "1. Close heavy apps (3 min, easy)\nExpected: The device feels faster.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Free up storage (5-10 min, easy)\nExpected: At least 15 GB free.\nIf yes: Restart and test again.\nIf no: Remove large files or apps.\n\n3. Restart the device (3 min, easy)\nExpected: Performance improves after reboot.\nIf yes: You are back.\nIf no: Contact support.",
+      "plan": [
+        {
+          "step": "Close heavy apps",
+          "rationale": "High usage slows everything.",
+          "focus": [
+            "apps"
           ]
         },
         {
-          "step": "Test a restore",
-          "rationale": "Confirms the backup actually works.",
+          "step": "Free storage",
+          "rationale": "Low storage hurts performance.",
           "focus": [
-            "restore"
+            "storage"
           ]
+        },
+        {
+          "step": "Restart",
+          "rationale": "Clears temporary slowdowns.",
+          "focus": [
+            "restart"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Performance check",
+          "src": "./public/visuals/performance-speed.svg",
+          "alt": "Performance meter"
+        }
+      ]
+    },
+    {
+      "id": "app-crashing",
+      "categoryId": "performance",
+      "title": "App keeps crashing",
+      "summary": "The app closes or freezes repeatedly.",
+      "keywords": [
+        "app",
+        "crash",
+        "freeze",
+        "close"
+      ],
+      "reply": "1. Update the app (5 min, easy)\nExpected: The update installs and the app opens.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Restart the device (3 min, easy)\nExpected: The app opens without crashing.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Reinstall the app (5 min, easy)\nExpected: The app runs normally.\nIf yes: You are done.\nIf no: Contact support.",
+      "plan": [
+        {
+          "step": "Update the app",
+          "rationale": "Updates fix known bugs.",
+          "focus": [
+            "updates"
+          ]
+        },
+        {
+          "step": "Restart device",
+          "rationale": "Clears memory conflicts.",
+          "focus": [
+            "restart"
+          ]
+        },
+        {
+          "step": "Reinstall app",
+          "rationale": "Replaces corrupted files.",
+          "focus": [
+            "reinstall"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "App recovery",
+          "src": "./public/visuals/performance-speed.svg",
+          "alt": "App recovery"
+        }
+      ]
+    },
+    {
+      "id": "overheating-freezing",
+      "categoryId": "performance",
+      "title": "Device freezing or overheating",
+      "summary": "Fans are loud or the device is hot to the touch.",
+      "keywords": [
+        "overheat",
+        "hot",
+        "freeze",
+        "fans"
+      ],
+      "reply": "1. Move to a hard surface (2 min, easy)\nExpected: Fans calm down.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Close heavy apps (3 min, easy)\nExpected: Temperature drops within minutes.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Restart and update (10 min, easy)\nExpected: The device runs cooler after updates.\nIf yes: You are done.\nIf no: Contact support.",
+      "plan": [
+        {
+          "step": "Improve airflow",
+          "rationale": "Blocked vents trap heat.",
+          "focus": [
+            "airflow"
+          ]
+        },
+        {
+          "step": "Close heavy apps",
+          "rationale": "High CPU usage creates heat.",
+          "focus": [
+            "cpu"
+          ]
+        },
+        {
+          "step": "Update system",
+          "rationale": "Updates can fix thermal bugs.",
+          "focus": [
+            "update"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Cooling tips",
+          "src": "./public/visuals/performance-speed.svg",
+          "alt": "Cooling tips"
+        }
+      ]
+    },
+    {
+      "id": "windows-update-stuck",
+      "categoryId": "software",
+      "title": "System update stuck",
+      "summary": "Updates fail, loop, or never finish.",
+      "keywords": [
+        "update",
+        "stuck",
+        "windows",
+        "install"
+      ],
+      "reply": "1. Restart and try again (5-10 min, easy)\nExpected: Updates start downloading.\nIf yes: Let them finish.\nIf no: Go to step 2.\n\n2. Run the update troubleshooter (5 min, easy)\nExpected: It reports a fix or completes.\nIf yes: Try again.\nIf no: Go to step 3.\n\n3. Free up storage (10 min, easy)\nExpected: At least 20 GB free.\nIf yes: Retry the update.\nIf no: Move large files or apps.",
+      "plan": [
+        {
+          "step": "Restart and retry",
+          "rationale": "Clears temporary update locks.",
+          "focus": [
+            "restart"
+          ]
+        },
+        {
+          "step": "Run troubleshooter",
+          "rationale": "Fixes common update errors.",
+          "focus": [
+            "troubleshooter"
+          ]
+        },
+        {
+          "step": "Free storage",
+          "rationale": "Updates need space to install.",
+          "focus": [
+            "storage"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Update progress",
+          "src": "./public/visuals/update-progress.svg",
+          "alt": "Update progress"
+        }
+      ]
+    },
+    {
+      "id": "app-wont-install",
+      "categoryId": "software",
+      "title": "App will not install",
+      "summary": "Install fails or gets stuck.",
+      "keywords": [
+        "install",
+        "app",
+        "store",
+        "download"
+      ],
+      "reply": "1. Check storage space (3 min, easy)\nExpected: You have enough free space.\nIf yes: Go to step 2.\nIf no: Free space and retry.\n\n2. Sign out and back in (3 min, easy)\nExpected: The store account refreshes.\nIf yes: Try the install again.\nIf no: Go to step 3.\n\n3. Restart and retry (5 min, easy)\nExpected: The install completes.\nIf yes: You are done.\nIf no: Contact support.",
+      "plan": [
+        {
+          "step": "Check storage",
+          "rationale": "No space stops installs.",
+          "focus": [
+            "storage"
+          ]
+        },
+        {
+          "step": "Refresh account",
+          "rationale": "Sign-in issues block installs.",
+          "focus": [
+            "account"
+          ]
+        },
+        {
+          "step": "Restart and retry",
+          "rationale": "Clears hung installs.",
+          "focus": [
+            "restart"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Install progress",
+          "src": "./public/visuals/update-progress.svg",
+          "alt": "Install progress"
+        }
+      ]
+    },
+    {
+      "id": "downloads-fail",
+      "categoryId": "software",
+      "title": "Downloads failing or missing",
+      "summary": "Files do not appear or fail to save.",
+      "keywords": [
+        "download",
+        "file",
+        "browser",
+        "missing"
+      ],
+      "reply": "1. Check the download folder (2 min, easy)\nExpected: The file appears in Downloads.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Try a different browser (3 min, easy)\nExpected: The file downloads successfully.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Disable extensions and retry (5 min, easy)\nExpected: Downloads complete normally.\nIf yes: Re-enable extensions one by one.\nIf no: Contact support.",
+      "plan": [
+        {
+          "step": "Check download folder",
+          "rationale": "The file may have saved elsewhere.",
+          "focus": [
+            "downloads"
+          ]
+        },
+        {
+          "step": "Try another browser",
+          "rationale": "Isolates browser issues.",
+          "focus": [
+            "browser"
+          ]
+        },
+        {
+          "step": "Disable extensions",
+          "rationale": "Extensions can block downloads.",
+          "focus": [
+            "extensions"
+          ]
+        }
+      ],
+      "visuals": [
+        {
+          "type": "image",
+          "title": "Download check",
+          "src": "./public/visuals/update-progress.svg",
+          "alt": "Download check"
         }
       ]
     }
   ],
+  "tips": [
+    "Restarting the device fixes many problems quickly.",
+    "If more than one device is affected, check the router first.",
+    "Write down error messages before contacting support.",
+    "Keep devices plugged in during updates to avoid failures."
+  ],
   "generic": {
     "id": "general-playbook",
     "title": "General troubleshooting checklist",
-    "reply": "Try this simple reset path:\n1. Restart the device (3 min, easy)\nExpected: The issue goes away after reboot.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check power and connection (3 min, easy)\nExpected: Power and Wi-Fi are stable.\nIf yes: Go to step 3.\nIf no: Fix the power or network first.\n\n3. Update and capture details (10 min, easy)\nExpected: Updates install or you wrote down the error.\nIf yes: Test again.\nIf no: Send the notes to support.",
+    "reply": "1. Restart the device (3 min, easy)\nExpected: The issue goes away after reboot.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check power and connection (3 min, easy)\nExpected: Power and Wi-Fi are stable.\nIf yes: Go to step 3.\nIf no: Fix the power or network first.\n\n3. Update and capture details (10 min, easy)\nExpected: Updates install or you wrote down the error.\nIf yes: Test again.\nIf no: Send the notes to support.",
     "plan": [
       {
         "step": "Restart and reseat",
-        "rationale": "Clears most temporary glitches.",
+        "rationale": "Clears many temporary glitches.",
         "focus": [
           "restart"
         ]
@@ -387,10 +720,10 @@ window.OFFLINE_KNOWLEDGE = {
         ]
       },
       {
-        "step": "Update + capture details",
+        "step": "Update and record",
         "rationale": "Updates fix bugs and notes help support.",
         "focus": [
-          "update",
+          "updates",
           "notes"
         ]
       }

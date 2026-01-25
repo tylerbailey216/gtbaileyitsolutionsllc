@@ -19,9 +19,10 @@
                 <img src="./public/gtbailey-logo-dark.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo theme-dark-only">
                 <img src="./public/gtbailey-logo-light.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo theme-light-only">
                 <div class="hero-actions">
-                    <button id="startTree" class="primary">Start troubleshooting</button>
+                    <button id="startTree" class="primary">Find a Fix</button>
+                    <button id="searchIssues" class="secondary" type="button">Search Issues</button>
                     <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">
-                        tell me what's happening
+                        Contact support
                     </a>
                     <a class="scroll-link" href="#affirmationExperience">
                         Take a motivational break (scroll)
@@ -40,22 +41,41 @@
             </div>
         </section>
 
+        <section class="faq-strip" id="quickFaq">
+            <article class="faq-card">
+                <h3>Can you fix this fast?</h3>
+                <p>Most issues are solved with a restart, a reconnect, or a quick update.</p>
+            </article>
+            <article class="faq-card">
+                <h3>Do I need to call?</h3>
+                <p>Try the steps below first. If it still fails, contact support with the notes.</p>
+            </article>
+            <article class="faq-card">
+                <h3>What info helps most?</h3>
+                <p>Device model, error message, and what you already tried.</p>
+            </article>
+        </section>
+
         <section class="tree-card" id="treePanel" data-mode="helper">
             <div class="tree-header">
                 <div>
                     <p class="node-path">Guided help</p>
-                    <h2>Pick a symptom</h2>
-                    <p class="node-summary">Choose the closest issue to get quick steps from our support guide.</p>
+                    <h2>Find a Fix</h2>
+                    <p class="node-summary">Pick a symptom or search below. You will get a clear step-by-step walkthrough.</p>
                 </div>
             </div>
             <div class="node-body helper-panel">
-                <div class="helper-card">
-                    <label class="helper-label" for="symptomSelect">Symptom</label>
-                    <select id="symptomSelect" aria-label="Choose a symptom"></select>
-                    <button class="ghost" id="symptomFind" type="button">Find best matches</button>
-                    <p class="node-summary helper-note">We’ll show the top 2-3 closest fixes. Pick the one that matches your situation.</p>
+                <div class="helper-search">
+                    <label class="helper-label" for="issueSearch">Search issues</label>
+                    <div class="search-row">
+                        <input id="issueSearch" type="search" placeholder="Search: wifi, printer, login, update..." autocomplete="off" aria-label="Search issues">
+                        <button class="ghost" id="searchClear" type="button">Clear</button>
+                    </div>
+                    <p class="node-summary helper-note">Try a symptom like “Wi-Fi won’t connect” or “app keeps crashing.”</p>
                 </div>
-                <div class="helper-matches" id="matchList" aria-live="polite"></div>
+                <div class="helper-tip" id="helpTip" aria-live="polite"></div>
+                <div class="search-results" id="searchResults" aria-live="polite"></div>
+                <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
                 <div class="helper-result" id="matchResult"></div>
             </div>
         </section>
