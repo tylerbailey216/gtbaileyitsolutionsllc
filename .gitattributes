@@ -1,5 +1,6 @@
 # Normalize text and line endings
 * text=auto
+/.gitattributes text eol=lf
 
 # Source and config files
 *.js text eol=lf
