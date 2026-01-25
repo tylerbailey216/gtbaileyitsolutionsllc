@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" role="img" aria-label="Update progress">
-  <rect x="12" y="12" width="336" height="196" rx="18" fill="none" stroke="currentColor" stroke-width="2"/>
-  <rect x="70" y="108" width="220" height="24" rx="12" fill="currentColor" opacity="0.12"/>
-  <rect x="70" y="108" width="140" height="24" rx="12" fill="currentColor" opacity="0.6"/>
-  <path d="M180 60v28" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-  <path d="M168 76l12 12 12-12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="180" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="currentColor">Update in progress</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" role="img" aria-label="Update in progress">
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M180 70v60"/>
+    <path d="M160 110l20 20 20-20"/>
+    <rect x="110" y="150" width="140" height="18" rx="9"/>
+    <rect x="110" y="150" width="90" height="18" rx="9" fill="currentColor"/>
+  </g>
 </svg>

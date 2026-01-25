@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" role="img" aria-label="Performance meter">
-  <rect x="12" y="12" width="336" height="196" rx="18" fill="none" stroke="currentColor" stroke-width="2"/>
-  <path d="M90 160a90 90 0 0 1 180 0" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-  <path d="M180 160l50-40" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-  <circle cx="180" cy="160" r="8" fill="currentColor"/>
-  <text x="180" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="currentColor">Performance</text>
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M110 160a70 70 0 0 1 140 0"/>
+    <path d="M180 160l40-30"/>
+    <circle cx="180" cy="160" r="6" fill="currentColor"/>
+  </g>
 </svg>
