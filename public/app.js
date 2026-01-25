@@ -206,17 +206,53 @@
             tipEl.classList.add('is-visible');
         };
 
+        const resolveVisualSrc = (src = '') => {
+            if (!src) {
+                return { primary: '', fallback: '' };
+            }
+            if (/^(https?:|data:)/i.test(src)) {
+                return { primary: src, fallback: '' };
+            }
+            const normalized = src.replace(/^\.\/+/, './');
+            if (normalized.includes('/public/')) {
+                return {
+                    primary: normalized,
+                    fallback: normalized.replace('/public/', '/'),
+                };
+            }
+            return {
+                primary: normalized,
+                fallback: `./public/${normalized.replace(/^\.\/+/, '')}`,
+            };
+        };
+
+        const attachVisualFallbacks = () => {
+            resultPanel.querySelectorAll('img[data-fallback]').forEach((img) => {
+                const fallback = img.dataset.fallback;
+                if (!fallback) {
+                    img.removeAttribute('data-fallback');
+                    return;
+                }
+                img.addEventListener('error', () => {
+                    img.removeAttribute('data-fallback');
+                    img.src = fallback;
+                }, { once: true });
+            });
+        };
+
         const renderVisuals = (topic) => {
             if (!topic?.visuals?.length) {
                 return '';
             }
             return `<div class="visual-grid">${topic.visuals
-                .map(
-                    (visual) => `<article class="visual-card">
-                        <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.title || 'Visual guide')}">
+                .map((visual) => {
+                    const { primary, fallback } = resolveVisualSrc(visual.src || '');
+                    const fallbackAttr = fallback ? ` data-fallback="${escapeHtml(fallback)}"` : '';
+                    return `<article class="visual-card">
+                        <img src="${escapeHtml(primary)}"${fallbackAttr} alt="${escapeHtml(visual.alt || visual.title || 'Visual guide')}">
                         <span>${escapeHtml(visual.title || '')}</span>
-                    </article>`,
-                )
+                    </article>`;
+                })
                 .join('')}</div>`;
         };
 
@@ -252,6 +288,7 @@
                 ${formatResponse(topic.reply)}
                 ${planHtml}
             `;
+            attachVisualFallbacks();
             renderTip();
             resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
