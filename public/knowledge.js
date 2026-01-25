@@ -1,4 +1,4 @@
-﻿window.OFFLINE_KNOWLEDGE = {
+window.OFFLINE_KNOWLEDGE = {
   "topics": [
     {
       "id": "laptop-power",
@@ -7,114 +7,164 @@
         "(laptop|notebook|surface|macbook|chromebook).*(won.?t|cannot|doesn'?t).*(turn on|power|start|boot)",
         "(no power|black screen).*laptop"
       ],
-      "reply": "Work through these checks to wake the laptop:\n1. Disconnect the charger and accessories, then hold the power button for 15 seconds to drain static. Plug the charger directly into a wall outlet.\n2. Confirm charger and laptop lights. If none appear, try a different outlet or adapter. Reseat removable batteries.\n3. Force a reset:\n   - Windows or Chromebook: hold the power button for about 20 seconds.\n   - Apple silicon MacBook: hold Power until the text \"Loading Options\" appears.\n   - Intel MacBook: press Shift + Control + Option + Power for 10 seconds, then release and tap Power once.\n4. If fans spin but the screen stays dark, connect an external display or shine a flashlight at the panel to spot a backlight issue.\n5. Still stuck? Note any lights or beeps, check warranty status, and plan a repair visit.",
+      "reply": "Use this quick power check:\n1. Power reset (2 min, easy)\nExpected: A light, fan, or logo appears.\nIf yes: Let it finish booting.\nIf no: Go to step 2.\n\n2. Check charger and outlet (3 min, easy)\nExpected: Charging light turns on or a battery icon appears.\nIf yes: Leave it charging for 15 minutes, then try again.\nIf no: Try a different outlet or charger if available.\n\n3. Screen check and capture details (3 min, easy)\nExpected: You see a logo or faint image, or you recorded the lights/beeps.\nIf yes: Use an external display or send the notes with your help request.\nIf no: Take a photo of any lights/beeps and contact support.",
       "plan": [
         {
-          "step": "Discharge and reconnect",
-          "rationale": "Clears static build-up and verifies charger health.",
-          "focus": ["power", "battery", "charger"]
+          "step": "Power reset",
+          "rationale": "Clears temporary power glitches.",
+          "focus": [
+            "power",
+            "restart"
+          ]
         },
         {
-          "step": "Force restart",
-          "rationale": "Overrides firmware hangs common across vendors.",
-          "focus": ["force restart"]
+          "step": "Check charger and outlet",
+          "rationale": "Confirms power is reaching the laptop.",
+          "focus": [
+            "charger",
+            "outlet"
+          ]
         },
         {
-          "step": "Document symptoms",
-          "rationale": "Warranty or repair teams need accurate notes.",
-          "focus": ["warranty", "service log"]
+          "step": "Screen check + capture details",
+          "rationale": "Separates display issues from power issues and helps support.",
+          "focus": [
+            "display",
+            "notes"
+          ]
         }
       ]
     },
     {
       "id": "battery-life",
       "title": "Laptop battery drains fast",
-      "patterns": ["(battery|power).*(drain|die|low|doesn'?t last)"],
-      "reply": "Improve battery life with this routine:\n1. Check health: on Windows run \"powercfg /batteryreport\" or open Settings > System > Power. On macOS option-click the battery icon. Replace packs below 80 percent health.\n2. Update BIOS or firmware using the vendor utility (Lenovo Vantage, Dell Command, HP Support Assistant, ASUS Armoury Crate).\n3. Turn on battery saver or low power mode, enable adaptive brightness, and close background apps. On macOS, disable Power Nap if you do not need it.\n4. Calibrate monthly: charge to 100 percent, drain to roughly 10 percent, then charge back to full without interruption.",
+      "patterns": [
+        "(battery|power).*(drain|die|low|doesn'?t last)"
+      ],
+      "reply": "Try this battery tune-up:\n1. Turn on battery saver and lower brightness (2 min, easy)\nExpected: The battery estimate improves.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Close heavy apps and restart (5 min, easy)\nExpected: CPU usage drops and fans calm.\nIf yes: Battery life should improve.\nIf no: Go to step 3.\n\n3. Check battery health and capture details (5 min, easy)\nExpected: You see battery health info.\nIf yes: If health is low, the battery may need service.\nIf no: Note the model and what you tried and contact support.",
       "plan": [
         {
+          "step": "Battery saver + brightness",
+          "rationale": "Reduces the biggest power drains fast.",
+          "focus": [
+            "battery saver",
+            "brightness"
+          ]
+        },
+        {
+          "step": "Close heavy apps",
+          "rationale": "Background apps can drain power quickly.",
+          "focus": [
+            "apps",
+            "restart"
+          ]
+        },
+        {
           "step": "Check battery health",
-          "rationale": "Shows whether hardware needs replacement.",
-          "focus": ["battery report"]
-        },
-        {
-          "step": "Update firmware",
-          "rationale": "Vendors patch power bugs frequently.",
-          "focus": ["bios", "firmware"]
-        },
-        {
-          "step": "Tune power settings",
-          "rationale": "Reduces drain from background tasks.",
-          "focus": ["battery saver", "calibration"]
+          "rationale": "Shows if the battery is worn out.",
+          "focus": [
+            "battery health"
+          ]
         }
       ]
     },
     {
       "id": "windows-update",
       "title": "Windows update stuck or failing",
-      "patterns": ["(windows).*(update|install|upgrade).*(stuck|fail|error|loop)"],
-      "reply": "Repair Windows Update with these steps:\n1. Restart, plug the computer into power, and rerun Windows Update (Settings > Windows Update). Allow 15 minutes.\n2. Run the Windows Update troubleshooter (Settings > System > Troubleshoot > Other troubleshooters).\n3. Clear the SoftwareDistribution cache. Open Command Prompt as administrator and run:\n   net stop wuauserv\n   net stop bits\n   del /s /q %windir%\\\\SoftwareDistribution\\\\*\n   net start wuauserv\n   net start bits\n4. Restart and try again. For stubborn feature updates, download the Windows Update Assistant and perform an in-place upgrade.",
+      "patterns": [
+        "(windows).*(update|install|upgrade).*(stuck|fail|error|loop)"
+      ],
+      "reply": "Use this update rescue path:\n1. Restart and try Windows Update again (5-10 min, easy)\nExpected: Updates start downloading.\nIf yes: Let them finish and restart.\nIf no: Go to step 2.\n\n2. Run the Windows Update troubleshooter (5 min, easy)\nExpected: It reports a fix or completes.\nIf yes: Check for updates again.\nIf no: Go to step 3.\n\n3. Free space and capture details (10 min, easy)\nExpected: You have at least 20 GB free or you wrote down the error code.\nIf yes: Try the update again and send any error code if it fails.\nIf no: Move large files and try again.",
       "plan": [
         {
-          "step": "Retry after restart",
-          "rationale": "Reloads pending services cleanly.",
-          "focus": ["restart"]
+          "step": "Restart and retry",
+          "rationale": "Clears temporary update locks.",
+          "focus": [
+            "restart",
+            "updates"
+          ]
         },
         {
-          "step": "Use troubleshooters",
-          "rationale": "Fixes corrupted update files automatically.",
-          "focus": ["troubleshooter", "softwaredistribution"]
+          "step": "Run the troubleshooter",
+          "rationale": "Fixes common update errors automatically.",
+          "focus": [
+            "troubleshooter"
+          ]
         },
         {
-          "step": "Run in-place upgrade",
-          "rationale": "Installs the latest build without data loss.",
-          "focus": ["update assistant"]
+          "step": "Free space + note errors",
+          "rationale": "Updates need space and error codes help support.",
+          "focus": [
+            "storage",
+            "error code"
+          ]
         }
       ]
     },
     {
       "id": "mac-performance",
       "title": "Mac running slow or hot",
-      "patterns": ["(mac|macbook|imac).*(slow|lag|beachball|hot|overheat)"],
-      "reply": "Speed up your Mac:\n1. Boot into Safe Mode (hold Shift at startup), log in, then restart normally to clear caches.\n2. Open Activity Monitor (Applications > Utilities) and sort by CPU or Memory to find runaway apps. Force quit offenders.\n3. Update macOS (System Settings > General > Software Update) and free space until at least 15 GB remains.\n4. Reset NVRAM or PRAM (Option + Command + P + R at startup) and, for Intel Macs, reset the SMC (Shift + Control + Option + Power for 10 seconds).",
+      "patterns": [
+        "(mac|macbook|imac).*(slow|lag|beachball|hot|overheat)"
+      ],
+      "reply": "Try this Mac speed check:\n1. Restart and close heavy apps (5 min, easy)\nExpected: The Mac feels snappier.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check Activity Monitor (5 min, easy)\nExpected: One app stands out using CPU.\nIf yes: Quit or update that app.\nIf no: Go to step 3.\n\n3. Update macOS and capture details (10-20 min, easy)\nExpected: Updates install or you noted the issue details.\nIf yes: Test performance again.\nIf no: Note the model and symptoms and contact support.",
       "plan": [
         {
-          "step": "Safe Mode cleanup",
-          "rationale": "Clears caches and isolates problematic login items.",
-          "focus": ["safe mode"]
+          "step": "Restart + close heavy apps",
+          "rationale": "Clears temporary slowdowns.",
+          "focus": [
+            "restart",
+            "apps"
+          ]
         },
         {
-          "step": "Inspect Activity Monitor",
-          "rationale": "Highlights resource hogs quickly.",
-          "focus": ["cpu", "memory"]
+          "step": "Check Activity Monitor",
+          "rationale": "Finds the app using the most resources.",
+          "focus": [
+            "activity monitor"
+          ]
         },
         {
-          "step": "Update and reset controllers",
-          "rationale": "Keeps firmware and macOS stable.",
-          "focus": ["software update", "nvram", "smc"]
+          "step": "Update macOS + note details",
+          "rationale": "Updates fix bugs and notes help support.",
+          "focus": [
+            "update",
+            "notes"
+          ]
         }
       ]
     },
     {
       "id": "ios-troubles",
       "title": "iPhone or iPad misbehaving",
-      "patterns": ["iphone", "ipad", "ios"],
-      "reply": "Quick iOS or iPadOS fixes:\n1. Force restart: press Volume Up, then Volume Down, then hold the Side button until the Apple logo appears. Older devices use Home + Power.\n2. Install pending updates (Settings > General > Software Update) and review battery health (Settings > Battery).\n3. If apps keep crashing, reinstall them or reset all settings (Settings > General > Transfer or Reset > Reset all settings).\n4. For charging issues, gently clean the Lightning or USB-C port, swap the cable, and test a different wall charger.",
+      "patterns": [
+        "iphone",
+        "ipad",
+        "ios"
+      ],
+      "reply": "Quick iPhone/iPad reset:\n1. Force restart (2 min, easy)\nExpected: Apple logo appears and it boots.\nIf yes: Test the issue again.\nIf no: Go to step 2.\n\n2. Update iOS or iPadOS (10-20 min, easy)\nExpected: Update installs successfully.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Check storage and capture details (5 min, easy)\nExpected: You have a few GB free or you noted the exact issue.\nIf yes: Remove large items or send the notes.\nIf no: Note the model and contact support.",
       "plan": [
         {
           "step": "Force restart",
-          "rationale": "Clears firmware hiccups without data loss.",
-          "focus": ["force restart"]
+          "rationale": "Clears many temporary glitches.",
+          "focus": [
+            "restart"
+          ]
         },
         {
-          "step": "Update and check battery",
-          "rationale": "Ensures the OS and hardware remain healthy.",
-          "focus": ["software update", "battery"]
+          "step": "Install updates",
+          "rationale": "Fixes known bugs and improves stability.",
+          "focus": [
+            "update"
+          ]
         },
         {
-          "step": "Reset settings if needed",
-          "rationale": "Removes corrupted preferences while keeping data.",
-          "focus": ["reset settings"]
+          "step": "Free space + note details",
+          "rationale": "Low storage causes issues and notes help support.",
+          "focus": [
+            "storage",
+            "notes"
+          ]
         }
       ]
     },
@@ -124,22 +174,29 @@
       "patterns": [
         "(android|pixel|galaxy|oneplus|xiaomi|tablet).*(issue|problem|crash|freeze|boot)"
       ],
-      "reply": "Try this Android rescue path:\n1. Force restart by holding Power + Volume Down for about 20 seconds.\n2. Clear the cache of misbehaving apps (Settings > Apps > App > Storage > Clear cache) and install system updates.\n3. Boot into Safe Mode (hold Power, then press and hold \"Power off\" and confirm). If the problem disappears, uninstall recently added apps.\n4. For charging trouble, clean the USB-C port, swap the cable and brick, and enable optimized charging where available.",
+      "reply": "Quick Android reset path:\n1. Force restart (2 min, easy)\nExpected: The device reboots normally.\nIf yes: Test the issue again.\nIf no: Go to step 2.\n\n2. Update apps and system (10-20 min, easy)\nExpected: Updates finish without errors.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Clear the problem app and capture details (5 min, easy)\nExpected: The app opens or you recorded the error.\nIf yes: You are done.\nIf no: Note the model and contact support.",
       "plan": [
         {
-          "step": "Force restart and clear cache",
-          "rationale": "Eliminates temporary software glitches.",
-          "focus": ["force restart", "cache"]
+          "step": "Force restart",
+          "rationale": "Resets a stuck system.",
+          "focus": [
+            "restart"
+          ]
         },
         {
-          "step": "Safe Mode isolation",
-          "rationale": "Identifies problematic third-party apps.",
-          "focus": ["safe mode"]
+          "step": "Update apps and system",
+          "rationale": "Updates fix common crashes.",
+          "focus": [
+            "updates"
+          ]
         },
         {
-          "step": "Inspect charging path",
-          "rationale": "Confirms the hardware delivering power is working.",
-          "focus": ["charging", "usb-c"]
+          "step": "Clear app + note details",
+          "rationale": "Resets problem apps and helps support.",
+          "focus": [
+            "apps",
+            "notes"
+          ]
         }
       ]
     },
@@ -149,22 +206,31 @@
       "patterns": [
         "(wifi|wi-fi|router|mesh|internet|modem|connection|network)"
       ],
-      "reply": "Bring Wi-Fi back online:\n1. Power cycle the modem, router, and mesh nodes. Unplug for 30 seconds, plug in the modem first, wait for solid lights, then power the router or nodes.\n2. If only one device struggles, forget and reconnect to the network, confirming the correct password and security type.\n3. Update router firmware, then set channels (1, 6, or 11 for 2.4 GHz; DFS or less crowded channels for 5 GHz).\n4. Move the router to a central, elevated spot and add mesh nodes or an extender for dead zones.",
+      "reply": "Bring Wi-Fi back online:\n1. Power cycle modem and router (5 min, easy)\nExpected: Normal lights return.\nIf yes: Test a website on one device.\nIf no: Contact your ISP.\n\n2. Reconnect one device (5 min, easy)\nExpected: The device reconnects and loads a page.\nIf yes: Reconnect the rest.\nIf no: Go to step 3.\n\n3. Improve signal and capture details (5-10 min, easy)\nExpected: Signal improves or you noted the router model and lights.\nIf yes: Move the router or adjust placement.\nIf no: Send the notes to support.",
       "plan": [
         {
-          "step": "Restart network hardware",
-          "rationale": "Clears ISP, DHCP, and routing hiccups.",
-          "focus": ["modem", "router"]
+          "step": "Restart modem and router",
+          "rationale": "Fixes most home outages quickly.",
+          "focus": [
+            "modem",
+            "router"
+          ]
         },
         {
-          "step": "Reconnect devices",
-          "rationale": "Refreshes credentials and IP assignments.",
-          "focus": ["ssid", "password"]
+          "step": "Reconnect one device",
+          "rationale": "Confirms the network is back online.",
+          "focus": [
+            "wifi",
+            "device"
+          ]
         },
         {
-          "step": "Optimize coverage",
-          "rationale": "Reduces interference and improves range.",
-          "focus": ["firmware", "channels", "placement"]
+          "step": "Improve signal + note details",
+          "rationale": "Placement helps performance and notes help support.",
+          "focus": [
+            "signal",
+            "notes"
+          ]
         }
       ]
     },
@@ -174,22 +240,31 @@
       "patterns": [
         "(printer|printing|scanner|hp|canon|epson|brother)"
       ],
-      "reply": "Get the printer back online:\n1. Power cycle the printer and the device you are printing from. Confirm they share the same Wi-Fi or that the USB cable is secure.\n2. Clear the print queue, then reinstall the printer through the vendor utility (HP Smart, Epson Connect, Canon IJ, Brother iPrint&Scan).\n3. Run maintenance tools such as nozzle clean or alignment and print a test page.\n4. On Windows, if the printer is offline, open Settings > Bluetooth & devices > Printers, turn off \"Let Windows manage my default printer,\" and pick the correct device manually.",
+      "reply": "Get the printer working:\n1. Power cycle printer and device (5 min, easy)\nExpected: Printer shows Ready.\nIf yes: Print a test page.\nIf no: Go to step 2.\n\n2. Confirm connection (5 min, easy)\nExpected: Printer and device are on the same Wi-Fi or USB is snug.\nIf yes: Try printing again.\nIf no: Reconnect Wi-Fi or cable.\n\n3. Reinstall printer and capture details (10 min, easy)\nExpected: The printer installs or you noted the exact error.\nIf yes: Print a test page.\nIf no: Send the notes and model to support.",
       "plan": [
         {
-          "step": "Restart and reconnect",
-          "rationale": "Clears stalled print jobs and handshake issues.",
-          "focus": ["print queue", "connectivity"]
+          "step": "Power cycle and test",
+          "rationale": "Clears stuck print jobs and resets the printer.",
+          "focus": [
+            "restart",
+            "printer"
+          ]
         },
         {
-          "step": "Refresh drivers",
-          "rationale": "Ensures compatibility with OS updates.",
-          "focus": ["drivers", "vendor apps"]
+          "step": "Confirm Wi-Fi or USB",
+          "rationale": "Connection issues cause most printer failures.",
+          "focus": [
+            "wifi",
+            "usb"
+          ]
         },
         {
-          "step": "Run maintenance tools",
-          "rationale": "Fixes clogged heads and verifies output.",
-          "focus": ["maintenance", "test page"]
+          "step": "Reinstall + note errors",
+          "rationale": "Fresh installs fix drivers and notes help support.",
+          "focus": [
+            "drivers",
+            "notes"
+          ]
         }
       ]
     },
@@ -199,22 +274,29 @@
       "patterns": [
         "(email|outlook|gmail|yahoo|imap|smtp|login)"
       ],
-      "reply": "Follow this email setup checklist:\n1. Confirm the password in webmail first so you know it works.\n2. Use automatic setup in the mail app. If it fails, switch to manual and enter:\n   Gmail: IMAP imap.gmail.com (SSL 993), SMTP smtp.gmail.com (SSL 465 or TLS 587).\n   Outlook / Hotmail: IMAP outlook.office365.com (SSL 993), SMTP smtp.office365.com (TLS 587).\n   Yahoo: IMAP imap.mail.yahoo.com (SSL 993), SMTP smtp.mail.yahoo.com (SSL 465).\n3. If multi-factor authentication is enabled, generate an app password or approve the sign-in from your authenticator app.",
+      "reply": "Use this email sign-in checklist:\n1. Sign in on webmail first (3 min, easy)\nExpected: Your password works in the browser.\nIf yes: Go to step 2.\nIf no: Reset the password.\n\n2. Add the account again (5 min, easy)\nExpected: The app finishes setup without errors.\nIf yes: Send a test email.\nIf no: Go to step 3.\n\n3. Handle security prompts (5 min, easy)\nExpected: A code, approval, or app password works.\nIf yes: You are done.\nIf no: Note the error message and contact support.",
       "plan": [
         {
-          "step": "Verify credentials",
-          "rationale": "Avoids chasing setup errors caused by typos.",
-          "focus": ["webmail", "password"]
+          "step": "Verify webmail login",
+          "rationale": "Confirms the password and account are working.",
+          "focus": [
+            "login"
+          ]
         },
         {
-          "step": "Enter correct servers",
-          "rationale": "Ensures the client talks to the right IMAP and SMTP endpoints.",
-          "focus": ["imap", "smtp"]
+          "step": "Re-add the account",
+          "rationale": "Fixes settings issues in the mail app.",
+          "focus": [
+            "email setup"
+          ]
         },
         {
-          "step": "Handle MFA or app passwords",
-          "rationale": "Providers block logins without trusted codes.",
-          "focus": ["mfa", "app password"]
+          "step": "Approve security prompts",
+          "rationale": "Some providers require extra verification.",
+          "focus": [
+            "mfa",
+            "security"
+          ]
         }
       ]
     },
@@ -224,22 +306,30 @@
       "patterns": [
         "(app|software|program|game).*(crash|freeze|not responding|stop working)"
       ],
-      "reply": "Stabilize the software:\n1. Update the app and operating system. Many crash fixes come through updates.\n2. Clear cache or preferences. Windows: Settings > Apps > App > Advanced options > Reset. macOS: remove the app plist file in ~/Library/Preferences (after backing it up).\n3. Disable add-ins or extensions to isolate conflicts.\n4. Update graphics, audio, and chipset drivers, especially if crashes began after a system update.",
+      "reply": "Stabilize the app:\n1. Update the app (5 min, easy)\nExpected: Update installs and the app opens.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Restart and clear space (5-10 min, easy)\nExpected: The device runs smoother.\nIf yes: Try the app again.\nIf no: Go to step 3.\n\n3. Reinstall and capture details (10 min, easy)\nExpected: The app launches or you noted the error.\nIf yes: You are back.\nIf no: Send the error and device details to support.",
       "plan": [
         {
-          "step": "Install updates",
-          "rationale": "Patch releases often resolve crashes.",
-          "focus": ["updates"]
+          "step": "Update the app",
+          "rationale": "Updates fix many crashes.",
+          "focus": [
+            "updates"
+          ]
         },
         {
-          "step": "Reset cache or preferences",
-          "rationale": "Removes corrupted settings and data files.",
-          "focus": ["cache", "preferences"]
+          "step": "Restart + free space",
+          "rationale": "Low memory and storage can cause crashes.",
+          "focus": [
+            "restart",
+            "storage"
+          ]
         },
         {
-          "step": "Check drivers and add-ins",
-          "rationale": "Conflicting plugins or drivers trigger many failures.",
-          "focus": ["drivers", "extensions"]
+          "step": "Reinstall + note errors",
+          "rationale": "Fresh installs remove corrupted files.",
+          "focus": [
+            "reinstall",
+            "notes"
+          ]
         }
       ]
     },
@@ -249,22 +339,29 @@
       "patterns": [
         "(backup|restore|recover|lost files|data recovery)"
       ],
-      "reply": "Keep data safe even offline:\n1. Enable built-in backups. Windows: File History or a scheduled Macrium Reflect job. macOS: Time Machine on an external drive.\n2. Clone important drives to an external SSD or HDD every month and store a copy offsite or in a fire-resistant safe.\n3. Test restores quarterly by recovering a random document to confirm the backups work.",
+      "reply": "Keep your data safe:\n1. Turn on built-in backup (10 min, easy)\nExpected: Backup starts or shows as on.\nIf yes: Go to step 2.\nIf no: Try again or ask for help.\n\n2. Make an extra copy (10 min, easy)\nExpected: Files are on an external drive or cloud.\nIf yes: Go to step 3.\nIf no: Add a drive or cloud storage.\n\n3. Test a restore and capture details (5 min, easy)\nExpected: You can open a restored file.\nIf yes: You are protected.\nIf no: Note the error and contact support.",
       "plan": [
         {
-          "step": "Turn on built-in tools",
-          "rationale": "Delivers quick protection with minimal setup.",
-          "focus": ["file history", "time machine"]
+          "step": "Enable built-in backup",
+          "rationale": "Gives steady protection without extra tools.",
+          "focus": [
+            "backup"
+          ]
         },
         {
-          "step": "Keep offline copies",
-          "rationale": "Protects against ransomware or hardware failure.",
-          "focus": ["external drive", "clone"]
+          "step": "Keep an extra copy",
+          "rationale": "Protects against device failure or ransomware.",
+          "focus": [
+            "external drive",
+            "cloud"
+          ]
         },
         {
-          "step": "Test restores",
-          "rationale": "Confirms backups can actually be used.",
-          "focus": ["test restore"]
+          "step": "Test a restore",
+          "rationale": "Confirms the backup actually works.",
+          "focus": [
+            "restore"
+          ]
         }
       ]
     }
@@ -272,22 +369,30 @@
   "generic": {
     "id": "general-playbook",
     "title": "General troubleshooting checklist",
-    "reply": "Here is a reliable checklist that works offline:\n1. Restart the affected device and any connected hardware (routers, docks, accessories). Many problems clear after a full power cycle.\n2. Install pending system, driver, and app updates whenever possible. Keep at least 15 percent storage free.\n3. Record error codes, event logs, or indicator lights and take photos so you have proof if you need to escalate.\n4. Back up important data before trying more advanced fixes. Share your notes with GT Bailey support if you need hands-on help.",
+    "reply": "Try this simple reset path:\n1. Restart the device (3 min, easy)\nExpected: The issue goes away after reboot.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check power and connection (3 min, easy)\nExpected: Power and Wi-Fi are stable.\nIf yes: Go to step 3.\nIf no: Fix the power or network first.\n\n3. Update and capture details (10 min, easy)\nExpected: Updates install or you wrote down the error.\nIf yes: Test again.\nIf no: Send the notes to support.",
     "plan": [
       {
         "step": "Restart and reseat",
-        "rationale": "Resets state across hardware and software.",
-        "focus": ["restart", "power cycle"]
+        "rationale": "Clears most temporary glitches.",
+        "focus": [
+          "restart"
+        ]
       },
       {
-        "step": "Update and clear space",
-        "rationale": "Out-of-date software and full drives cause many issues.",
-        "focus": ["updates", "storage"]
+        "step": "Check power and network",
+        "rationale": "Confirms the basics are stable.",
+        "focus": [
+          "power",
+          "wifi"
+        ]
       },
       {
-        "step": "Document findings",
-        "rationale": "Evidence speeds up professional repair.",
-        "focus": ["error logs", "photos"]
+        "step": "Update + capture details",
+        "rationale": "Updates fix bugs and notes help support.",
+        "focus": [
+          "update",
+          "notes"
+        ]
       }
     ]
   }
