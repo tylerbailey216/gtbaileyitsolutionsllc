@@ -40,26 +40,23 @@
             </div>
         </section>
 
-        <section class="tree-card" id="treePanel">
+        <section class="tree-card" id="treePanel" data-mode="helper">
             <div class="tree-header">
                 <div>
-                    <p class="node-path" id="nodePath">Start</p>
-                    <h2 id="nodeTitle">Choose a Help Topic</h2>
-                    <p class="node-summary" id="nodeSummary">Click "Start troubleshooting" to load the root of the decision tree.</p>
-                </div>
-                <div class="tree-controls">
-                    <button class="ghost" id="backBtn" disabled>Back</button>
-                    <button class="ghost" id="restartBtn" disabled>Start over</button>
-                    <button class="ghost" id="copyPlanBtn" disabled>Copy plan</button>
+                    <p class="node-path">Guided help</p>
+                    <h2>Pick a symptom</h2>
+                    <p class="node-summary">Choose the closest issue to get quick steps from our support guide.</p>
                 </div>
             </div>
-            <div class="node-body">
-                <div class="node-response" id="nodeResponse">
-                    The offline instructions will appear here after you pick a branch.
+            <div class="node-body helper-panel">
+                <div class="helper-card">
+                    <label class="helper-label" for="symptomSelect">Symptom</label>
+                    <select id="symptomSelect" aria-label="Choose a symptom"></select>
+                    <button class="ghost" id="symptomFind" type="button">Find best matches</button>
+                    <p class="node-summary helper-note">We’ll show the top 2-3 closest fixes. Pick the one that matches your situation.</p>
                 </div>
-                <div class="node-tags" id="nodeTags"></div>
-                <div class="node-links" id="nodeLinks"></div>
-                <div class="node-children" id="nodeChildren"></div>
+                <div class="helper-matches" id="matchList" aria-live="polite"></div>
+                <div class="helper-result" id="matchResult"></div>
             </div>
         </section>
 
@@ -119,6 +116,7 @@
         </section>
 
     </main>
+    <script src="./knowledge.js"></script>
     <script src="./app.min.js"></script>
 </body>
 </html>

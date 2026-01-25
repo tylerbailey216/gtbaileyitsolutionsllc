@@ -1209,7 +1209,157 @@
         return summaryHtml + stepsHtml;
     };
 
-    const getCurrentNode = () => state.history[state.history.length - 1];
+    const helperMode = Boolean(document.getElementById('symptomSelect'));
+
+    const initGuidedHelper = () => {
+        const select = document.getElementById('symptomSelect');
+        const findBtn = document.getElementById('symptomFind');
+        const matchList = document.getElementById('matchList');
+        const matchResult = document.getElementById('matchResult');
+        if (!select || !matchList || !matchResult) {
+            return;
+        }
+
+        const knowledge = window.OFFLINE_KNOWLEDGE;
+        const topics = knowledge?.topics ? [...knowledge.topics] : [];
+        const fallback = knowledge?.generic;
+
+        const escapeHtml = (value = '') =>
+            value
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+
+        if (!topics.length) {
+            matchResult.innerHTML = '<p class="node-summary">Support guide unavailable. Please reload the page or contact GT Bailey Support.</p>';
+            return;
+        }
+
+        topics.sort((a, b) => a.title.localeCompare(b.title));
+        select.innerHTML = '<option value="">Select a symptom</option>' +
+            topics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(topic.title)}</option>`).join('');
+
+        const tokenize = (value = '') =>
+            value
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+        const signature = (topic) => new Set(tokenize(`${topic.title} ${topic.id}`));
+        const signatureMap = new Map();
+        topics.forEach((topic) => {
+            signatureMap.set(topic.id, signature(topic));
+        });
+
+        const similarity = (a, b) => {
+            let shared = 0;
+            a.forEach((token) => {
+                if (b.has(token)) shared += 1;
+            });
+            const union = a.size + b.size - shared;
+            return union === 0 ? 0 : shared / union;
+        };
+
+        const summarize = (text = '') => {
+            const firstLine = text.split('\n').map((line) => line.trim()).find(Boolean) || '';
+            const trimmed = firstLine.length > 140 ? `${firstLine.slice(0, 137)}...` : firstLine;
+            return trimmed || 'Follow the steps below for a quick fix.';
+        };
+
+        const renderResult = (topic) => {
+            if (!topic && fallback) {
+                matchResult.innerHTML = `<h3>${escapeHtml(fallback.title)}</h3>${formatResponse(fallback.reply)}`;
+                return;
+            }
+            if (!topic) {
+                matchResult.innerHTML = '<p class="node-summary">Choose a match to see the step-by-step fix.</p>';
+                return;
+            }
+
+            const planHtml = topic.plan?.length
+                ? `<div class="plan-grid">${topic.plan
+                      .map(
+                          (step, index) =>
+                              `<article class="plan-card">
+                                    <div class="plan-step">${index + 1}</div>
+                                    <div class="plan-card-body">
+                                        <h3>${escapeHtml(step.step || 'Step')}</h3>
+                                        ${step.rationale ? `<p>${escapeHtml(step.rationale)}</p>` : ''}
+                                    </div>
+                                </article>`,
+                      )
+                      .join('')}</div>`
+                : '';
+
+            matchResult.innerHTML = `
+                <h3>${escapeHtml(topic.title)}</h3>
+                ${formatResponse(topic.reply)}
+                ${planHtml}
+            `;
+            matchResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        const renderMatches = () => {
+            const selectedId = select.value;
+            if (!selectedId) {
+                matchList.innerHTML = '';
+                matchResult.innerHTML = '<p class="node-summary">Pick a symptom above to see the closest fixes.</p>';
+                return;
+            }
+
+            const selected = topics.find((topic) => topic.id === selectedId);
+            if (!selected) {
+                matchList.innerHTML = '';
+                renderResult(null);
+                return;
+            }
+            const baseTokens = signatureMap.get(selected.id) || new Set();
+            const ranked = topics
+                .map((topic) => ({
+                    topic,
+                    score: topic.id === selected.id ? 1 : similarity(baseTokens, signatureMap.get(topic.id) || new Set()),
+                }))
+                .sort((a, b) => b.score - a.score);
+
+            const matches = ranked.slice(0, 3);
+            matchList.innerHTML = matches
+                .map((match, index) => {
+                    const label = index === 0 ? 'Closest match' : 'Alternate match';
+                    return `<article class="match-card">
+                        <p class="node-path">${label}</p>
+                        <h3>${escapeHtml(match.topic.title)}</h3>
+                        <p>${escapeHtml(summarize(match.topic.reply || ''))}</p>
+                        <button class="ghost" type="button" data-id="${escapeHtml(match.topic.id)}">Use this fix</button>
+                    </article>`;
+                })
+                .join('');
+
+            matchList.querySelectorAll('button[data-id]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const match = topics.find((topic) => topic.id === btn.dataset.id);
+                    renderResult(match);
+                });
+            });
+
+            matchResult.innerHTML = '<p class="node-summary">Choose the closest match to see your fix list.</p>';
+        };
+
+        const startBtn = document.getElementById('startTree');
+        startBtn?.addEventListener('click', () => {
+            document.getElementById('treePanel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        renderMatches();
+        select.addEventListener('change', renderMatches);
+        findBtn?.addEventListener('click', renderMatches);
+    };
+
+    if (!helperMode) {
+        const getCurrentNode = () => state.history[state.history.length - 1];
 
     const render = () => {
         const node = getCurrentNode();
@@ -1368,6 +1518,9 @@
         response: 'Pick a lane above to load your first branch.'
     }];
     render();
+    } else {
+        initGuidedHelper();
+    }
 
     // Affirmations / virtual phone loop
     (() => {
