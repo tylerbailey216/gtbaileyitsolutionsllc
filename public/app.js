@@ -158,13 +158,25 @@
         const resultPanel = document.getElementById('matchResult');
         const tipEl = document.getElementById('helpTip');
         const quickPickGrid = document.getElementById('quickPickGrid');
+        const quickPicksTitle = document.getElementById('quickPicksTitle');
+        const helpCenterLabel = document.getElementById('helpCenterLabel');
+        const platformTabs = Array.from(document.querySelectorAll('.platform-tab'));
         if (!searchInput || !categoryGrid || !resultsGrid || !resultPanel) {
             return;
         }
 
-        const knowledge = window.OFFLINE_KNOWLEDGE;
-        const topics = knowledge?.topics ? [...knowledge.topics] : [];
-        const categories = knowledge?.categories ? [...knowledge.categories] : [];
+        const knowledge = window.OFFLINE_KNOWLEDGE || {};
+        const allTopics = knowledge?.topics ? [...knowledge.topics] : [];
+        const allCategories = knowledge?.categories ? [...knowledge.categories] : [];
+        const allQuickPicks = knowledge?.quickPicks ? [...knowledge.quickPicks] : [];
+        const platforms = knowledge?.platforms?.length
+            ? [...knowledge.platforms]
+            : [
+                { id: 'windows', label: 'Windows' },
+                { id: 'mac', label: 'Mac' },
+                { id: 'iphone', label: 'iPhone' },
+                { id: 'android', label: 'Android' },
+            ];
         const fallback = knowledge?.generic;
         const tips = knowledge?.tips || [
             'Quick tip: Restarting the device fixes a lot of issues fast.',
@@ -181,24 +193,16 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
 
-        if (!topics.length) {
+        if (!allTopics.length) {
             resultPanel.innerHTML = '<p class="node-summary">Support guide unavailable. Please reload the page or contact GT Bailey Support.</p>';
             return;
         }
 
-        const topicMap = new Map();
-        topics.forEach((topic) => topicMap.set(topic.id, topic));
-
-        const categoryMap = new Map();
-        categories.forEach((category) => {
-            categoryMap.set(category.id, { ...category, topics: [] });
-        });
-        topics.forEach((topic) => {
-            const bucket = categoryMap.get(topic.categoryId);
-            if (bucket) {
-                bucket.topics.push(topic);
-            }
-        });
+        let currentPlatform = platformTabs.find((tab) => tab.classList.contains('is-active'))?.dataset.platform || platforms[0]?.id || 'windows';
+        let topics = [];
+        let categories = [];
+        let topicMap = new Map();
+        let categoryMap = new Map();
 
         const renderTip = () => {
             if (!tipEl) return;
@@ -206,6 +210,8 @@
             tipEl.textContent = nextTip;
             tipEl.classList.add('is-visible');
         };
+
+        const getPlatformLabel = (platformId) => platforms.find((platform) => platform.id === platformId)?.label || platformId;
 
         const resolveVisualSrc = (src = '') => {
             if (!src) {
@@ -294,6 +300,38 @@
             resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
+        const renderQuickPicks = () => {
+            if (!quickPickGrid) return;
+            const platformLabel = getPlatformLabel(currentPlatform);
+            if (quickPicksTitle) {
+                quickPicksTitle.textContent = `${platformLabel} quick fixes (beginner safe)`;
+            }
+            quickPickGrid.setAttribute('aria-label', `${platformLabel} quick fixes`);
+            const picks = allQuickPicks.filter((pick) => pick.platformId === currentPlatform);
+            if (!picks.length) {
+                quickPickGrid.innerHTML = '<p class="node-summary">Quick fixes are coming soon for this device.</p>';
+                return;
+            }
+            const buttons = picks
+                .map((pick) => {
+                    const topic = topicMap.get(pick.topicId);
+                    if (!topic) return '';
+                    const label = pick.label || topic.title;
+                    const sub = pick.sub || topic.summary || '';
+                    const emoji = pick.emoji || '✨';
+                    return `<button class="quick-pick-btn" type="button" data-topic="${escapeHtml(topic.id)}">
+                        <span class="quick-pick-emoji" aria-hidden="true">${escapeHtml(emoji)}</span>
+                        <span class="quick-pick-text">
+                            <span class="quick-pick-label">${escapeHtml(label)}</span>
+                            ${sub ? `<span class="quick-pick-sub">${escapeHtml(sub)}</span>` : ''}
+                        </span>
+                    </button>`;
+                })
+                .filter(Boolean)
+                .join('');
+            quickPickGrid.innerHTML = buttons || '<p class="node-summary">Quick fixes are coming soon for this device.</p>';
+        };
+
         const renderCategories = () => {
             const categoryCards = Array.from(categoryMap.values())
                 .filter((category) => category.topics.length)
@@ -365,6 +403,32 @@
                 .join('');
         };
 
+        const applyPlatform = (platformId) => {
+            currentPlatform = platformId;
+            const platformLabel = getPlatformLabel(currentPlatform);
+            if (helpCenterLabel) {
+                helpCenterLabel.textContent = `${platformLabel} Help Center`;
+            }
+            topics = allTopics.filter((topic) => topic.platformId === currentPlatform);
+            categories = allCategories.filter((category) => category.platformId === currentPlatform);
+            topicMap = new Map();
+            topics.forEach((topic) => topicMap.set(topic.id, topic));
+            categoryMap = new Map();
+            categories.forEach((category) => {
+                categoryMap.set(category.id, { ...category, topics: [] });
+            });
+            topics.forEach((topic) => {
+                const bucket = categoryMap.get(topic.categoryId);
+                if (bucket) {
+                    bucket.topics.push(topic);
+                }
+            });
+            renderQuickPicks();
+            renderCategories();
+            renderSearchResults(searchInput.value);
+            renderTopic(null);
+        };
+
         const bindTopicGrid = (grid) => {
             if (!grid) return;
             grid.addEventListener('click', (event) => {
@@ -378,6 +442,18 @@
         bindTopicGrid(quickPickGrid);
         bindTopicGrid(categoryGrid);
         bindTopicGrid(resultsGrid);
+
+        platformTabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                const platformId = tab.dataset.platform || 'windows';
+                platformTabs.forEach((item) => {
+                    const active = item === tab;
+                    item.classList.toggle('is-active', active);
+                    item.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+                applyPlatform(platformId);
+            });
+        });
 
         searchInput.addEventListener('input', () => {
             renderSearchResults(searchInput.value);
@@ -400,9 +476,13 @@
             setTimeout(() => searchInput.focus(), 250);
         });
 
-        renderCategories();
-        renderSearchResults('');
-        renderTopic(null);
+        if (platformTabs.length) {
+            const activeTab = platformTabs.find((tab) => tab.classList.contains('is-active'));
+            if (activeTab?.dataset.platform) {
+                currentPlatform = activeTab.dataset.platform;
+            }
+        }
+        applyPlatform(currentPlatform);
     };
 
     initHelpCenter();

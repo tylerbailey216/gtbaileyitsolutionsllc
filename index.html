@@ -59,61 +59,24 @@
         <section class="tree-card" id="treePanel" data-mode="helper">
             <div class="tree-header">
                 <div>
-                    <p class="node-path">Windows Help Center</p>
+                    <p class="node-path" id="helpCenterLabel">Windows Help Center</p>
                     <h2>What's going wrong?</h2>
                     <p class="node-summary">Start with the issue that best matches what you're seeing. Try steps in order.</p>
                 </div>
             </div>
             <div class="node-body helper-panel">
+                <div class="platform-switch" aria-label="Choose your device" role="tablist">
+                    <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">Windows</button>
+                    <button class="platform-tab" type="button" data-platform="mac" aria-selected="false">Mac</button>
+                    <button class="platform-tab" type="button" data-platform="iphone" aria-selected="false">iPhone</button>
+                    <button class="platform-tab" type="button" data-platform="android" aria-selected="false">Android</button>
+                </div>
                 <div class="quick-picks">
                     <div class="quick-picks-header">
-                        <p class="quick-picks-title">Windows quick fixes (beginner safe)</p>
+                        <p class="quick-picks-title" id="quickPicksTitle">Windows quick fixes (beginner safe)</p>
                         <p class="quick-picks-note">Pick a symptom to see the simplest steps first.</p>
                     </div>
-                    <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes">
-                        <button class="quick-pick-btn" type="button" data-topic="wifi-cant-connect">
-                            <span class="quick-pick-emoji" aria-hidden="true">📶</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">My internet won't connect</span>
-                                <span class="quick-pick-sub">Wi-Fi won't connect</span>
-                            </span>
-                        </button>
-                        <button class="quick-pick-btn" type="button" data-topic="computer-slow">
-                            <span class="quick-pick-emoji" aria-hidden="true">🐌</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">My computer is slow</span>
-                                <span class="quick-pick-sub">Laggy or taking too long</span>
-                            </span>
-                        </button>
-                        <button class="quick-pick-btn" type="button" data-topic="windows-signin">
-                            <span class="quick-pick-emoji" aria-hidden="true">🔒</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">Can't sign in</span>
-                                <span class="quick-pick-sub">Password or PIN issues</span>
-                            </span>
-                        </button>
-                        <button class="quick-pick-btn" type="button" data-topic="printer-not-responding">
-                            <span class="quick-pick-emoji" aria-hidden="true">🖨️</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">Printer won't print</span>
-                                <span class="quick-pick-sub">Offline or stuck jobs</span>
-                            </span>
-                        </button>
-                        <button class="quick-pick-btn" type="button" data-topic="windows-update-failed">
-                            <span class="quick-pick-emoji" aria-hidden="true">🔄</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">Windows update didn't finish</span>
-                                <span class="quick-pick-sub">Update failed or stuck</span>
-                            </span>
-                        </button>
-                        <button class="quick-pick-btn" type="button" data-topic="blue-screen-error">
-                            <span class="quick-pick-emoji" aria-hidden="true">⚠️</span>
-                            <span class="quick-pick-text">
-                                <span class="quick-pick-label">Error message / blue screen</span>
-                                <span class="quick-pick-sub">Crash or STOP code</span>
-                            </span>
-                        </button>
-                    </div>
+                    <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes"></div>
                 </div>
                 <div class="helper-search">
                     <label class="helper-label" for="issueSearch">Search Windows issues</label>
