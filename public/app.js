@@ -157,6 +157,7 @@
         const resultsGrid = document.getElementById('searchResults');
         const resultPanel = document.getElementById('matchResult');
         const tipEl = document.getElementById('helpTip');
+        const quickPickGrid = document.getElementById('quickPickGrid');
         if (!searchInput || !categoryGrid || !resultsGrid || !resultPanel) {
             return;
         }
@@ -364,19 +365,19 @@
                 .join('');
         };
 
-        categoryGrid.addEventListener('click', (event) => {
-            const btn = event.target.closest('[data-topic]');
-            if (!btn) return;
-            const topic = topicMap.get(btn.dataset.topic);
-            renderTopic(topic);
-        });
+        const bindTopicGrid = (grid) => {
+            if (!grid) return;
+            grid.addEventListener('click', (event) => {
+                const btn = event.target.closest('[data-topic]');
+                if (!btn) return;
+                const topic = topicMap.get(btn.dataset.topic);
+                renderTopic(topic);
+            });
+        };
 
-        resultsGrid.addEventListener('click', (event) => {
-            const btn = event.target.closest('[data-topic]');
-            if (!btn) return;
-            const topic = topicMap.get(btn.dataset.topic);
-            renderTopic(topic);
-        });
+        bindTopicGrid(quickPickGrid);
+        bindTopicGrid(categoryGrid);
+        bindTopicGrid(resultsGrid);
 
         searchInput.addEventListener('input', () => {
             renderSearchResults(searchInput.value);

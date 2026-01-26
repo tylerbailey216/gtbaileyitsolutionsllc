@@ -589,6 +589,85 @@ button,
     gap: 18px;
 }
 
+.quick-picks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.quick-picks-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.quick-picks-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.quick-picks-note {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.quick-picks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.quick-pick-btn {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 12px 14px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.quick-pick-btn:hover {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 30px -20px rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+.quick-pick-emoji {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.quick-pick-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.quick-pick-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.quick-pick-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
 .faq-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -787,8 +866,10 @@ button,
 }
 
 body.theme-light .faq-card,
+body.theme-light .quick-picks,
 body.theme-light .helper-search,
 body.theme-light .category-card,
+body.theme-light .quick-pick-btn,
 body.theme-light .symptom-btn,
 body.theme-light .helper-result,
 body.theme-light .visual-card {
