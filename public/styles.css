@@ -1039,6 +1039,7 @@ button,
     display: flex;
     flex-direction: column;
     gap: 8px;
+    color: var(--text);
 }
 
 .visual-card img {
@@ -1049,6 +1050,7 @@ button,
     border: 1px solid rgba(255, 255, 255, 0.08);
     object-fit: contain;
     padding: 10px;
+    color: var(--text);
 }
 
 .visual-card span {
@@ -1068,6 +1070,11 @@ body.theme-light .visual-card {
     background: rgba(255, 255, 255, 0.96);
     border-color: rgba(0, 0, 0, 0.08);
     box-shadow: 0 16px 40px -28px rgba(0, 0, 0, 0.18);
+}
+
+body.theme-light .visual-card,
+body.theme-light .visual-card img {
+    color: #0e171f;
 }
 
 body.theme-light .support-form,
