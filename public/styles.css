@@ -596,6 +596,15 @@ button,
     justify-content: center;
 }
 
+.platform-label {
+    margin: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
 .platform-tab {
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(255, 255, 255, 0.04);
@@ -604,7 +613,10 @@ button,
     padding: 8px 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .platform-tab:hover {
@@ -613,9 +625,17 @@ button,
 }
 
 .platform-tab.is-active {
-    background: rgba(110, 196, 167, 0.16);
-    border-color: rgba(110, 196, 167, 0.5);
+    background: rgba(110, 196, 167, 0.2);
+    border-color: rgba(110, 196, 167, 0.7);
     color: var(--text);
+    box-shadow: 0 10px 24px -18px rgba(110, 196, 167, 0.8);
+}
+
+.platform-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
 }
 
 .quick-picks {
@@ -865,6 +885,77 @@ button,
     padding: 16px;
 }
 
+.support-form {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.support-header h3 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+}
+
+.support-header p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.support-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.support-field span {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.support-field input,
+.support-field textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: var(--text);
+    font: inherit;
+}
+
+.support-field textarea {
+    resize: vertical;
+}
+
+.support-full {
+    grid-column: 1 / -1;
+}
+
+.support-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.support-hint {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
 .helper-result h3 {
     margin: 0 0 8px;
 }
@@ -921,6 +1012,14 @@ body.theme-light .visual-card {
     box-shadow: 0 16px 40px -28px rgba(0, 0, 0, 0.18);
 }
 
+body.theme-light .support-form,
+body.theme-light .support-field input,
+body.theme-light .support-field textarea {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #0e171f;
+}
+
 body.theme-light #issueSearch {
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
@@ -959,6 +1058,11 @@ body.theme-light .helper-tip {
     min-height: 120px;
 }
 
+.plan-card.stop-point {
+    background: rgba(110, 196, 167, 0.12);
+    border: 1px dashed rgba(110, 196, 167, 0.35);
+}
+
 .plan-card-body {
     flex: 1;
     min-width: 0;
@@ -975,6 +1079,12 @@ body.theme-light .helper-tip {
     justify-content: center;
     font-family: 'Space Mono', monospace;
     font-size: 0.95rem;
+    color: var(--accent);
+}
+
+.plan-card.stop-point .plan-step {
+    background: rgba(110, 196, 167, 0.22);
+    border-color: rgba(110, 196, 167, 0.55);
     color: var(--accent);
 }
 

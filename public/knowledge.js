@@ -133,147 +133,154 @@ window.OFFLINE_KNOWLEDGE = {
       "topicId": "wifi-cant-connect",
       "label": "My internet won't connect",
       "sub": "Wi-Fi won't connect",
-      "emoji": "??"
+      "icon": "wifi"
     },
     {
       "platformId": "windows",
       "topicId": "computer-slow",
       "label": "My computer is slow",
       "sub": "Laggy or taking too long",
-      "emoji": "??"
+      "icon": "slow"
     },
     {
       "platformId": "windows",
       "topicId": "windows-signin",
       "label": "Can't sign in",
       "sub": "Password or PIN issues",
-      "emoji": "??"
+      "icon": "lock"
     },
     {
       "platformId": "windows",
       "topicId": "printer-not-responding",
       "label": "Printer won't print",
       "sub": "Offline or stuck jobs",
-      "emoji": "???"
+      "icon": "printer"
     },
     {
       "platformId": "windows",
       "topicId": "windows-update-failed",
       "label": "Windows update didn't finish",
       "sub": "Update failed or stuck",
-      "emoji": "??"
+      "icon": "update"
     },
     {
       "platformId": "windows",
       "topicId": "blue-screen-error",
       "label": "Error message / blue screen",
       "sub": "Crash or STOP code",
-      "emoji": "??"
+      "icon": "warning"
     },
     {
       "platformId": "mac",
       "topicId": "mac-wifi-cant-connect",
       "label": "My internet won't connect",
       "sub": "Wi-Fi won't connect",
-      "emoji": "??"
+      "icon": "wifi"
     },
     {
       "platformId": "mac",
       "topicId": "mac-slow",
       "label": "My Mac is slow",
       "sub": "Laggy or spinning wheel",
-      "emoji": "??"
+      "icon": "slow"
     },
     {
       "platformId": "mac",
       "topicId": "mac-signin",
       "label": "Can't sign in",
       "sub": "Password or Apple ID issues",
-      "emoji": "??"
+      "icon": "lock"
     },
     {
       "platformId": "mac",
       "topicId": "mac-printer-not-responding",
       "label": "Printer won't print",
       "sub": "Offline or stuck jobs",
-      "emoji": "???"
+      "icon": "printer"
     },
     {
       "platformId": "mac",
       "topicId": "mac-update-failed",
       "label": "macOS update didn't finish",
       "sub": "Update failed or stuck",
-      "emoji": "??"
-    },
-    {
-      "platformId": "iphone",
-      "topicId": "iphone-no-service",
-      "label": "No service / can't call",
-      "sub": "No bars or SOS",
-      "emoji": "??"
+      "icon": "update"
     },
     {
       "platformId": "iphone",
       "topicId": "iphone-wifi-cant-connect",
       "label": "Wi-Fi won't connect",
       "sub": "Can't join network",
-      "emoji": "??"
-    },
-    {
-      "platformId": "iphone",
-      "topicId": "iphone-frozen",
-      "label": "iPhone frozen",
-      "sub": "Screen not responding",
-      "emoji": "??"
+      "icon": "wifi"
     },
     {
       "platformId": "iphone",
       "topicId": "iphone-slow",
       "label": "iPhone is slow",
       "sub": "Laggy or low storage",
-      "emoji": "??"
+      "icon": "slow"
+    },
+    {
+      "platformId": "iphone",
+      "topicId": "iphone-signin",
+      "label": "Can't sign in",
+      "sub": "Apple ID issues",
+      "icon": "lock"
+    },
+    {
+      "platformId": "iphone",
+      "topicId": "iphone-no-service",
+      "label": "No service / can't call",
+      "sub": "No bars or SOS",
+      "icon": "signal"
+    },
+    {
+      "platformId": "iphone",
+      "topicId": "iphone-frozen",
+      "label": "iPhone frozen",
+      "sub": "Screen not responding",
+      "icon": "snow"
     },
     {
       "platformId": "iphone",
       "topicId": "iphone-update-failed",
       "label": "iOS update didn't finish",
       "sub": "Update failed or stuck",
-      "emoji": "??"
+      "icon": "update"
     },
     {
       "platformId": "android",
       "topicId": "android-wifi-cant-connect",
       "label": "Wi-Fi won't connect",
       "sub": "Can't join or keeps dropping",
-      "emoji": "??"
+      "icon": "wifi"
     },
     {
       "platformId": "android",
       "topicId": "android-slow",
       "label": "Phone is slow",
       "sub": "Laggy or takes too long",
-      "emoji": "??"
+      "icon": "slow"
     },
     {
       "platformId": "android",
       "topicId": "android-signin",
       "label": "Can't sign in",
       "sub": "Google account issues",
-      "emoji": "??"
+      "icon": "lock"
     },
     {
       "platformId": "android",
       "topicId": "android-app-crashing",
       "label": "App keeps crashing",
       "sub": "Closes or errors",
-      "emoji": "??"
+      "icon": "app"
     },
     {
       "platformId": "android",
       "topicId": "android-update-failed",
       "label": "Android update failed",
       "sub": "Update won't finish",
-      "emoji": "??"
+      "icon": "update"
     }
   ],
   "topics": [

@@ -21,7 +21,7 @@
                 <div class="hero-actions">
                     <button id="startTree" class="primary">Find a Fix</button>
                     <button id="searchIssues" class="secondary" type="button">Search Issues</button>
-                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">
+                    <a class="secondary" href="#supportForm">
                         Contact support
                     </a>
                     <a class="scroll-link" href="#affirmationExperience">
@@ -65,16 +65,29 @@
                 </div>
             </div>
             <div class="node-body helper-panel">
+                <p class="platform-label">Choose your device</p>
                 <div class="platform-switch" aria-label="Choose your device" role="tablist">
-                    <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">Windows</button>
-                    <button class="platform-tab" type="button" data-platform="mac" aria-selected="false">Mac</button>
-                    <button class="platform-tab" type="button" data-platform="iphone" aria-selected="false">iPhone</button>
-                    <button class="platform-tab" type="button" data-platform="android" aria-selected="false">Android</button>
+                    <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">
+                        <span class="platform-icon" aria-hidden="true">🪟</span>
+                        <span>Windows</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="mac" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">🍎</span>
+                        <span>Mac</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="iphone" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">📱</span>
+                        <span>iPhone</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="android" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">🤖</span>
+                        <span>Android</span>
+                    </button>
                 </div>
                 <div class="quick-picks">
                     <div class="quick-picks-header">
-                        <p class="quick-picks-title" id="quickPicksTitle">Windows quick fixes (beginner safe)</p>
-                        <p class="quick-picks-note">Pick a symptom to see the simplest steps first.</p>
+                        <p class="quick-picks-title" id="quickPicksTitle">Top 3 issues (beginner safe)</p>
+                        <p class="quick-picks-note" id="quickPicksNote">Pick a symptom to see the simplest steps first.</p>
                     </div>
                     <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes"></div>
                 </div>
@@ -90,6 +103,41 @@
                 <div class="search-results" id="searchResults" aria-live="polite"></div>
                 <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
                 <div class="helper-result" id="matchResult"></div>
+                <div class="support-form" id="supportForm">
+                    <div class="support-header">
+                        <h3>Still stuck? Send a quick support request</h3>
+                        <p>We will pick up where you left off. Your summary is prefilled.</p>
+                    </div>
+                    <form class="support-grid" id="supportRequestForm">
+                        <label class="support-field">
+                            <span>Your name (optional)</span>
+                            <input type="text" id="supportName" placeholder="First name">
+                        </label>
+                        <label class="support-field">
+                            <span>Email or phone</span>
+                            <input type="text" id="supportContact" placeholder="you@email.com or (555) 555-5555">
+                        </label>
+                        <label class="support-field">
+                            <span>Device</span>
+                            <input type="text" id="supportDevice" placeholder="Windows laptop, iPhone 13, MacBook Air...">
+                        </label>
+                        <label class="support-field support-full">
+                            <span>Issue summary (auto-filled)</span>
+                            <textarea id="supportSummary" rows="6" placeholder="Select a symptom to auto-fill this summary."></textarea>
+                        </label>
+                        <label class="support-field support-full">
+                            <span>Anything else to add?</span>
+                            <textarea id="supportNotes" rows="3" placeholder="Any error message or details you noticed."></textarea>
+                        </label>
+                        <div class="support-actions support-full">
+                            <button class="secondary" id="supportCopy" type="button">Copy support message</button>
+                            <button class="ghost" id="supportClear" type="button">Clear</button>
+                        </div>
+                        <p class="support-hint support-full" id="supportHint">
+                            Tip: Copy the message and send it to GT Bailey IT using your preferred method.
+                        </p>
+                    </form>
+                </div>
             </div>
         </section>
 
