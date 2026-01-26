@@ -183,6 +183,24 @@
         const supportCopy = document.getElementById('supportCopy');
         const supportClear = document.getElementById('supportClear');
         const supportHint = document.getElementById('supportHint');
+        const supportHintDefault = supportHint?.textContent?.trim() ||
+            'Tip: Copy the message and send it to GT Bailey IT using your preferred method.';
+        const supportCopiedMessage = '✅ Message copied — paste it into email, text, or chat';
+        let supportHintTimeout = null;
+        const setSupportHint = (message, { resetAfter = false } = {}) => {
+            if (!supportHint) return;
+            supportHint.textContent = message;
+            if (supportHintTimeout) {
+                clearTimeout(supportHintTimeout);
+                supportHintTimeout = null;
+            }
+            if (resetAfter) {
+                supportHintTimeout = setTimeout(() => {
+                    supportHint.textContent = supportHintDefault;
+                    supportHintTimeout = null;
+                }, 2600);
+            }
+        };
         if (!searchInput || !categoryGrid || !resultsGrid || !resultPanel) {
             return;
         }
@@ -606,13 +624,9 @@
             if (!message.trim()) return;
             try {
                 await navigator.clipboard.writeText(message);
-                if (supportHint) {
-                    supportHint.textContent = 'Copied! Paste it into your message to GT Bailey IT.';
-                }
+                setSupportHint(supportCopiedMessage, { resetAfter: true });
             } catch {
-                if (supportHint) {
-                    supportHint.textContent = 'Copy failed. You can still select the text and copy manually.';
-                }
+                setSupportHint('Copy failed. You can still select the text and copy manually.');
             }
         });
 

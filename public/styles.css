@@ -1002,6 +1002,12 @@ button,
     grid-column: 1 / -1;
 }
 
+.support-handoff {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
 .support-actions {
     display: flex;
     gap: 10px;
