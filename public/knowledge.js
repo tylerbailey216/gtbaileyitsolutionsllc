@@ -2,28 +2,28 @@ window.OFFLINE_KNOWLEDGE = {
   "categories": [
     {
       "id": "network",
-      "title": "Network & Internet Issues",
-      "description": "Wi-Fi, slow connections, and device connectivity."
-    },
-    {
-      "id": "peripherals",
-      "title": "Printer & Peripheral Problems",
-      "description": "Printers, scanners, webcams, and Bluetooth devices."
-    },
-    {
-      "id": "accounts",
-      "title": "Accounts & Login Issues",
-      "description": "Email sign-in, passwords, and verification codes."
+      "title": "Network & Internet (Windows)",
+      "description": "Wi-Fi and internet connection help for Windows."
     },
     {
       "id": "performance",
-      "title": "Performance & Crashes",
-      "description": "Slow devices, freezing, or apps crashing."
+      "title": "Performance & Slowness",
+      "description": "When Windows feels slow, laggy, or stuck."
+    },
+    {
+      "id": "accounts",
+      "title": "Sign-In & Account Issues",
+      "description": "Trouble signing in to Windows or your Microsoft account."
+    },
+    {
+      "id": "peripherals",
+      "title": "Printers & Devices",
+      "description": "Printer and device connection help."
     },
     {
       "id": "software",
-      "title": "Software & Updates",
-      "description": "App installs, downloads, and system updates."
+      "title": "Updates & Errors",
+      "description": "Windows Update problems and error messages."
     }
   ],
   "topics": [
@@ -31,7 +31,7 @@ window.OFFLINE_KNOWLEDGE = {
       "id": "wifi-cant-connect",
       "categoryId": "network",
       "title": "Wi-Fi won't connect",
-      "summary": "Network appears but the device will not join.",
+      "summary": "Beginner-safe steps for when Wi-Fi will not connect.",
       "keywords": [
         "wifi",
         "wireless",
@@ -39,27 +39,41 @@ window.OFFLINE_KNOWLEDGE = {
         "password",
         "network"
       ],
-      "reply": "1. Make sure Wi-Fi is turned on (1 min, easy)\nExpected: The Wi-Fi list appears.\nIf yes: Go to step 2.\nIf no: Toggle Airplane mode off and retry.\n\n2. Restart the router (5 min, easy)\nExpected: Router lights return to normal.\nIf yes: Try reconnecting.\nIf no: Contact your internet provider.\n\n3. Forget and rejoin the network (3 min, easy)\nExpected: You can re-enter the Wi-Fi password.\nIf yes: Test a website.\nIf no: Go to step 4.\n\n4. Test a mobile hotspot (3 min, easy)\nExpected: The device connects elsewhere.\nIf yes: The router is likely the issue.\nIf no: The device may need support.",
+      "reply": "1. Turn Wi-Fi off, then on (1 min, easy)\nExpected: The Wi-Fi list appears.\nIf yes: Go to step 2.\nIf no: Make sure Airplane mode is off.\n\n2. Restart your PC (2 min, easy)\nExpected: The computer reconnects after restart.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Restart your router/modem (5 min, easy)\nExpected: Internet lights return to normal.\nIf yes: Try reconnecting.\nIf no: Go to step 4.\n\n4. Forget the network, then reconnect (3 min, easy)\nExpected: You can enter the Wi-Fi password again.\nIf yes: Test a website.\nIf no: Go to step 5.\n\n5. Run the Windows Network Troubleshooter (3 min, easy)\nExpected: Windows reports a fix or gives a message.\nIf yes: Test again.\nIf no: Try a mobile hotspot test or contact support.",
       "plan": [
         {
-          "step": "Check Wi-Fi toggle",
-          "rationale": "Confirms the radio is on.",
+          "step": "Toggle Wi-Fi",
+          "rationale": "Refreshes the wireless connection.",
           "focus": [
             "wifi"
           ]
         },
         {
-          "step": "Restart router",
-          "rationale": "Clears most network glitches.",
+          "step": "Restart the PC",
+          "rationale": "Clears temporary glitches.",
+          "focus": [
+            "restart"
+          ]
+        },
+        {
+          "step": "Restart the router",
+          "rationale": "Resets the internet link.",
           "focus": [
             "router"
           ]
         },
         {
-          "step": "Forget and rejoin",
-          "rationale": "Refreshes network credentials.",
+          "step": "Forget and reconnect",
+          "rationale": "Refreshes saved network details.",
           "focus": [
             "password"
+          ]
+        },
+        {
+          "step": "Use the troubleshooter",
+          "rationale": "Windows can fix common network issues.",
+          "focus": [
+            "troubleshooter"
           ]
         }
       ],
@@ -68,48 +82,8 @@ window.OFFLINE_KNOWLEDGE = {
           "type": "image",
           "title": "Wi-Fi settings",
           "src": "./public/visuals/wifi-settings.svg",
-          "alt": "Wi-Fi settings screen"
-        }
-      ]
-    },
-    {
-      "id": "internet-slow-drops",
-      "categoryId": "network",
-      "title": "Internet is slow or keeps dropping",
-      "summary": "Pages load slowly or the connection cuts out.",
-      "keywords": [
-        "slow",
-        "drops",
-        "internet",
-        "wifi",
-        "disconnect"
-      ],
-      "reply": "1. Move closer to the router (2 min, easy)\nExpected: Signal strength improves.\nIf yes: Test speed again.\nIf no: Go to step 2.\n\n2. Restart modem and router (5 min, easy)\nExpected: Connection stabilizes after reboot.\nIf yes: You are back online.\nIf no: Go to step 3.\n\n3. Reduce interference (5 min, easy)\nExpected: Fewer disconnects.\nIf yes: Keep the router clear of walls and appliances.\nIf no: Contact your ISP or upgrade the router.",
-      "plan": [
-        {
-          "step": "Improve signal",
-          "rationale": "Distance and walls affect Wi-Fi speed.",
-          "focus": [
-            "signal"
-          ]
+          "alt": "Wi-Fi settings"
         },
-        {
-          "step": "Restart equipment",
-          "rationale": "Resets the network path.",
-          "focus": [
-            "modem",
-            "router"
-          ]
-        },
-        {
-          "step": "Reduce interference",
-          "rationale": "Competing devices can cause drops.",
-          "focus": [
-            "interference"
-          ]
-        }
-      ],
-      "visuals": [
         {
           "type": "image",
           "title": "Restart router",
@@ -119,347 +93,96 @@ window.OFFLINE_KNOWLEDGE = {
       ]
     },
     {
-      "id": "one-device-offline",
+      "id": "no-internet",
       "categoryId": "network",
-      "title": "Only one device is offline",
-      "summary": "Other devices work but one device cannot connect.",
+      "title": "Connected but no internet",
+      "summary": "Wi-Fi is connected but websites will not load.",
       "keywords": [
-        "one device",
-        "offline",
-        "reconnect",
-        "wifi"
+        "no internet",
+        "connected",
+        "wifi",
+        "browser",
+        "offline"
       ],
-      "reply": "1. Confirm other devices are online (2 min, easy)\nExpected: Another device loads a website.\nIf yes: Go to step 2.\nIf no: Use the network outage steps instead.\n\n2. Forget and rejoin Wi-Fi (3 min, easy)\nExpected: The device reconnects successfully.\nIf yes: Test the issue again.\nIf no: Go to step 3.\n\n3. Restart the device (3 min, easy)\nExpected: The device reconnects after reboot.\nIf yes: You are back online.\nIf no: Contact support with the device model.",
+      "reply": "1. Check another device (2 min, easy)\nExpected: Another device can load a website.\nIf yes: Go to step 2.\nIf no: The internet may be down.\n\n2. Turn off VPN (1 min, easy)\nExpected: Pages start loading.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Restart your router/modem (5 min, easy)\nExpected: Connection returns after reboot.\nIf yes: You are back online.\nIf no: Go to step 4.\n\n4. Run the Windows Network Troubleshooter (3 min, easy)\nExpected: Windows reports a fix or gives a message.\nIf yes: Test again.\nIf no: Contact support or your internet provider.",
       "plan": [
         {
-          "step": "Verify other devices",
-          "rationale": "Confirms this is not a full outage.",
+          "step": "Check another device",
+          "rationale": "Confirms if the issue is the PC or the internet.",
           "focus": [
-            "outage"
+            "device"
           ]
         },
         {
-          "step": "Reconnect Wi-Fi",
-          "rationale": "Refreshes the device connection.",
+          "step": "Turn off VPN",
+          "rationale": "VPNs can block internet access.",
           "focus": [
-            "wifi"
+            "vpn"
           ]
         },
         {
-          "step": "Restart device",
-          "rationale": "Clears temporary network issues.",
+          "step": "Restart the router",
+          "rationale": "Refreshes the internet connection.",
           "focus": [
-            "restart"
+            "router"
+          ]
+        },
+        {
+          "step": "Use the troubleshooter",
+          "rationale": "Windows can safely fix common issues.",
+          "focus": [
+            "troubleshooter"
           ]
         }
       ],
       "visuals": [
         {
           "type": "image",
-          "title": "Wi-Fi reconnect",
-          "src": "./public/visuals/wifi-settings.svg",
-          "alt": "Reconnect to Wi-Fi"
-        }
-      ]
-    },
-    {
-      "id": "printer-not-responding",
-      "categoryId": "peripherals",
-      "title": "Printer not responding",
-      "summary": "Print jobs stall or nothing comes out.",
-      "keywords": [
-        "printer",
-        "offline",
-        "queue",
-        "print"
-      ],
-      "reply": "1. Power cycle the printer (3 min, easy)\nExpected: The printer shows Ready.\nIf yes: Try printing again.\nIf no: Go to step 2.\n\n2. Check the connection (3 min, easy)\nExpected: Printer and device share Wi-Fi or USB is snug.\nIf yes: Go to step 3.\nIf no: Reconnect Wi-Fi or cable.\n\n3. Clear the print queue (5 min, easy)\nExpected: Stuck jobs disappear.\nIf yes: Print a test page.\nIf no: Reinstall the printer software.",
-      "plan": [
-        {
-          "step": "Restart printer",
-          "rationale": "Clears stalled print jobs.",
-          "focus": [
-            "printer"
-          ]
-        },
-        {
-          "step": "Verify connection",
-          "rationale": "Wi-Fi or USB issues cause most failures.",
-          "focus": [
-            "connection"
-          ]
-        },
-        {
-          "step": "Clear queue",
-          "rationale": "Removes stuck print jobs.",
-          "focus": [
-            "queue"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Printer status",
-          "src": "./public/visuals/printer-check.svg",
-          "alt": "Printer status check"
-        }
-      ]
-    },
-    {
-      "id": "scanner-webcam-missing",
-      "categoryId": "peripherals",
-      "title": "Scanner or webcam not detected",
-      "summary": "Camera or scanner is missing in apps.",
-      "keywords": [
-        "webcam",
-        "scanner",
-        "camera",
-        "not detected"
-      ],
-      "reply": "1. Close other apps using the camera (2 min, easy)\nExpected: The device appears in the app.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check privacy permissions (3 min, easy)\nExpected: Camera or scanner is allowed.\nIf yes: Test again.\nIf no: Go to step 3.\n\n3. Reconnect the device (3 min, easy)\nExpected: The device shows up after reconnecting.\nIf yes: You are back.\nIf no: Contact support with the model.",
-      "plan": [
-        {
-          "step": "Close competing apps",
-          "rationale": "Only one app can use the camera at a time.",
-          "focus": [
-            "camera"
-          ]
-        },
-        {
-          "step": "Check permissions",
-          "rationale": "Privacy settings can block devices.",
-          "focus": [
-            "permissions"
-          ]
-        },
-        {
-          "step": "Reconnect hardware",
-          "rationale": "Re-detects the device.",
-          "focus": [
-            "usb"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Device permissions",
-          "src": "./public/visuals/login-lock.svg",
-          "alt": "Privacy and permissions"
-        }
-      ]
-    },
-    {
-      "id": "bluetooth-wont-pair",
-      "categoryId": "peripherals",
-      "title": "Bluetooth device will not pair",
-      "summary": "Headphones or keyboards will not connect.",
-      "keywords": [
-        "bluetooth",
-        "pair",
-        "headphones",
-        "keyboard"
-      ],
-      "reply": "1. Toggle Bluetooth off and on (2 min, easy)\nExpected: The device appears in the list.\nIf yes: Try pairing again.\nIf no: Go to step 2.\n\n2. Forget and re-pair the device (3 min, easy)\nExpected: Pairing completes without errors.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Charge and move closer (3 min, easy)\nExpected: Pairing succeeds within a few feet.\nIf yes: You are back.\nIf no: The device may need service.",
-      "plan": [
-        {
-          "step": "Toggle Bluetooth",
-          "rationale": "Refreshes the wireless radio.",
-          "focus": [
-            "bluetooth"
-          ]
-        },
-        {
-          "step": "Re-pair device",
-          "rationale": "Clears outdated pairing records.",
-          "focus": [
-            "pairing"
-          ]
-        },
-        {
-          "step": "Charge and move closer",
-          "rationale": "Low battery blocks pairing.",
-          "focus": [
-            "battery"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Bluetooth pairing",
-          "src": "./public/visuals/bluetooth-pair.svg",
-          "alt": "Bluetooth pairing screen"
-        }
-      ]
-    },
-    {
-      "id": "email-login",
-      "categoryId": "accounts",
-      "title": "Cannot sign into email",
-      "summary": "Password fails or the mailbox will not load.",
-      "keywords": [
-        "email",
-        "login",
-        "password",
-        "outlook",
-        "gmail"
-      ],
-      "reply": "1. Sign in on webmail (3 min, easy)\nExpected: The account works in a browser.\nIf yes: Go to step 2.\nIf no: Reset the password.\n\n2. Remove and re-add the account (5 min, easy)\nExpected: The mailbox syncs without errors.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Approve security prompts (5 min, easy)\nExpected: A code or approval completes the sign-in.\nIf yes: Test sending an email.\nIf no: Contact support with the error.",
-      "plan": [
-        {
-          "step": "Confirm web login",
-          "rationale": "Verifies the password works.",
-          "focus": [
-            "webmail"
-          ]
-        },
-        {
-          "step": "Re-add the account",
-          "rationale": "Fixes settings in the mail app.",
-          "focus": [
-            "account"
-          ]
-        },
-        {
-          "step": "Approve security prompts",
-          "rationale": "Extra verification may be required.",
-          "focus": [
-            "2fa"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Login screen",
-          "src": "./public/visuals/login-lock.svg",
-          "alt": "Login screen"
-        }
-      ]
-    },
-    {
-      "id": "password-reset",
-      "categoryId": "accounts",
-      "title": "Password reset not working",
-      "summary": "Reset link fails or account says locked.",
-      "keywords": [
-        "password",
-        "reset",
-        "locked",
-        "account"
-      ],
-      "reply": "1. Use the official reset page (3 min, easy)\nExpected: You receive a reset code.\nIf yes: Go to step 2.\nIf no: Go to step 3.\n\n2. Set a new password (3 min, easy)\nExpected: You can sign in with the new password.\nIf yes: You are done.\nIf no: Try again after 15 minutes.\n\n3. Check recovery options (5 min, easy)\nExpected: Recovery email or phone is available.\nIf yes: Use that method.\nIf no: Contact support.",
-      "plan": [
-        {
-          "step": "Start the reset",
-          "rationale": "Uses the correct recovery flow.",
-          "focus": [
-            "reset"
-          ]
-        },
-        {
-          "step": "Set new password",
-          "rationale": "Completes the reset process.",
-          "focus": [
-            "password"
-          ]
-        },
-        {
-          "step": "Verify recovery options",
-          "rationale": "Ensures you can regain access.",
-          "focus": [
-            "recovery"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Account recovery",
-          "src": "./public/visuals/login-lock.svg",
-          "alt": "Account recovery"
-        }
-      ]
-    },
-    {
-      "id": "two-factor-code",
-      "categoryId": "accounts",
-      "title": "Two-factor code not arriving",
-      "summary": "Verification code does not show up.",
-      "keywords": [
-        "2fa",
-        "verification",
-        "code",
-        "mfa"
-      ],
-      "reply": "1. Check signal and spam folders (2 min, easy)\nExpected: The code arrives within a minute.\nIf yes: Use the code to sign in.\nIf no: Go to step 2.\n\n2. Use a backup method (3 min, easy)\nExpected: You can choose another method.\nIf yes: Sign in and update your options.\nIf no: Go to step 3.\n\n3. Sync device time (2 min, easy)\nExpected: The device time matches the network time.\nIf yes: Try again.\nIf no: Contact support.",
-      "plan": [
-        {
-          "step": "Check delivery",
-          "rationale": "Codes can be delayed or filtered.",
-          "focus": [
-            "sms",
-            "email"
-          ]
-        },
-        {
-          "step": "Use backup method",
-          "rationale": "Backup methods prevent lockouts.",
-          "focus": [
-            "backup"
-          ]
-        },
-        {
-          "step": "Sync device time",
-          "rationale": "Incorrect time can break codes.",
-          "focus": [
-            "time"
-          ]
-        }
-      ],
-      "visuals": [
-        {
-          "type": "image",
-          "title": "Verification code",
-          "src": "./public/visuals/login-lock.svg",
-          "alt": "Verification prompt"
+          "title": "Restart router",
+          "src": "./public/visuals/router-restart.svg",
+          "alt": "Restart router"
         }
       ]
     },
     {
       "id": "computer-slow",
       "categoryId": "performance",
-      "title": "Computer running slow",
-      "summary": "Everything feels laggy or delayed.",
+      "title": "Computer is slow",
+      "summary": "Windows feels laggy or takes too long to open things.",
       "keywords": [
         "slow",
         "lag",
         "performance",
         "speed"
       ],
-      "reply": "1. Close heavy apps (3 min, easy)\nExpected: The device feels faster.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Free up storage (5-10 min, easy)\nExpected: At least 15 GB free.\nIf yes: Restart and test again.\nIf no: Remove large files or apps.\n\n3. Restart the device (3 min, easy)\nExpected: Performance improves after reboot.\nIf yes: You are back.\nIf no: Contact support.",
+      "reply": "1. Restart your PC (2-3 min, easy)\nExpected: The computer feels faster.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Close extra apps and browser tabs (2 min, easy)\nExpected: The PC responds faster.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Check storage space (3 min, easy)\nExpected: You have at least 15 GB free.\nIf yes: Go to step 4.\nIf no: Delete large downloads or empty the recycle bin.\n\n4. Let Windows finish updates (5-15 min, easy)\nExpected: Updates install and the PC speeds up.\nIf yes: You are done.\nIf no: Contact support.",
       "plan": [
-        {
-          "step": "Close heavy apps",
-          "rationale": "High usage slows everything.",
-          "focus": [
-            "apps"
-          ]
-        },
-        {
-          "step": "Free storage",
-          "rationale": "Low storage hurts performance.",
-          "focus": [
-            "storage"
-          ]
-        },
         {
           "step": "Restart",
           "rationale": "Clears temporary slowdowns.",
           "focus": [
             "restart"
+          ]
+        },
+        {
+          "step": "Close extra apps",
+          "rationale": "Too many apps can slow things down.",
+          "focus": [
+            "apps"
+          ]
+        },
+        {
+          "step": "Free up space",
+          "rationale": "Low storage makes Windows sluggish.",
+          "focus": [
+            "storage"
+          ]
+        },
+        {
+          "step": "Install updates",
+          "rationale": "Updates can improve performance.",
+          "focus": [
+            "updates"
           ]
         }
       ],
@@ -473,105 +196,120 @@ window.OFFLINE_KNOWLEDGE = {
       ]
     },
     {
-      "id": "app-crashing",
-      "categoryId": "performance",
-      "title": "App keeps crashing",
-      "summary": "The app closes or freezes repeatedly.",
+      "id": "windows-signin",
+      "categoryId": "accounts",
+      "title": "Can't sign in to Windows",
+      "summary": "Password or PIN is not working.",
       "keywords": [
-        "app",
-        "crash",
-        "freeze",
-        "close"
+        "sign in",
+        "login",
+        "password",
+        "pin",
+        "account"
       ],
-      "reply": "1. Update the app (5 min, easy)\nExpected: The update installs and the app opens.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Restart the device (3 min, easy)\nExpected: The app opens without crashing.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Reinstall the app (5 min, easy)\nExpected: The app runs normally.\nIf yes: You are done.\nIf no: Contact support.",
+      "reply": "1. Check Caps Lock and keyboard layout (1 min, easy)\nExpected: The right keys are being typed.\nIf yes: Try signing in again.\nIf no: Fix the keyboard layout and retry.\n\n2. Restart the PC and try again (2 min, easy)\nExpected: Sign-in works after restart.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Try PIN instead of password (2 min, easy)\nExpected: Windows accepts the PIN.\nIf yes: You are in.\nIf no: Go to step 4.\n\n4. Reset your Microsoft account password (5-10 min, easy)\nExpected: You can sign in with the new password.\nIf yes: You are done.\nIf no: Contact support.\n\nNote: If this is a work or school device, your IT team may need to help.",
       "plan": [
         {
-          "step": "Update the app",
-          "rationale": "Updates fix known bugs.",
+          "step": "Check keyboard",
+          "rationale": "Wrong layout or Caps Lock blocks sign-in.",
           "focus": [
-            "updates"
+            "keyboard"
           ]
         },
         {
-          "step": "Restart device",
-          "rationale": "Clears memory conflicts.",
+          "step": "Restart",
+          "rationale": "Clears temporary sign-in issues.",
           "focus": [
             "restart"
           ]
         },
         {
-          "step": "Reinstall app",
-          "rationale": "Replaces corrupted files.",
+          "step": "Try the PIN",
+          "rationale": "PIN and password are separate checks.",
           "focus": [
-            "reinstall"
+            "pin"
+          ]
+        },
+        {
+          "step": "Reset password",
+          "rationale": "Resets your Microsoft account credentials.",
+          "focus": [
+            "password"
           ]
         }
       ],
       "visuals": [
         {
           "type": "image",
-          "title": "App recovery",
-          "src": "./public/visuals/performance-speed.svg",
-          "alt": "App recovery"
+          "title": "Sign-in help",
+          "src": "./public/visuals/login-lock.svg",
+          "alt": "Sign-in screen"
         }
       ]
     },
     {
-      "id": "overheating-freezing",
-      "categoryId": "performance",
-      "title": "Device freezing or overheating",
-      "summary": "Fans are loud or the device is hot to the touch.",
+      "id": "printer-not-responding",
+      "categoryId": "peripherals",
+      "title": "Printer not responding",
+      "summary": "Printer shows offline or nothing prints.",
       "keywords": [
-        "overheat",
-        "hot",
-        "freeze",
-        "fans"
+        "printer",
+        "offline",
+        "print",
+        "queue"
       ],
-      "reply": "1. Move to a hard surface (2 min, easy)\nExpected: Fans calm down.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Close heavy apps (3 min, easy)\nExpected: Temperature drops within minutes.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Restart and update (10 min, easy)\nExpected: The device runs cooler after updates.\nIf yes: You are done.\nIf no: Contact support.",
+      "reply": "1. Power cycle the printer (3 min, easy)\nExpected: The printer shows Ready.\nIf yes: Try printing again.\nIf no: Go to step 2.\n\n2. Check the cable or Wi-Fi (3 min, easy)\nExpected: The printer is connected to the same Wi-Fi or the USB cable is snug.\nIf yes: Go to step 3.\nIf no: Reconnect and test again.\n\n3. Set it as the default printer (3 min, easy)\nExpected: The printer shows as Default in Settings.\nIf yes: Try printing again.\nIf no: Go to step 4.\n\n4. Clear the print queue (5 min, easy)\nExpected: Stuck jobs disappear.\nIf yes: Print a test page.\nIf no: Contact support.",
       "plan": [
         {
-          "step": "Improve airflow",
-          "rationale": "Blocked vents trap heat.",
+          "step": "Restart the printer",
+          "rationale": "Clears stalled print jobs.",
           "focus": [
-            "airflow"
+            "printer"
           ]
         },
         {
-          "step": "Close heavy apps",
-          "rationale": "High CPU usage creates heat.",
+          "step": "Check the connection",
+          "rationale": "Wi-Fi or USB issues cause most failures.",
           "focus": [
-            "cpu"
+            "connection"
           ]
         },
         {
-          "step": "Update system",
-          "rationale": "Updates can fix thermal bugs.",
+          "step": "Set as default",
+          "rationale": "Ensures Windows sends jobs to the right printer.",
           "focus": [
-            "update"
+            "default"
+          ]
+        },
+        {
+          "step": "Clear the queue",
+          "rationale": "Removes stuck print jobs.",
+          "focus": [
+            "queue"
           ]
         }
       ],
       "visuals": [
         {
           "type": "image",
-          "title": "Cooling tips",
-          "src": "./public/visuals/performance-speed.svg",
-          "alt": "Cooling tips"
+          "title": "Printer check",
+          "src": "./public/visuals/printer-check.svg",
+          "alt": "Printer status"
         }
       ]
     },
     {
-      "id": "windows-update-stuck",
+      "id": "windows-update-failed",
       "categoryId": "software",
-      "title": "System update stuck",
+      "title": "Windows Update failed",
       "summary": "Updates fail, loop, or never finish.",
       "keywords": [
         "update",
-        "stuck",
-        "windows",
-        "install"
+        "failed",
+        "windows update",
+        "stuck"
       ],
-      "reply": "1. Restart and try again (5-10 min, easy)\nExpected: Updates start downloading.\nIf yes: Let them finish.\nIf no: Go to step 2.\n\n2. Run the update troubleshooter (5 min, easy)\nExpected: It reports a fix or completes.\nIf yes: Try again.\nIf no: Go to step 3.\n\n3. Free up storage (10 min, easy)\nExpected: At least 20 GB free.\nIf yes: Retry the update.\nIf no: Move large files or apps.",
+      "reply": "1. Restart and try the update again (5-10 min, easy)\nExpected: Updates start or continue.\nIf yes: Let them finish.\nIf no: Go to step 2.\n\n2. Keep the PC plugged in and on power (2 min, easy)\nExpected: Updates continue without pausing.\nIf yes: Let them finish.\nIf no: Go to step 3.\n\n3. Free up space using Storage (5-10 min, easy)\nExpected: At least 20 GB free.\nIf yes: Try the update again.\nIf no: Delete large downloads or empty the recycle bin.\n\n4. Run the Windows Update Troubleshooter (5 min, easy)\nExpected: Windows reports a fix or gives a message.\nIf yes: Try the update again.\nIf no: Go to step 5.\n\n5. Pause updates for a day, then resume (2 min, easy)\nExpected: Updates restart cleanly.\nIf yes: You are done.\nIf no: Contact support.",
       "plan": [
         {
           "step": "Restart and retry",
@@ -581,17 +319,31 @@ window.OFFLINE_KNOWLEDGE = {
           ]
         },
         {
-          "step": "Run troubleshooter",
-          "rationale": "Fixes common update errors.",
+          "step": "Use stable power",
+          "rationale": "Updates can fail if power drops.",
+          "focus": [
+            "power"
+          ]
+        },
+        {
+          "step": "Free up space",
+          "rationale": "Updates need room to install.",
+          "focus": [
+            "storage"
+          ]
+        },
+        {
+          "step": "Use the troubleshooter",
+          "rationale": "Windows can fix common update issues.",
           "focus": [
             "troubleshooter"
           ]
         },
         {
-          "step": "Free storage",
-          "rationale": "Updates need space to install.",
+          "step": "Pause and resume",
+          "rationale": "Gives Windows a clean retry window.",
           "focus": [
-            "storage"
+            "pause"
           ]
         }
       ],
@@ -605,126 +357,88 @@ window.OFFLINE_KNOWLEDGE = {
       ]
     },
     {
-      "id": "app-wont-install",
+      "id": "blue-screen-error",
       "categoryId": "software",
-      "title": "App will not install",
-      "summary": "Install fails or gets stuck.",
+      "title": "Blue screen or error message",
+      "summary": "Windows shows a blue screen or error message.",
       "keywords": [
-        "install",
-        "app",
-        "store",
-        "download"
+        "blue screen",
+        "error message",
+        "stop code",
+        "crash"
       ],
-      "reply": "1. Check storage space (3 min, easy)\nExpected: You have enough free space.\nIf yes: Go to step 2.\nIf no: Free space and retry.\n\n2. Sign out and back in (3 min, easy)\nExpected: The store account refreshes.\nIf yes: Try the install again.\nIf no: Go to step 3.\n\n3. Restart and retry (5 min, easy)\nExpected: The install completes.\nIf yes: You are done.\nIf no: Contact support.",
+      "reply": "1. Write down the exact error or STOP CODE (1 min, easy)\nExpected: You have the code saved for support.\nIf yes: Go to step 2.\nIf no: Take a photo if possible.\n\n2. Restart the PC (2 min, easy)\nExpected: Windows boots normally.\nIf yes: You are done.\nIf no: Go to step 3.\n\n3. Unplug extra devices (2 min, easy)\nExpected: Windows starts without the error.\nIf yes: Plug devices back in one at a time.\nIf no: Go to step 4.\n\n4. Run Windows Update (5-15 min, easy)\nExpected: Updates install and the error stops.\nIf yes: You are done.\nIf no: Contact support with the error code and what you were doing.",
       "plan": [
         {
-          "step": "Check storage",
-          "rationale": "No space stops installs.",
+          "step": "Record the error",
+          "rationale": "The exact code points to the fix.",
           "focus": [
-            "storage"
+            "error"
           ]
         },
         {
-          "step": "Refresh account",
-          "rationale": "Sign-in issues block installs.",
-          "focus": [
-            "account"
-          ]
-        },
-        {
-          "step": "Restart and retry",
-          "rationale": "Clears hung installs.",
+          "step": "Restart",
+          "rationale": "Many one-time crashes clear after reboot.",
           "focus": [
             "restart"
           ]
-        }
-      ],
-      "visuals": [
+        },
         {
-          "type": "image",
-          "title": "Install progress",
-          "src": "./public/visuals/update-progress.svg",
-          "alt": "Install progress"
-        }
-      ]
-    },
-    {
-      "id": "downloads-fail",
-      "categoryId": "software",
-      "title": "Downloads failing or missing",
-      "summary": "Files do not appear or fail to save.",
-      "keywords": [
-        "download",
-        "file",
-        "browser",
-        "missing"
-      ],
-      "reply": "1. Check the download folder (2 min, easy)\nExpected: The file appears in Downloads.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Try a different browser (3 min, easy)\nExpected: The file downloads successfully.\nIf yes: You are back.\nIf no: Go to step 3.\n\n3. Disable extensions and retry (5 min, easy)\nExpected: Downloads complete normally.\nIf yes: Re-enable extensions one by one.\nIf no: Contact support.",
-      "plan": [
-        {
-          "step": "Check download folder",
-          "rationale": "The file may have saved elsewhere.",
+          "step": "Disconnect extras",
+          "rationale": "Bad peripherals can trigger crashes.",
           "focus": [
-            "downloads"
+            "usb"
           ]
         },
         {
-          "step": "Try another browser",
-          "rationale": "Isolates browser issues.",
+          "step": "Update Windows",
+          "rationale": "Updates can patch known crash bugs.",
           "focus": [
-            "browser"
-          ]
-        },
-        {
-          "step": "Disable extensions",
-          "rationale": "Extensions can block downloads.",
-          "focus": [
-            "extensions"
+            "updates"
           ]
         }
       ],
       "visuals": [
         {
           "type": "image",
-          "title": "Download check",
-          "src": "./public/visuals/update-progress.svg",
-          "alt": "Download check"
+          "title": "Error alert",
+          "src": "./public/visuals/alert-error.svg",
+          "alt": "Error alert"
         }
       ]
     }
   ],
   "tips": [
-    "Restarting the device fixes many problems quickly.",
-    "If more than one device is affected, check the router first.",
-    "Write down error messages before contacting support.",
-    "Keep devices plugged in during updates to avoid failures."
+    "Take a breath. Most Windows issues are fixable in a few minutes.",
+    "Start with the simplest step first. It saves time.",
+    "If a step feels confusing, you can stop and contact support.",
+    "Write down any exact error message before you reach out."
   ],
   "generic": {
     "id": "general-playbook",
-    "title": "General troubleshooting checklist",
-    "reply": "1. Restart the device (3 min, easy)\nExpected: The issue goes away after reboot.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check power and connection (3 min, easy)\nExpected: Power and Wi-Fi are stable.\nIf yes: Go to step 3.\nIf no: Fix the power or network first.\n\n3. Update and capture details (10 min, easy)\nExpected: Updates install or you wrote down the error.\nIf yes: Test again.\nIf no: Send the notes to support.",
+    "title": "Beginner-safe troubleshooting checklist",
+    "reply": "1. Restart the device (3 min, easy)\nExpected: The issue goes away after reboot.\nIf yes: You are done.\nIf no: Go to step 2.\n\n2. Check connections and power (3 min, easy)\nExpected: Power and cables look secure.\nIf yes: Go to step 3.\nIf no: Fix the connection first.\n\n3. Let Windows try a built-in fix (5 min, easy)\nExpected: The troubleshooter reports a fix.\nIf yes: Test again.\nIf no: Contact support with what you see.",
     "plan": [
       {
-        "step": "Restart and reseat",
+        "step": "Restart",
         "rationale": "Clears many temporary glitches.",
         "focus": [
           "restart"
         ]
       },
       {
-        "step": "Check power and network",
-        "rationale": "Confirms the basics are stable.",
+        "step": "Check power and cables",
+        "rationale": "Loose connections cause many issues.",
         "focus": [
           "power",
-          "wifi"
+          "cable"
         ]
       },
       {
-        "step": "Update and record",
-        "rationale": "Updates fix bugs and notes help support.",
+        "step": "Use a Windows troubleshooter",
+        "rationale": "Windows can safely fix common problems.",
         "focus": [
-          "updates",
-          "notes"
+          "troubleshooter"
         ]
       }
     ]
