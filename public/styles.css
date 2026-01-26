@@ -905,6 +905,12 @@ button,
     color: var(--text-muted);
 }
 
+.support-reassure {
+    margin-top: 6px;
+    font-weight: 600;
+    color: var(--text);
+}
+
 .support-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -925,6 +931,12 @@ button,
     text-transform: uppercase;
 }
 
+.support-field small {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: -4px;
+}
+
 .support-field input,
 .support-field textarea {
     width: 100%;
@@ -938,6 +950,28 @@ button,
 
 .support-field textarea {
     resize: vertical;
+}
+
+.support-primary textarea {
+    border-color: rgba(110, 196, 167, 0.4);
+    box-shadow: 0 12px 30px -24px rgba(110, 196, 167, 0.6);
+}
+
+.support-device {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+.support-device-value {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.support-optional {
+    opacity: 0.8;
 }
 
 .support-full {
@@ -1018,6 +1052,16 @@ body.theme-light .support-field textarea {
     background: rgba(255, 255, 255, 0.96);
     border-color: rgba(0, 0, 0, 0.08);
     color: #0e171f;
+}
+
+body.theme-light .support-device {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.theme-light .support-primary textarea {
+    border-color: rgba(58, 124, 98, 0.4);
+    box-shadow: 0 12px 30px -24px rgba(58, 124, 98, 0.35);
 }
 
 body.theme-light #issueSearch {

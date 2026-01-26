@@ -178,7 +178,7 @@
         const supportNotes = document.getElementById('supportNotes');
         const supportName = document.getElementById('supportName');
         const supportContact = document.getElementById('supportContact');
-        const supportDevice = document.getElementById('supportDevice');
+        const supportDeviceDisplay = document.getElementById('supportDeviceDisplay');
         const supportCopy = document.getElementById('supportCopy');
         const supportClear = document.getElementById('supportClear');
         const supportHint = document.getElementById('supportHint');
@@ -524,8 +524,8 @@
             if (helpCenterLabel) {
                 helpCenterLabel.textContent = `${platformLabel} Help Center`;
             }
-            if (supportDevice && !supportDevice.value.trim()) {
-                supportDevice.value = platformLabel;
+            if (supportDeviceDisplay) {
+                supportDeviceDisplay.textContent = platformLabel;
             }
             topics = allTopics.filter((topic) => topic.platformId === currentPlatform);
             categories = allCategories.filter((category) => category.platformId === currentPlatform);
@@ -612,7 +612,7 @@
         supportClear?.addEventListener('click', () => {
             if (supportName) supportName.value = '';
             if (supportContact) supportContact.value = '';
-            if (supportDevice) supportDevice.value = getPlatformLabel(currentPlatform);
+            if (supportDeviceDisplay) supportDeviceDisplay.textContent = getPlatformLabel(currentPlatform);
             if (supportNotes) supportNotes.value = '';
             syncSupportSummary(currentTopic);
             if (supportHint) {

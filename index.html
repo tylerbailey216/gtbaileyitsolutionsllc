@@ -105,32 +105,36 @@
                 <div class="helper-result" id="matchResult"></div>
                 <div class="support-form" id="supportForm">
                     <div class="support-header">
-                        <h3>Still stuck? Send a quick support request</h3>
-                        <p>We will pick up where you left off. Your summary is prefilled.</p>
+                        <h3>Still stuck? We'll take it from here</h3>
+                        <p>We saved what you tried. Send this to us so we can help faster.</p>
+                        <p class="support-reassure">You don't need to troubleshoot any further.</p>
                     </div>
                     <form class="support-grid" id="supportRequestForm">
-                        <label class="support-field">
-                            <span>Your name (optional)</span>
-                            <input type="text" id="supportName" placeholder="First name">
-                        </label>
-                        <label class="support-field">
-                            <span>Email or phone</span>
-                            <input type="text" id="supportContact" placeholder="you@email.com or (555) 555-5555">
-                        </label>
-                        <label class="support-field">
-                            <span>Device</span>
-                            <input type="text" id="supportDevice" placeholder="Windows laptop, iPhone 13, MacBook Air...">
-                        </label>
-                        <label class="support-field support-full">
+                        <label class="support-field support-full support-primary">
                             <span>Issue summary (auto-filled)</span>
                             <textarea id="supportSummary" rows="6" placeholder="Select a symptom to auto-fill this summary."></textarea>
                         </label>
-                        <label class="support-field support-full">
+                        <div class="support-field support-full support-device">
+                            <span>Device (auto-detected)</span>
+                            <div id="supportDeviceDisplay" class="support-device-value">Windows</div>
+                        </div>
+                        <label class="support-field support-optional">
+                            <span>Your name</span>
+                            <small>Optional</small>
+                            <input type="text" id="supportName" placeholder="First name">
+                        </label>
+                        <label class="support-field support-optional">
+                            <span>Email or phone</span>
+                            <small>Optional</small>
+                            <input type="text" id="supportContact" placeholder="you@email.com or (555) 555-5555">
+                        </label>
+                        <label class="support-field support-full support-optional">
                             <span>Anything else to add?</span>
+                            <small>Optional</small>
                             <textarea id="supportNotes" rows="3" placeholder="Any error message or details you noticed."></textarea>
                         </label>
                         <div class="support-actions support-full">
-                            <button class="secondary" id="supportCopy" type="button">Copy support message</button>
+                            <button class="secondary" id="supportCopy" type="button">Copy message</button>
                             <button class="ghost" id="supportClear" type="button">Clear</button>
                         </div>
                         <p class="support-hint support-full" id="supportHint">
