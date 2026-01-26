@@ -193,6 +193,38 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
 
+        const iconSvg = (content) =>
+            `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${content}</svg>`;
+
+        const quickPickIcons = {
+            wifi: iconSvg('<path d="M4 9c4.5-4 11.5-4 16 0"/><path d="M7 12c3-2.7 7-2.7 10 0"/><path d="M10 15c1.5-1.3 3.5-1.3 5 0"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/>'),
+            slow: iconSvg('<path d="M5 14a7 7 0 1 1 14 0"/><path d="M12 14l4-3"/><circle cx="12" cy="14" r="1" fill="currentColor" stroke="none"/>'),
+            lock: iconSvg('<rect x="6" y="11" width="12" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>'),
+            printer: iconSvg('<rect x="6" y="8" width="12" height="5" rx="1"/><rect x="5" y="13" width="14" height="6" rx="2"/><rect x="7" y="3" width="10" height="4" rx="1"/><circle cx="16.5" cy="15.5" r="0.9" fill="currentColor" stroke="none"/>'),
+            update: iconSvg('<path d="M6 8a6 6 0 0 1 10-2"/><path d="M16 6v4h4"/><path d="M18 16a6 6 0 0 1-10 2"/><path d="M8 18v-4H4"/>'),
+            warning: iconSvg('<path d="M12 4l9 16H3z"/><path d="M12 9v5"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>'),
+            signal: iconSvg('<path d="M5 18v-3"/><path d="M9 18v-5"/><path d="M13 18v-7"/><path d="M17 18v-9"/>'),
+            snow: iconSvg('<path d="M12 4v16"/><path d="M6.5 7.5l11 9"/><path d="M17.5 7.5l-11 9"/>'),
+            app: iconSvg('<rect x="5" y="6" width="14" height="12" rx="2"/><path d="M9 10l6 6"/><path d="M15 10l-6 6"/>'),
+            dot: iconSvg('<circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>'),
+        };
+
+        const emojiIconMap = {
+            '📶': 'wifi',
+            '🐌': 'slow',
+            '🔒': 'lock',
+            '🖨️': 'printer',
+            '🔄': 'update',
+            '⚠️': 'warning',
+            '📡': 'signal',
+            '🧊': 'snow',
+        };
+
+        const getQuickPickIcon = (pick = {}) => {
+            const iconKey = pick.icon || emojiIconMap[pick.emoji] || 'dot';
+            return quickPickIcons[iconKey] || quickPickIcons.dot;
+        };
+
         if (!allTopics.length) {
             resultPanel.innerHTML = '<p class="node-summary">Support guide unavailable. Please reload the page or contact GT Bailey Support.</p>';
             return;
@@ -318,9 +350,9 @@
                     if (!topic) return '';
                     const label = pick.label || topic.title;
                     const sub = pick.sub || topic.summary || '';
-                    const emoji = pick.emoji || '✨';
+                    const iconMarkup = getQuickPickIcon(pick);
                     return `<button class="quick-pick-btn" type="button" data-topic="${escapeHtml(topic.id)}">
-                        <span class="quick-pick-emoji" aria-hidden="true">${escapeHtml(emoji)}</span>
+                        <span class="quick-pick-icon" aria-hidden="true">${iconMarkup}</span>
                         <span class="quick-pick-text">
                             <span class="quick-pick-label">${escapeHtml(label)}</span>
                             ${sub ? `<span class="quick-pick-sub">${escapeHtml(sub)}</span>` : ''}

@@ -676,9 +676,19 @@ button,
     transform: translateY(-1px);
 }
 
-.quick-pick-emoji {
-    font-size: 1.4rem;
-    line-height: 1;
+.quick-pick-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    flex: 0 0 28px;
+}
+
+.quick-pick-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
 .quick-pick-text {
