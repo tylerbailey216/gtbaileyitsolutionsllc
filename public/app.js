@@ -174,6 +174,7 @@
         const quickPicksNote = document.getElementById('quickPicksNote');
         const helpCenterLabel = document.getElementById('helpCenterLabel');
         const platformTabs = Array.from(document.querySelectorAll('.platform-tab'));
+        const quickPicksBlock = document.getElementById('quickPicksBlock');
         const supportSummary = document.getElementById('supportSummary');
         const supportNotes = document.getElementById('supportNotes');
         const supportName = document.getElementById('supportName');
@@ -418,7 +419,7 @@
                 quickPicksTitle.textContent = `Top 3 issues for ${platformLabel}`;
             }
             if (quickPicksNote) {
-                quickPicksNote.textContent = 'Start with these common problems before searching.';
+                quickPicksNote.textContent = 'Start here for the fastest fixes.';
             }
             quickPickGrid.setAttribute('aria-label', `${platformLabel} top issues`);
             const picks = allQuickPicks.filter((pick) => pick.platformId === currentPlatform);
@@ -495,10 +496,16 @@
         const renderSearchResults = (query) => {
             const matches = searchTopics(query);
             if (!query.trim()) {
+                if (quickPicksBlock) {
+                    quickPicksBlock.style.display = '';
+                }
                 resultsGrid.style.display = 'none';
                 categoryGrid.style.display = 'grid';
                 resultsGrid.innerHTML = '';
                 return;
+            }
+            if (quickPicksBlock) {
+                quickPicksBlock.style.display = 'none';
             }
             resultsGrid.style.display = 'grid';
             categoryGrid.style.display = 'none';
@@ -600,7 +607,7 @@
             try {
                 await navigator.clipboard.writeText(message);
                 if (supportHint) {
-                    supportHint.textContent = 'Copied! Paste this into your support message.';
+                    supportHint.textContent = 'Copied! Paste it into your message to GT Bailey IT.';
                 }
             } catch {
                 if (supportHint) {

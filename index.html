@@ -65,6 +65,15 @@
                 </div>
             </div>
             <div class="node-body helper-panel">
+                <div class="helper-search is-prominent" id="helperSearch">
+                    <label class="helper-label" for="issueSearch">Search issues</label>
+                    <div class="search-row">
+                        <input id="issueSearch" type="search" placeholder="Search: wifi, slow, sign-in, printer, update..." autocomplete="off" aria-label="Search issues">
+                        <button class="ghost" id="searchClear" type="button">Clear</button>
+                    </div>
+                    <p class="node-summary helper-note">Type what you're seeing and we'll filter the fixes.</p>
+                </div>
+                <div class="search-results" id="searchResults" aria-live="polite"></div>
                 <p class="platform-label">Choose your device</p>
                 <div class="platform-switch" aria-label="Choose your device" role="tablist">
                     <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">
@@ -84,28 +93,19 @@
                         <span>Android</span>
                     </button>
                 </div>
-                <div class="quick-picks">
+                <div class="quick-picks" id="quickPicksBlock">
                     <div class="quick-picks-header">
                         <p class="quick-picks-title" id="quickPicksTitle">Top 3 issues (beginner safe)</p>
                         <p class="quick-picks-note" id="quickPicksNote">Pick a symptom to see the simplest steps first.</p>
                     </div>
                     <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes"></div>
                 </div>
-                <div class="helper-search">
-                    <label class="helper-label" for="issueSearch">Search Windows issues</label>
-                    <div class="search-row">
-                        <input id="issueSearch" type="search" placeholder="Search: wifi, slow, sign-in, printer, update..." autocomplete="off" aria-label="Search Windows issues">
-                        <button class="ghost" id="searchClear" type="button">Clear</button>
-                    </div>
-                    <p class="node-summary helper-note">Try: Wi-Fi won't connect, computer is slow, can't sign in, printer not working, update failed, blue screen.</p>
-                </div>
                 <div class="helper-tip" id="helpTip" aria-live="polite"></div>
-                <div class="search-results" id="searchResults" aria-live="polite"></div>
                 <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
                 <div class="helper-result" id="matchResult"></div>
                 <div class="support-form" id="supportForm">
                     <div class="support-header">
-                        <h3>Still stuck? We'll take it from here</h3>
+                        <h3>Message prepared — copy &amp; send</h3>
                         <p>We saved what you tried. Send this to us so we can help faster.</p>
                         <p class="support-reassure">You don't need to troubleshoot any further.</p>
                     </div>
@@ -134,7 +134,7 @@
                             <textarea id="supportNotes" rows="3" placeholder="Any error message or details you noticed."></textarea>
                         </label>
                         <div class="support-actions support-full">
-                            <button class="secondary" id="supportCopy" type="button">Copy message</button>
+                            <button class="secondary" id="supportCopy" type="button">Copy message to send</button>
                             <button class="ghost" id="supportClear" type="button">Clear</button>
                         </div>
                         <p class="support-hint support-full" id="supportHint">
@@ -145,6 +145,7 @@
             </div>
         </section>
 
+        <div class="section-divider">Optional reset</div>
         <section class="vibe-section" id="affirmationExperience">
             <div class="vibe-copy">
                 <p class="eyebrow">Mental reset</p>
