@@ -150,8 +150,8 @@
                 `<article class="plan-card stop-point">
                     <div class="plan-step">!</div>
                     <div class="plan-card-body">
-                        <h3>Stop point after step 3</h3>
-                        <p>If this didn't work, stop here - we'll help. Don't keep toggling random settings.</p>
+                        <h3>Stop here and get help</h3>
+                        <p>If this did not fix it, stop here. Send your message and we will take it from here.</p>
                     </div>
                 </article>`,
             );
@@ -173,8 +173,11 @@
         const quickPicksTitle = document.getElementById('quickPicksTitle');
         const quickPicksNote = document.getElementById('quickPicksNote');
         const helpCenterLabel = document.getElementById('helpCenterLabel');
+        const wizardProgress = document.getElementById('wizardProgress');
         const platformTabs = Array.from(document.querySelectorAll('.platform-tab'));
         const quickPicksBlock = document.getElementById('quickPicksBlock');
+        const moreIssuesBlock = document.getElementById('moreIssuesBlock');
+        const toggleMoreIssues = document.getElementById('toggleMoreIssues');
         const supportSummary = document.getElementById('supportSummary');
         const supportNotes = document.getElementById('supportNotes');
         const supportName = document.getElementById('supportName');
@@ -185,7 +188,7 @@
         const supportHint = document.getElementById('supportHint');
         const supportHintDefault = supportHint?.textContent?.trim() ||
             'Tip: Copy the message and send it to GT Bailey IT using your preferred method.';
-        const supportCopiedMessage = '✅ Message copied — paste it into email, text, or chat';
+        const supportCopiedMessage = '\u2705 Message copied \u2014 paste it into email, text, or chat';
         let supportHintTimeout = null;
         const setSupportHint = (message, { resetAfter = false } = {}) => {
             if (!supportHint) return;
@@ -201,6 +204,7 @@
                 }, 2600);
             }
         };
+
         if (!searchInput || !categoryGrid || !resultsGrid || !resultPanel) {
             return;
         }
@@ -219,10 +223,10 @@
             ];
         const fallback = knowledge?.generic;
         const tips = knowledge?.tips || [
-            'Quick tip: Restarting the device fixes a lot of issues fast.',
-            'Friendly reminder: Write down the exact error message if you see one.',
-            'Tip: If more than one device is affected, check the router first.',
-            'Tip: Keep your device plugged in during updates to avoid failures.',
+            'Try one step at a time. Stop when it works.',
+            'If the same issue shows on many devices, the internet may be down.',
+            'If a step mentions a message on screen, write the exact words.',
+            'If you are unsure, stop after step 3 and contact support.',
         ];
 
         const escapeHtml = (value = '') =>
@@ -232,6 +236,17 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
+
+        const simplifyText = (value = '') =>
+            value
+                .replace(/\bSign-In\b/gi, 'Log in')
+                .replace(/\bsign in\b/gi, 'log in')
+                .replace(/\bSign-in\b/gi, 'Log in')
+                .replace(/\bPIN\b/g, 'quick code')
+                .replace(/\bPC\b/g, 'computer')
+                .replace(/\bmodem\/router\b/gi, 'internet box')
+                .replace(/\brouter\/modem\b/gi, 'internet box')
+                .replace(/\bTroubleshooter\b/gi, 'built-in fixer');
 
         const iconSvg = (content) =>
             `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${content}</svg>`;
@@ -249,19 +264,8 @@
             dot: iconSvg('<circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>'),
         };
 
-        const emojiIconMap = {
-            '📶': 'wifi',
-            '🐌': 'slow',
-            '🔒': 'lock',
-            '🖨️': 'printer',
-            '🔄': 'update',
-            '⚠️': 'warning',
-            '📡': 'signal',
-            '🧊': 'snow',
-        };
-
         const getQuickPickIcon = (pick = {}) => {
-            const iconKey = pick.icon || emojiIconMap[pick.emoji] || 'dot';
+            const iconKey = pick.icon || 'dot';
             return quickPickIcons[iconKey] || quickPickIcons.dot;
         };
 
@@ -276,6 +280,7 @@
         let categories = [];
         let topicMap = new Map();
         let categoryMap = new Map();
+        let isMoreIssuesOpen = false;
 
         const renderTip = () => {
             if (!tipEl) return;
@@ -285,6 +290,26 @@
         };
 
         const getPlatformLabel = (platformId) => platforms.find((platform) => platform.id === platformId)?.label || platformId;
+
+        const setWizardProgress = (message) => {
+            if (wizardProgress) {
+                wizardProgress.textContent = message;
+            }
+        };
+
+        const setMoreIssuesOpen = (open, { focusSearch = false } = {}) => {
+            isMoreIssuesOpen = Boolean(open);
+            if (moreIssuesBlock) {
+                moreIssuesBlock.classList.toggle('is-collapsed', !isMoreIssuesOpen);
+            }
+            if (toggleMoreIssues) {
+                toggleMoreIssues.setAttribute('aria-expanded', isMoreIssuesOpen ? 'true' : 'false');
+                toggleMoreIssues.textContent = isMoreIssuesOpen ? 'Hide extra issues' : 'More issues';
+            }
+            if (focusSearch) {
+                setTimeout(() => searchInput.focus(), 120);
+            }
+        };
 
         const extractSteps = (text = '') => {
             const lines = text
@@ -299,9 +324,7 @@
                     if (currentStep) {
                         steps.push(currentStep);
                     }
-                    currentStep = { index: match[1], title: match[2] };
-                } else if (currentStep) {
-                    return;
+                    currentStep = { index: match[1], title: simplifyText(match[2]) };
                 }
             });
             if (currentStep) {
@@ -312,7 +335,7 @@
 
         const buildSupportSummary = (topic) => {
             const platformLabel = getPlatformLabel(currentPlatform);
-            const topicTitle = topic?.title || 'Not selected yet';
+            const topicTitle = simplifyText(topic?.title || 'Not selected yet');
             const steps = topic?.reply ? extractSteps(topic.reply).slice(0, 3) : [];
             const tried = steps.length
                 ? steps.map((step) => `- ${step.title}`).join('\n')
@@ -346,7 +369,7 @@
             if (/^(https?:|data:)/i.test(src)) {
                 return { primary: src, fallback: '' };
             }
-            const normalized = src.replace(/^\.\/+/, './');
+            const normalized = src.replace(/^\.\/+/g, './');
             if (normalized.includes('/public/')) {
                 return {
                     primary: normalized,
@@ -355,20 +378,20 @@
             }
             return {
                 primary: normalized,
-                fallback: `./public/${normalized.replace(/^\.\/+/, '')}`,
+                fallback: `./public/${normalized.replace(/^\.\/+/g, '')}`,
             };
         };
 
         const attachVisualFallbacks = () => {
             resultPanel.querySelectorAll('img[data-fallback]').forEach((img) => {
-                const fallback = img.dataset.fallback;
-                if (!fallback) {
+                const fallbackSrc = img.dataset.fallback;
+                if (!fallbackSrc) {
                     img.removeAttribute('data-fallback');
                     return;
                 }
                 img.addEventListener('error', () => {
                     img.removeAttribute('data-fallback');
-                    img.src = fallback;
+                    img.src = fallbackSrc;
                 }, { once: true });
             });
         };
@@ -379,11 +402,11 @@
             }
             return `<div class="visual-grid">${topic.visuals
                 .map((visual) => {
-                    const { primary, fallback } = resolveVisualSrc(visual.src || '');
-                    const fallbackAttr = fallback ? ` data-fallback="${escapeHtml(fallback)}"` : '';
+                    const { primary, fallback: fallbackSrc } = resolveVisualSrc(visual.src || '');
+                    const fallbackAttr = fallbackSrc ? ` data-fallback="${escapeHtml(fallbackSrc)}"` : '';
                     return `<article class="visual-card">
                         <img src="${escapeHtml(primary)}"${fallbackAttr} alt="${escapeHtml(visual.alt || visual.title || 'Visual guide')}">
-                        <span>${escapeHtml(visual.title || '')}</span>
+                        <span>${escapeHtml(simplifyText(visual.title || ''))}</span>
                     </article>`;
                 })
                 .join('')}</div>`;
@@ -392,37 +415,23 @@
         const renderTopic = (topic, { useFallback = false } = {}) => {
             if (!topic) {
                 if (useFallback && fallback) {
-                    resultPanel.innerHTML = `<h3>${escapeHtml(fallback.title)}</h3>${formatResponse(fallback.reply)}`;
+                    resultPanel.innerHTML = `<h3>${escapeHtml(simplifyText(fallback.title))}</h3>${formatResponse(simplifyText(fallback.reply))}`;
                     return;
                 }
                 currentTopic = null;
                 syncSupportSummary(null);
-                resultPanel.innerHTML = '<p class="node-summary">Pick a symptom to see the step-by-step fix.</p>';
+                setWizardProgress(`Step 2 of 3: Pick the issue on your ${getPlatformLabel(currentPlatform)}.`);
+                resultPanel.innerHTML = '<p class="node-summary">Step 3 will appear here after you pick an issue.</p>';
                 return;
             }
 
             currentTopic = topic;
-            const planHtml = topic.plan?.length
-                ? `<div class="plan-grid">${topic.plan
-                      .map(
-                          (step, index) =>
-                              `<article class="plan-card">
-                                    <div class="plan-step">${index + 1}</div>
-                                    <div class="plan-card-body">
-                                        <h3>${escapeHtml(step.step || 'Step')}</h3>
-                                        ${step.rationale ? `<p>${escapeHtml(step.rationale)}</p>` : ''}
-                                    </div>
-                                </article>`,
-                      )
-                      .join('')}</div>`
-                : '';
-
+            setWizardProgress(`Step 3 of 3: Follow the steps for "${simplifyText(topic.title)}".`);
             resultPanel.innerHTML = `
-                <h3>${escapeHtml(topic.title)}</h3>
-                ${topic.summary ? `<p class="node-summary">${escapeHtml(topic.summary)}</p>` : ''}
+                <h3>${escapeHtml(simplifyText(topic.title))}</h3>
+                ${topic.summary ? `<p class="node-summary">${escapeHtml(simplifyText(topic.summary))}</p>` : ''}
                 ${renderVisuals(topic)}
-                ${formatResponse(topic.reply)}
-                ${planHtml}
+                ${formatResponse(simplifyText(topic.reply))}
             `;
             attachVisualFallbacks();
             renderTip();
@@ -434,10 +443,10 @@
             if (!quickPickGrid) return;
             const platformLabel = getPlatformLabel(currentPlatform);
             if (quickPicksTitle) {
-                quickPicksTitle.textContent = `Top 3 issues for ${platformLabel}`;
+                quickPicksTitle.textContent = `Step 2 of 3: Pick what looks closest on ${platformLabel}`;
             }
             if (quickPicksNote) {
-                quickPicksNote.textContent = 'Start here for the fastest fixes.';
+                quickPicksNote.textContent = 'Start with one common issue below.';
             }
             quickPickGrid.setAttribute('aria-label', `${platformLabel} top issues`);
             const picks = allQuickPicks.filter((pick) => pick.platformId === currentPlatform);
@@ -450,8 +459,8 @@
                 .map((pick) => {
                     const topic = topicMap.get(pick.topicId);
                     if (!topic) return '';
-                    const label = pick.label || topic.title;
-                    const sub = pick.sub || topic.summary || '';
+                    const label = simplifyText(pick.label || topic.title);
+                    const sub = simplifyText(pick.sub || topic.summary || '');
                     const iconMarkup = getQuickPickIcon(pick);
                     return `<button class="quick-pick-btn" type="button" data-topic="${escapeHtml(topic.id)}">
                         <span class="quick-pick-icon" aria-hidden="true">${iconMarkup}</span>
@@ -473,14 +482,14 @@
                     const topicButtons = category.topics
                         .map(
                             (topic) => `<button class="symptom-btn" type="button" data-topic="${escapeHtml(topic.id)}">
-                                <span class="symptom-title">${escapeHtml(topic.title)}</span>
-                                <span class="symptom-summary">${escapeHtml(topic.summary || '')}</span>
+                                <span class="symptom-title">${escapeHtml(simplifyText(topic.title))}</span>
+                                <span class="symptom-summary">${escapeHtml(simplifyText(topic.summary || ''))}</span>
                             </button>`,
                         )
                         .join('');
                     return `<article class="category-card">
-                        <h3>${escapeHtml(category.title)}</h3>
-                        <p>${escapeHtml(category.description || '')}</p>
+                        <h3>${escapeHtml(simplifyText(category.title))}</h3>
+                        <p>${escapeHtml(simplifyText(category.description || ''))}</p>
                         <div class="symptom-list">${topicButtons}</div>
                     </article>`;
                 })
@@ -514,30 +523,25 @@
         const renderSearchResults = (query) => {
             const matches = searchTopics(query);
             if (!query.trim()) {
-                if (quickPicksBlock) {
-                    quickPicksBlock.style.display = '';
-                }
                 resultsGrid.style.display = 'none';
                 categoryGrid.style.display = 'grid';
                 resultsGrid.innerHTML = '';
                 return;
             }
-            if (quickPicksBlock) {
-                quickPicksBlock.style.display = 'none';
-            }
+
             resultsGrid.style.display = 'grid';
             categoryGrid.style.display = 'none';
 
             if (!matches.length) {
-                resultsGrid.innerHTML = '<p class="node-summary">No matches yet. Try a different keyword.</p>';
+                resultsGrid.innerHTML = '<p class="node-summary">No match yet. Try different words.</p>';
                 return;
             }
 
             resultsGrid.innerHTML = matches
                 .map(
                     (topic) => `<button class="symptom-btn" type="button" data-topic="${escapeHtml(topic.id)}">
-                        <span class="symptom-title">${escapeHtml(topic.title)}</span>
-                        <span class="symptom-summary">${escapeHtml(topic.summary || '')}</span>
+                        <span class="symptom-title">${escapeHtml(simplifyText(topic.title))}</span>
+                        <span class="symptom-summary">${escapeHtml(simplifyText(topic.summary || ''))}</span>
                     </button>`,
                 )
                 .join('');
@@ -547,7 +551,7 @@
             currentPlatform = platformId;
             const platformLabel = getPlatformLabel(currentPlatform);
             if (helpCenterLabel) {
-                helpCenterLabel.textContent = `${platformLabel} Help Center`;
+                helpCenterLabel.textContent = `${platformLabel} Help`;
             }
             if (supportDeviceDisplay) {
                 supportDeviceDisplay.textContent = platformLabel;
@@ -599,13 +603,21 @@
         });
 
         searchInput.addEventListener('input', () => {
-            renderSearchResults(searchInput.value);
+            const query = searchInput.value;
+            if (query.trim()) {
+                setMoreIssuesOpen(true);
+            }
+            renderSearchResults(query);
         });
 
         clearBtn?.addEventListener('click', () => {
             searchInput.value = '';
             renderSearchResults('');
-            searchInput.focus();
+            setMoreIssuesOpen(true, { focusSearch: true });
+        });
+
+        toggleMoreIssues?.addEventListener('click', () => {
+            setMoreIssuesOpen(!isMoreIssuesOpen, { focusSearch: isMoreIssuesOpen === false });
         });
 
         const startBtn = document.getElementById('startTree');
@@ -616,7 +628,7 @@
         const searchBtn = document.getElementById('searchIssues');
         searchBtn?.addEventListener('click', () => {
             document.getElementById('treePanel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(() => searchInput.focus(), 250);
+            setMoreIssuesOpen(true, { focusSearch: true });
         });
 
         supportCopy?.addEventListener('click', async () => {
@@ -636,9 +648,7 @@
             if (supportDeviceDisplay) supportDeviceDisplay.textContent = getPlatformLabel(currentPlatform);
             if (supportNotes) supportNotes.value = '';
             syncSupportSummary(currentTopic);
-            if (supportHint) {
-                supportHint.textContent = 'Tip: Copy the message and send it to GT Bailey IT using your preferred method.';
-            }
+            setSupportHint(supportHintDefault);
         });
 
         if (platformTabs.length) {
@@ -647,6 +657,8 @@
                 currentPlatform = activeTab.dataset.platform;
             }
         }
+
+        setMoreIssuesOpen(false);
         applyPlatform(currentPlatform);
     };
 

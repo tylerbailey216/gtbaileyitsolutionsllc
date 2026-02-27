@@ -59,21 +59,13 @@
         <section class="tree-card" id="treePanel" data-mode="helper">
             <div class="tree-header">
                 <div>
-                    <p class="node-path" id="helpCenterLabel">Windows Help Center</p>
-                    <h2>What's going wrong?</h2>
-                    <p class="node-summary">Start with the issue that best matches what you're seeing. Try steps in order.</p>
+                    <p class="node-path" id="helpCenterLabel">Windows Help</p>
+                    <h2>Let's fix this together</h2>
+                    <p class="node-summary">Pick your device, pick your issue, then follow one step at a time.</p>
                 </div>
             </div>
             <div class="node-body helper-panel">
-                <div class="helper-search is-prominent" id="helperSearch">
-                    <label class="helper-label" for="issueSearch">Search issues</label>
-                    <div class="search-row">
-                        <input id="issueSearch" type="search" placeholder="Search: wifi, slow, sign-in, printer, update..." autocomplete="off" aria-label="Search issues">
-                        <button class="ghost" id="searchClear" type="button">Clear</button>
-                    </div>
-                    <p class="node-summary helper-note">Type what you're seeing and we'll filter the fixes.</p>
-                </div>
-                <div class="search-results" id="searchResults" aria-live="polite"></div>
+                <p class="wizard-progress" id="wizardProgress" aria-live="polite">Step 1 of 3: Choose your device.</p>
                 <p class="platform-label">Choose your device</p>
                 <div class="platform-switch" aria-label="Choose your device" role="tablist">
                     <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">
@@ -95,13 +87,28 @@
                 </div>
                 <div class="quick-picks" id="quickPicksBlock">
                     <div class="quick-picks-header">
-                        <p class="quick-picks-title" id="quickPicksTitle">Top 3 issues (beginner safe)</p>
-                        <p class="quick-picks-note" id="quickPicksNote">Pick a symptom to see the simplest steps first.</p>
+                        <p class="quick-picks-title" id="quickPicksTitle">Step 2 of 3: Pick what looks closest</p>
+                        <p class="quick-picks-note" id="quickPicksNote">Use one of these common issues to start.</p>
                     </div>
                     <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes"></div>
+                    <div class="quick-picks-actions">
+                        <button class="ghost" id="toggleMoreIssues" type="button" aria-expanded="false">More issues</button>
+                        <p class="quick-picks-hint">Can't find it? Open more issues or search by plain words.</p>
+                    </div>
+                </div>
+                <div class="helper-stack is-collapsed" id="moreIssuesBlock">
+                    <div class="helper-search" id="helperSearch">
+                        <label class="helper-label" for="issueSearch">Search by what you see</label>
+                        <div class="search-row">
+                            <input id="issueSearch" type="search" placeholder="Example: wifi, slow, cannot log in, printer, update..." autocomplete="off" aria-label="Search issues">
+                            <button class="ghost" id="searchClear" type="button">Clear</button>
+                        </div>
+                        <p class="node-summary helper-note">No tech words needed. Type the problem in your own words.</p>
+                    </div>
+                    <div class="search-results" id="searchResults" aria-live="polite"></div>
+                    <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
                 </div>
                 <div class="helper-tip" id="helpTip" aria-live="polite"></div>
-                <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
                 <div class="helper-result" id="matchResult"></div>
                 <div class="support-form" id="supportForm">
                     <div class="support-header">
