@@ -3,390 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT Bailey IT Solutions LLC | Phishing &amp; Impersonation Guard</title>
-    <link rel="stylesheet" href="/styles.css?v=tsb5">
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <title>GT Bailey IT Solutions LLC</title>
+    <link rel="stylesheet" href="./styles.min.css">
 </head>
 <body>
+    <div class="floating-nav">
+        <a href="#treePanel">Support</a>
+        <a href="#affirmationExperience">Affirmations</a>
+        <a href="#visitCounter">Visits</a>
+        <button id="themeToggle" class="ghost" type="button">Toggle light/dark</button>
+    </div>
     <main class="layout">
         <section class="hero hero-shell">
             <div class="hero-content">
-                <img src="./gtbailey-logo-dark.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo">
-                <p class="node-summary">Single-purpose: scan links, DMs, and screenshots for phishing and impersonation. Clear verdicts, no clicks required.</p>
+                <img src="./gtbailey-logo-dark.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo theme-dark-only">
+                <img src="./gtbailey-logo-light.svg" alt="GT Bailey IT Solutions LLC" class="hero-logo theme-light-only">
                 <div class="hero-actions">
-                    <button class="primary" data-target="#guard">Open the guard</button>
-                    <a class="secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfoxhKvog1UU0YnpnK1U1toIyQkNborx3IAVtJOpc-5VwKhAg/viewform?usp=dialog" target="_blank" rel="noopener">Contact GT Bailey</a>
+                    <button id="startTree" class="primary">Find a Fix</button>
+                    <button id="searchIssues" class="secondary" type="button">Search Issues</button>
+                    <a class="secondary" href="#supportForm">
+                        Contact support
+                    </a>
+                    <a class="scroll-link" href="#affirmationExperience">
+                        Take a motivational break (scroll)
+                    </a>
                 </div>
-                <ul class="hero-highlights">
-                    <li>OCR screenshot scan (links stay non-clickable)</li>
-                    <li>OSINT feeds: phish.sinking.yachts, URLHaus</li>
-                    <li>Brand impersonation + obfuscated path detection</li>
-                </ul>
             </div>
             <div class="hero-visual">
                 <div class="grid-lines"></div>
-                <div class="tablet-stage" id="tabletStage">
-                    <div class="tablet-shadow"></div>
-                    <div class="tablet" id="tabletModel">
-                        <div class="tablet-face"></div>
-                        <div class="tablet-back">
-                            <img class="tablet-back-logo" draggable="false" src="./gtbailey-logo-dark.svg" alt="GT Bailey IT Solutions LLC logo">
-                        </div>
-                        <div class="tablet-screen">
-                            <video autoplay muted loop playsinline>
-                                <source src="/ITChatBuddyAvatar.mp4" type="video/mp4">
-                                <source src="/ITChatBuddyAvatar.mov" type="video/quicktime">
-                            </video>
-                            <div class="tablet-title">Safety demo</div>
-                            <div class="tablet-caption">Video preview (non-clickable)</div>
-                            <div class="tablet-screen-indicator"></div>
-                        </div>
+                <div class="card-stage" id="businessCardStage" aria-label="Interactive business card">
+                    <div class="business-card" id="businessCard">
+                        <img src="./blackcard.png" alt="GT Bailey IT Solutions LLC business card" class="card-image theme-dark-only">
+                        <img src="./whitecard.png" alt="GT Bailey IT Solutions LLC business card" class="card-image theme-light-only">
                     </div>
+                    <p class="card-hint">Drag to tilt</p>
                 </div>
-                <div class="floating-badges">
-                    <div class="floating-badge">Never click to check</div>
-                    <div class="floating-badge">Brand impersonation guard</div>
-                    <div class="floating-badge">OCR screenshot scan</div>
-                </div>
-                <div class="tablet-interactive-hint">Autoplaying avatar preview; links stay disabled.</div>
             </div>
         </section>
 
-        <section class="tree-card" id="guard">
+        <section class="faq-strip" id="quickFaq">
+            <article class="faq-card">
+                <h3>Can you fix this fast?</h3>
+                <p>Most issues are solved with a restart, a reconnect, or a quick update.</p>
+            </article>
+            <article class="faq-card">
+                <h3>Do I need to call?</h3>
+                <p>Try the steps below first. If it still fails, contact support with the notes.</p>
+            </article>
+            <article class="faq-card">
+                <h3>What info helps most?</h3>
+                <p>Device model, error message, and what you already tried.</p>
+            </article>
+        </section>
+
+        <section class="tree-card" id="treePanel" data-mode="helper">
             <div class="tree-header">
                 <div>
-                    <p class="node-path">Safety guard</p>
-                    <h2>Phishing &amp; Impersonation Guard</h2>
-                    <p class="node-summary">Paste text or drop a screenshot. We extract links, run heuristics + OSINT, and give a clear verdict.</p>
+                    <p class="node-path" id="helpCenterLabel">Windows Help</p>
+                    <h2>Let's fix this together</h2>
+                    <p class="node-summary">Pick your device, pick your issue, then follow one step at a time.</p>
                 </div>
             </div>
-            <div class="node-body">
-                <div class="addon-grid">
-                    <div class="addon-card">
-                        <h3>Text / Link check</h3>
-                        <p class="node-summary">Paste a DM, comment, or email text. Links stay non-clickable.</p>
-                        <textarea id="textInput" rows="6" placeholder="Paste the message or link..."></textarea>
-                        <button class="ghost" type="button" id="scanText">Scan text</button>
-                        <div id="textStatus" class="node-summary">Idle</div>
+            <div class="node-body helper-panel">
+                <p class="wizard-progress" id="wizardProgress" aria-live="polite">Step 1 of 3: Choose your device.</p>
+                <p class="platform-label">Choose your device</p>
+                <div class="platform-switch" aria-label="Choose your device" role="tablist">
+                    <button class="platform-tab is-active" type="button" data-platform="windows" aria-selected="true">
+                        <span class="platform-icon" aria-hidden="true">🪟</span>
+                        <span>Windows</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="mac" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">🍎</span>
+                        <span>Mac</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="iphone" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">📱</span>
+                        <span>iPhone</span>
+                    </button>
+                    <button class="platform-tab" type="button" data-platform="android" aria-selected="false">
+                        <span class="platform-icon" aria-hidden="true">🤖</span>
+                        <span>Android</span>
+                    </button>
+                </div>
+                <div class="quick-picks" id="quickPicksBlock">
+                    <div class="quick-picks-header">
+                        <p class="quick-picks-title" id="quickPicksTitle">Step 2 of 3: Pick what looks closest</p>
+                        <p class="quick-picks-note" id="quickPicksNote">Use one of these common issues to start.</p>
                     </div>
-                    <div class="addon-card">
-                        <h3>Screenshot scan</h3>
-                        <p class="node-summary">Upload PNG/JPG. OCR runs locally; extracted links are shown as text.</p>
-                        <input type="file" id="shotInput" accept="image/png,image/jpeg">
-                        <button class="ghost" type="button" id="scanShot">Scan screenshot</button>
-                        <div id="shotStatus" class="node-summary">Idle</div>
+                    <div class="quick-picks-grid" id="quickPickGrid" aria-label="Windows quick fixes"></div>
+                    <div class="quick-picks-actions">
+                        <button class="ghost" id="toggleMoreIssues" type="button" aria-expanded="false">More issues</button>
+                        <p class="quick-picks-hint">Can't find it? Open more issues or search by plain words.</p>
                     </div>
-                    <div class="addon-card">
-                        <h3>Verdict</h3>
-                        <div id="verdictPill" class="risk-pill" style="background:#f5c86220;border:1px solid #f5c86255;color:#f5c862;">Pending</div>
-                        <div id="reasonList" class="node-summary" style="margin-top:10px;">No scan yet.</div>
+                </div>
+                <div class="helper-stack is-collapsed" id="moreIssuesBlock">
+                    <div class="helper-search" id="helperSearch">
+                        <label class="helper-label" for="issueSearch">Search by what you see</label>
+                        <div class="search-row">
+                            <input id="issueSearch" type="search" placeholder="Example: wifi, slow, cannot log in, printer, update..." autocomplete="off" aria-label="Search issues">
+                            <button class="ghost" id="searchClear" type="button">Clear</button>
+                        </div>
+                        <p class="node-summary helper-note">No tech words needed. Type the problem in your own words.</p>
                     </div>
-                    <div class="addon-card">
-                        <h3>Extracted links</h3>
-                        <div id="linksBlock" class="node-summary">None yet.</div>
+                    <div class="search-results" id="searchResults" aria-live="polite"></div>
+                    <div class="category-grid" id="categoryGrid" aria-live="polite"></div>
+                </div>
+                <div class="helper-tip" id="helpTip" aria-live="polite"></div>
+                <div class="helper-result" id="matchResult"></div>
+                <div class="support-form" id="supportForm">
+                    <div class="support-header">
+                        <h3>Message prepared — copy &amp; send</h3>
+                        <p>We saved what you tried. Send this to us so we can help faster.</p>
+                        <p class="support-reassure">You don't need to troubleshoot any further.</p>
                     </div>
-                    <div class="addon-card">
-                        <h3>OSINT checks</h3>
-                        <div id="osintBlock" class="node-summary">None yet.</div>
-                    </div>
-                    <div class="addon-card">
-                        <h3>OCR text (preview)</h3>
-                        <div id="ocrPreview" class="node-summary">No OCR text yet.</div>
+                    <form class="support-grid" id="supportRequestForm">
+                        <label class="support-field support-full support-primary">
+                            <span>Issue summary (auto-filled)</span>
+                            <textarea id="supportSummary" rows="6" placeholder="Select a symptom to auto-fill this summary."></textarea>
+                        </label>
+                        <div class="support-field support-full support-device">
+                            <span>Device (auto-detected)</span>
+                            <div id="supportDeviceDisplay" class="support-device-value">Windows</div>
+                        </div>
+                        <label class="support-field support-optional">
+                            <span>Your name</span>
+                            <small>Optional</small>
+                            <input type="text" id="supportName" placeholder="First name">
+                        </label>
+                        <label class="support-field support-optional">
+                            <span>Email or phone</span>
+                            <small>Optional</small>
+                            <input type="text" id="supportContact" placeholder="you@email.com or (555) 555-5555">
+                        </label>
+                        <label class="support-field support-full support-optional">
+                            <span>Anything else to add?</span>
+                            <small>Optional</small>
+                            <textarea id="supportNotes" rows="3" placeholder="Any error message or details you noticed."></textarea>
+                        </label>
+                        <p class="support-handoff support-full">You're all set. If the steps above didn't work, send this message and we'll help.</p>
+                        <div class="support-actions support-full">
+                            <button class="secondary" id="supportCopy" type="button">Copy message to send</button>
+                            <button class="ghost" id="supportClear" type="button">Reset</button>
+                        </div>
+                        <p class="support-hint support-full" id="supportHint">
+                            Tip: Copy the message and send it to GT Bailey IT using your preferred method.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider">Optional reset</div>
+        <section class="vibe-section" id="affirmationExperience">
+            <div class="vibe-copy">
+                <p class="eyebrow">Mental reset</p>
+                <h2>Virtual phone affirmations</h2>
+                <p>
+                    Sometimes the fix is to pause for sixty seconds and hear a kind voice. Scroll into this lab to
+                    spin, tap, and read positive prompts before diving back into tough tickets.
+                </p>
+                <ul class="vibe-list">
+                    <li>Live loop of encouraging affirmations curated for late-night tech support sessions.</li>
+                    <li>Interactive 3D-inspired phone shell that reacts to your pointer drags.</li>
+                    <li>Quick action button cycles to the next vibe whenever you need another boost.</li>
+                </ul>
+                <div class="vibe-actions">
+                    <button type="button" class="ghost" id="affirmationNext">Inspire me again</button>
+                    <span class="vibe-caption">Gently scroll past the troubleshooting menus to reach this tool anytime.</span>
+                </div>
+            </div>
+            <div class="vibe-phone-column">
+                <div class="vibe-phone-stage minimal-phone-stage" data-role="affirmation-stage">
+                    <div class="vibe-phone-rig" data-role="affirmation-rig">
+                        <div class="minimal-phone-shell">
+                            <img src="./interactiveminimalistphone.png" alt="Minimalist phone" class="minimal-phone-image">
+                            <div class="minimal-phone-screen" id="affirmationScreen" aria-live="polite">
+                                <div class="minimal-screen-top">
+                                    <span id="affirmationTime">11:11</span>
+                                    <span class="minimal-status">Online</span>
+                                </div>
+                                <div class="minimal-tag" id="affirmationTag">Grounding</div>
+                                <div class="minimal-message" id="affirmationText">Your calm is contagious.</div>
+                                <div class="minimal-source" id="affirmationSource">- GT Bailey Support</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="privacy-note">
-            Privacy: OCR and heuristics run in your browser. Link intel hits public feeds (phish.sinking.yachts, URLHaus) only when online with the local server.
+        <section class="tree-card visit-counter" id="visitCounter">
+            <div class="counter-header">
+                <p class="node-path">Site visits</p>
+                <h2>Thanks for stopping by</h2>
+                <p class="node-summary" id="visitCounterStatus">Loading global visitor count...</p>
+            </div>
+            <div class="counter-display">
+                <div class="counter-ring">
+                    <span class="counter-value" id="visitCounterValue" aria-live="polite">0</span>
+                </div>
+                <div class="counter-meta">
+                    <span class="counter-label" id="visitCounterLabel">Total visits worldwide</span>
+                    <span class="counter-note">Public counter powered by counterapi.dev</span>
+                </div>
+            </div>
         </section>
+
     </main>
-
-    <script>
-    (() => {
-        const verdictPill = document.getElementById('verdictPill');
-        const reasonList = document.getElementById('reasonList');
-        const linksBlock = document.getElementById('linksBlock');
-        const osintBlock = document.getElementById('osintBlock');
-        const ocrPreview = document.getElementById('ocrPreview');
-        const textInput = document.getElementById('textInput');
-        const scanText = document.getElementById('scanText');
-        const textStatus = document.getElementById('textStatus');
-        const shotInput = document.getElementById('shotInput');
-        const scanShot = document.getElementById('scanShot');
-        const shotStatus = document.getElementById('shotStatus');
-
-        const suspiciousTlds = new Set(['zip','ru','cn','tk','ml','gq','ga','cf','work','top','quest','click','country','rest','cam']);
-        const shortenerSet = new Set(['bit.ly','tinyurl.com','t.co','goo.gl','ow.ly','buff.ly','is.gd','rebrand.ly','cutt.ly','shorte.st','lnkd.in','bl.ink']);
-        const riskyPathWords = ['login','signin','verify','account','secure','update','billing','invoice','prize','gift','bonus','free','btc','crypto','usdt','wallet','token','auth','reset','payment','appleid','icloud','account-lock','lock-account','reactivate','suspend'];
-        const brandWords = ['apple','appleid','icloud','appstore','itunes','meta','facebook','instagram','whatsapp','paypal','bank','usps','ups'];
-        const trustedAppleDomains = ['apple.com','icloud.com','appleid.apple.com'];
-        const suspiciousDomains = new Set(['brainstormlabserver.com','acftop.com','muet.brainstormlabserver.com']);
-
-        const riskLabel = (score) => score >= 4 ? 'Dangerous' : score >= 2 ? 'Caution' : 'Safe';
-        const looksLikeIp = (host) => /^(\d{1,3}\.){3}\d{1,3}$/.test(host);
-        const hasPunycode = (host) => host.includes('xn--') || /[^\x00-\x7F]/.test(host);
-        const countDots = (host) => (host.match(/\./g) || []).length;
-        const isObfuscatedPath = (path) => {
-            const trimmed = (path || '/').replace(/^\/+/, '');
-            if (!trimmed) return false;
-            if (trimmed.length >= 20 && /^[A-Za-z0-9/+_.-]+$/.test(trimmed)) {
-                const hasLetters = /[A-Za-z]/.test(trimmed);
-                const hasDigits = /\d/.test(trimmed);
-                const hasSeparators = /[-_/?.=&]/.test(trimmed);
-                if (hasLetters && hasDigits && !hasSeparators) return true;
-            }
-            return false;
-        };
-
-        const extractUrls = (text) => {
-            const found = new Set();
-            const patterns = [
-                /(https?:\/\/[^\s"'<>]+)/gi,
-                /(www\.[^\s"'<>]+)/gi,
-                /([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s"'<>]*)?/gi, // bare domains
-            ];
-            patterns.forEach((regex) => {
-                for (const match of text.matchAll(regex)) {
-                    let url = match[0];
-                    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-                    url = url.replace(/[,.;:]+$/, ''); // trim trailing punctuation
-                    try {
-                        const u = new URL(url);
-                        u.hash = '';
-                        found.add(u.toString().toLowerCase());
-                    } catch {}
-                }
-            });
-            return Array.from(found).slice(0, 8);
-        };
-
-        const analyzeLinkHeuristics = (raw) => {
-            let parsed;
-            const flags = [];
-            let score = 0;
-            try { parsed = new URL(raw); } catch { return { error: 'Invalid URL' }; }
-            const hostRaw = parsed.hostname.toLowerCase();
-            const host = hostRaw.replace(/^www\./, '');
-            const hostLabel = host.split('.').slice(0, -1).join('.') || host.split('.')[0];
-            const tld = host.split('.').pop() || '';
-            const path = parsed.pathname || '/';
-
-            if (parsed.protocol !== 'https:') { flags.push('Not using HTTPS'); score += 2; }
-            if (looksLikeIp(host)) { flags.push('Bare IP instead of domain'); score += 2; }
-            if (hasPunycode(host)) { flags.push('Unicode/punycode characters'); score += 2; }
-            if (countDots(host) > 3) { flags.push('Deep subdomain'); score += 1; }
-            if (suspiciousTlds.has(tld)) { flags.push(`Risky TLD .${tld}`); score += 2; }
-            if (shortenerSet.has(host)) { flags.push('Link shortener (destination hidden)'); score += 2; }
-            if (/[0-9]{5,}/.test(host)) { flags.push('Heavy numeric hostname'); score += 1; }
-            if (parsed.port && !['80','443'].includes(parsed.port)) { flags.push(`Unusual port :${parsed.port}`); score += 1; }
-            if (parsed.search.includes('base64') || /(data:|%2f|%40|%3d)/i.test(parsed.search)) { flags.push('Obfuscated parameters'); score += 1; }
-            if (riskyPathWords.some((w) => path.toLowerCase().includes(w))) { flags.push('Suspicious keywords in path'); score += 2; }
-            if (isObfuscatedPath(path)) { flags.push('Obfuscated path (random ID)'); score += 2; }
-            if (hostLabel.length <= 6 && (/\d/.test(hostLabel) || !/[aeiou]/i.test(hostLabel))) { flags.push('Random-looking host name'); score += 2; }
-            if (brandWords.some((w) => host.includes(w)) && !trustedAppleDomains.some((good) => host.endsWith(good))) { flags.push('Brand keyword without trusted domain'); score += 3; }
-            if (suspiciousDomains.has(host)) { flags.push('Known suspicious domain'); score += 4; }
-            const risk = riskLabel(score + flags.length);
-            return { host, path, risk, flags };
-        };
-
-        const forceDangerLabels = new Set([
-            'Astrology/reading solicitation',
-            'Random follower selection lure',
-            'Unsolicited outreach solicitation',
-            'Zodiac prompt'
-        ]);
-
-        const analyzeMessageHeuristics = (text) => {
-            const patterns = [
-                { regex: /(verify|suspend|locked|reset|appeal|violation|ticket)/i, label: 'Account/security language', weight: 2 },
-                { regex: /(immediately|urgent|24 hours|right now|act now|final notice)/i, label: 'Urgency/deadline', weight: 2 },
-                { regex: /(payment|deposit|wire|zelle|cash app|gift card|prepaid)/i, label: 'Payment request', weight: 2 },
-                { regex: /(apple id|icloud|appleid|itunes|app store)/i, label: 'Apple brand targeting', weight: 3 },
-                { regex: /(locked account|account will be locked|account lock)/i, label: 'Account lock threat', weight: 3 },
-                { regex: /(update my payment details|update payment|billing update|payment declined)/i, label: 'Payment update demand', weight: 3 },
-                { regex: /(files (?:deleted|erased)|data (?:deleted|erased)|cloud storage.*at risk|irreversible termination|media files.*lost)/i, label: 'Data deletion scare', weight: 3 },
-                { regex: /(activation[- ]?id|activation id|case id)/i, label: 'Fake activation/case id', weight: 2 },
-                { regex: /(giveaway|winner|prize|lottery|claim)/i, label: 'Giveaway language', weight: 1 },
-                { regex: /(crypto|usdt|bitcoin|investment|roi|forex)/i, label: 'Crypto/investment ask', weight: 2 },
-                { regex: /(support agent|admin|representative|official)/i, label: 'Authority/impersonation tone', weight: 1 },
-                { regex: /(reading|tarot|zodiac|signs|astrology)/i, label: 'Astrology/reading solicitation', weight: 4 },
-                { regex: /(random from my followers|pick(?:ing)? random|consider you in a reading)/i, label: 'Random follower selection lure', weight: 4 },
-                { regex: /(blessings|love and light)/i, label: 'Emotion bait language', weight: 3 },
-                { regex: /(business chat|business chats|facebook user|page is unavailable on messenger|your privacy)/i, label: 'Generic shell / unavailable page', weight: 3 },
-                { regex: /(thanks for supporting my page|would you like me to consider you)/i, label: 'Unsolicited outreach solicitation', weight: 3 },
-                { regex: /(what.?s your zodiac|zodiac signs)/i, label: 'Zodiac prompt', weight: 3 }
-            ];
-            let score = 0;
-            const hits = [];
-            const lower = text.toLowerCase();
-            patterns.forEach((p) => { if (p.regex.test(lower)) { score += p.weight; hits.push(p.label); } });
-            const risk = score >= 4 ? 'Dangerous' : score >= 2 ? 'Caution' : 'Safe';
-            return { risk, hits };
-        };
-
-        const setVerdict = (risk, reasons) => {
-            const color = risk === 'Dangerous' ? '#ff6b6b' : risk === 'Caution' ? '#f5c862' : '#5be18a';
-            verdictPill.textContent = risk;
-            verdictPill.style.background = `${color}20`;
-            verdictPill.style.border = `1px solid ${color}55`;
-            verdictPill.style.color = color;
-            reasonList.innerHTML = (reasons && reasons.length) ? `<ul class="flag-list">${reasons.map((r) => `<li>${r}</li>`).join('')}</ul>` : 'No clear issues detected. Still be cautious.';
-        };
-
-        const renderLinks = (items) => {
-            if (!items || !items.length) { linksBlock.textContent = 'No links found.'; return; }
-            linksBlock.innerHTML = items.map((i) => `<div class="node-summary" style="margin-bottom:8px;"><strong>${i.risk}</strong><br>${i.url}<br>${i.flags?.length ? i.flags.join('; ') : 'No flags'}</div>`).join('');
-        };
-
-        const renderOsint = (items) => {
-            if (!items || !items.length) { osintBlock.textContent = 'No OSINT lookups yet.'; return; }
-            osintBlock.innerHTML = items.map((i) => {
-                const phish = i.phish === true ? 'Flagged in phish feed' : i.phish === false ? 'Not in phish feed' : i.phish;
-                const urlhaus = i.urlhaus === true ? 'Listed in URLHaus' : i.urlhaus === false ? 'Not in URLHaus' : i.urlhaus;
-                return `<div class="node-summary" style="margin-bottom:8px;">${i.url}<br>${[phish, urlhaus].filter(Boolean).join(' | ')}</div>`;
-            }).join('');
-        };
-
-        const runOcr = async (file, highContrast = false) => {
-            if (!highContrast) {
-                const { data } = await Tesseract.recognize(file, 'eng', { logger: () => {} });
-                return (data?.text || '').trim();
-            }
-            const img = await createImageBitmap(file);
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const dataArr = imageData.data;
-            for (let i = 0; i < dataArr.length; i += 4) {
-                const r = dataArr[i], g = dataArr[i + 1], b = dataArr[i + 2];
-                const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-                const val = gray > 170 ? 255 : 0;
-                dataArr[i] = dataArr[i + 1] = dataArr[i + 2] = val;
-            }
-            ctx.putImageData(imageData, 0, 0);
-            const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-            const { data } = await Tesseract.recognize(blob, 'eng', { logger: () => {} });
-            return (data?.text || '').trim();
-        };
-
-        const fetchOsintForLinks = async (urls) => {
-            const results = [];
-            for (const url of urls.slice(0, 5)) {
-                try {
-                    const resp = await fetch('/api/osint/link', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ url })
-                    });
-                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-                    const data = await resp.json();
-                    const phish = data?.sources?.phishFeed;
-                    const urlhaus = data?.sources?.urlhaus;
-                    results.push({
-                        url,
-                        phish: phish?.flagged ?? phish?.error,
-                        urlhaus: urlhaus?.listed ?? urlhaus?.error
-                    });
-                } catch (e) {
-                    results.push({ url, phish: 'lookup failed', urlhaus: 'lookup failed' });
-                }
-            }
-            return results;
-        };
-
-        const combineRisk = (msgRisk, linkFindings, osintFindings, hasTextHits, msgHits) => {
-            const osintHit = osintFindings?.some((o) => o.phish === true || o.urlhaus === true);
-            const linkHigh = linkFindings?.some((l) => l.risk === 'Dangerous');
-            const forceDanger = msgHits?.some((h) => forceDangerLabels.has(h));
-            if (osintHit || linkHigh) return 'Dangerous';
-            if (msgRisk === 'Dangerous' || forceDanger) return 'Dangerous';
-            const linkWarn = linkFindings?.some((l) => l.risk === 'Caution');
-            if (msgRisk === 'Caution' || linkWarn) return 'Caution';
-            if (hasTextHits) return 'Caution';
-            return 'Safe';
-        };
-
-        const analyzeTextFlow = async (text, setStatus, origin = 'text') => {
-            setStatus('Scanning...');
-            const urls = extractUrls(text);
-            const linkFindings = urls.map((url) => {
-                const res = analyzeLinkHeuristics(url);
-                return { url, risk: res.risk, flags: res.flags || [] };
-            });
-            const msgFinding = analyzeMessageHeuristics(text);
-            let osintFindings = [];
-            if (urls.length) {
-                setStatus('Running OSINT lookups...');
-                osintFindings = await fetchOsintForLinks(urls);
-            }
-            const reasons = [];
-            if (msgFinding.hits.length) reasons.push(...msgFinding.hits);
-            linkFindings.forEach((l) => { reasons.push(`${l.url} â†’ ${l.risk}${l.flags?.length ? ' (' + l.flags.join(', ') + ')' : ''}`); });
-            if (osintFindings.length) {
-                osintFindings.forEach((o) => {
-                    if (o.phish === true || o.urlhaus === true) reasons.push(`${o.url} flagged by OSINT`);
-                });
-            }
-            let finalRisk = combineRisk(msgFinding.risk, linkFindings, osintFindings, msgFinding.hits.length > 0, msgFinding.hits);
-            if (origin === 'screenshot') {
-                const hasSignals = urls.length || msgFinding.hits.length || text.trim().length > 0;
-                if (finalRisk === 'Safe' && hasSignals) {
-                    finalRisk = 'Caution';
-                    reasons.push('Screenshot scan: treated as caution to avoid false negatives.');
-                } else if (finalRisk === 'Safe' && !hasSignals) {
-                    finalRisk = 'Caution';
-                    reasons.push('Screenshot scan: no text detected; treat with caution.');
-                }
-            }
-            setVerdict(finalRisk, reasons);
-            renderLinks(linkFindings);
-            renderOsint(osintFindings);
-            if (ocrPreview) {
-                const safeText = text ? text.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'No OCR text.';
-                ocrPreview.innerHTML = `<div class="node-summary" style="white-space:pre-wrap;">${safeText}</div>`;
-            }
-            setStatus('Done');
-        };
-
-        scanText?.addEventListener('click', async () => {
-            const text = (textInput?.value || '').trim();
-            if (!text) { textStatus.textContent = 'Paste something to scan.'; return; }
-            await analyzeTextFlow(text, (msg) => textStatus.textContent = msg);
-        });
-
-        scanShot?.addEventListener('click', async () => {
-            const file = shotInput?.files?.[0];
-            if (!file) { shotStatus.textContent = 'Choose a screenshot first.'; return; }
-            shotStatus.textContent = 'Running OCR locally...';
-            try {
-                let ocrText = await runOcr(file, false);
-                if (!ocrText || ocrText.length < 20) {
-                    shotStatus.textContent = 'OCR retry (high contrast)...';
-                    const altText = await runOcr(file, true);
-                    if (altText.length > ocrText.length) ocrText = altText;
-                }
-                if (!ocrText) { shotStatus.textContent = 'Could not read text from image.'; return; }
-                await analyzeTextFlow(ocrText, (msg) => shotStatus.textContent = msg, 'screenshot');
-                shotStatus.textContent = 'Done';
-            } catch (e) {
-                shotStatus.textContent = 'OCR failed. Try a clearer screenshot.';
-            }
-        });
-
-        // scroll helper
-        const scrollButtons = document.querySelectorAll('[data-target]');
-        scrollButtons.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const target = document.querySelector(btn.getAttribute('data-target'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    })();
-    </script>
+    <script src="./knowledge.js"></script>
+    <script src="./app.min.js"></script>
 </body>
 </html>
+
+
 
