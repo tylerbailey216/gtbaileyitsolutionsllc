@@ -10,7 +10,8 @@
     "build-kb": "node scripts/build-kb.mjs",
     "check-links": "node scripts/check-links.mjs",
     "build-minified": "node scripts/build-minified.mjs",
-    "portable": "node scripts/build-portable.mjs"
+    "portable": "node scripts/build-portable.mjs",
+    "deploy:cloudflare": "npx wrangler deploy"
   },
   "keywords": [],
   "author": "",
